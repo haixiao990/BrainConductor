@@ -1,0 +1,18 @@
+Package: ioNIFTI
+Type: Package
+Depends: R (>= 2.5.0)
+Imports: R.matlab
+Title: Read/Write NIFTI files, convert DICOM files to NIFTI
+Version: 1.0
+Date: 2015-10-27
+Authors@R: c(
+  person("LiuXiang", role=c("aut", "cre", "cph"),
+                                 email="x-liu12@foxmail.com"))
+Author: LiuXiang [aut, cre, cph]
+Maintainer: LiuXiang<x-liu12@foxmail.com>
+Description: This package provide S4 method nifti_one for NIFTI files. With this package you can read and write NIFTI files. Also read DICOM files as class nifti_one. This function is supported by R.matlab with calling matlab scripts. Matlab environment is needed for this package.
+License: LGPL (>= 2.1)
+LazyLoad: TRUE
+ByteCompile: TRUE
+NeedsCompilation: no
+Packaged: 2015-10-27 13:49:35 UTC; cat
