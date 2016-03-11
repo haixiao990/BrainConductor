@@ -1,0 +1,17 @@
+{
+    "contents" : "exportPattern(\"^[[:alpha:]]+\")\nimport(R.matlab)",
+    "created" : 1457705266910.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2455794829",
+    "id" : "E41D1731",
+    "lastKnownWriteTime" : 1457706672,
+    "path" : "~/GitHub/BrainConductor/Brainbase/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "type" : "r_namespace"
+}
