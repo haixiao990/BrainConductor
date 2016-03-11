@@ -1,0 +1,17 @@
+{
+    "contents" : ".dQuote <- function(x)\n    sprintf('\"%s\"', as.character(x))\n\n.sQuote <- function(x)\n    sprintf(\"'%s'\", as.character(x))\n\n.arrangemsg <-\n    function(fmt, ..., width=getOption(\"width\"))\n    ## Use this helper to format all error / warning / message text\n{\n    txt <- strwrap(sprintf(fmt, ...), width=width, exdent=2)\n    paste(txt, collapse=\"\\n\")\n}\n\n.msg <-\n    function(..., appendLF=TRUE)\n{\n    message(.arrangemsg(...), appendLF=appendLF)\n}\n\n.stop <-\n    function(..., call.=FALSE)\n{\n    stop(.arrangemsg(...), call.=call.)\n}\n\n.warning <-\n    function(..., call.=FALSE, immediate.=FALSE)\n{\n    warning(.arrangemsg(...), call.=call., immediate.=immediate.)\n}\n\n.testsuffix <- function(fn, suff){\n  parts <- strsplit(fn,\"\\\\.\")\n  nparts <- length(parts[[1]])\n  return(parts[[1]][nparts] == suff)\n}\n\n",
+    "created" : 1457575193751.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3351308894",
+    "id" : "26D1468F",
+    "lastKnownWriteTime" : 1423457660,
+    "path" : "~/GitHub/BrainConductor/Brainbase/R/utilities.R",
+    "project_path" : "R/utilities.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

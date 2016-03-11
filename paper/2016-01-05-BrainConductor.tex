@@ -58,15 +58,15 @@
 %\providecommand{\bnorm}[1]{\big\|#1\big\|}
 %\providecommand{\enorm}[1]{| | |#1| | |}
 %\providecommand{\bemnorm}[1]{\big| \big| \big|#1\big| \big| \big|}
-% 
+%
 %\newcommand*{\Sc}{\overline{\cS}}
 %\newcommand*{\Ac}{\overline{\cA}}
 %\newcommand*{\Bc}{\overline{\cB}}
 %\newcommand*{\supp}{\mathrm{supp}}
-% 
+%
 %\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 %\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
- 
+
 
 
 \usepackage[plain]{fancyref}
@@ -109,9 +109,8 @@ data analysis tools}
 %% Notice placement of commas and superscripts and use of &
 %% in the author list
 
-\author{Han Liu$^{1*}$, Haixiao Du$^{2*}$, Kevin Lin$^3$, Yu Wang$^2$,Xiang
-Liu$^2$, Huazhong
-Yang$^2$ {\color{red}}}
+\author{Kevin Lin$^{1*}$，Haixiao Du$^{2*}$, Huazhong
+Yang$^2$, Yu Wang$^2$, Han Liu$^3${\color{red}}}
 
 \begin{document}
 
@@ -120,12 +119,12 @@ Yang$^2$ {\color{red}}}
 
 
 \begin{affiliations}
-\item Department of Operations Research and Financial Engineering, Princeton
-University, Princeton, NJ 08544 USA
-\item Department of Electronic Engineering, Tsinghua University, Beijing, China,
-100084
 \item Department of Statistics, Carnegie Mellon University,
 Pittsburgh, PA 15217 USA
+\item Department of Electronic Engineering, Tsinghua University, Beijing, China,
+100084
+\item Department of Operations Research and Financial Engineering, Princeton
+University, Princeton, NJ 08544 USA
 \item[*] These authors contributed equally to this work
 \end{affiliations}
 
@@ -146,52 +145,52 @@ BrainConductor.
 Modern statistics aims to infer information from high-dimensional data
 and has progressed significantly over the last decade.
 However, two obstacles currently hinder the
-application of these methods to large-scale neuroimaging data 
-in practice. 
+application of these methods to large-scale neuroimaging data
+in practice.
 First, domain-specific expertise and computational power is needed to handle
 the various data file types and to manage the storage
 of these large-scale datasets. Second, specialized softwares and
-many in-house analysis pipelines have been developed that 
+many in-house analysis pipelines have been developed that
 prevent new researchers from entering the field.
 The BrainConductor project is an open-neuroscience
 initiative to address
 these obstacles.
 As the neuroscience community expands upon open-access
 datasets such as the  International Neuroimaging Data-Sharing
-Initiative Project (INDI), comparable advances in 
+Initiative Project (INDI), comparable advances in
 open-neuroscience platforms are required
 for high
 throughput, computationally efficient statistical models
-to handle high-dimensional data in this big data era. 
+to handle high-dimensional data in this big data era.
 
-%The cooperative trends creates new challenges. 
+%The cooperative trends creates new challenges.
 Our goal is to %, and the foremost of all is to
 build a knowledge hub and interdisciplinary community by connecting
-neuroscientists and statisticians.  Neuroscientists 
+neuroscientists and statisticians.  Neuroscientists
 drive the scientific process by collecting new data and constructing focused
-experiments. Non-invasive imaging techniques have gain popularity to 
+experiments. Non-invasive imaging techniques have gain popularity to
 investigate how phenotypic variation
 influence the connectivity differences in the human
 connectome among individuals\cite{sporns2005human,sporns2011human}. These
 include structural and functional MRI,
-functional MRI, diffusion tensor imaging (DTI), and Electroencephalography
+diffusion tensor imaging (DTI), and Electroencephalography
 (EEG).
 On
 the other hand, statisticians bring new statistical methods
 designed to address the high-dimensional, large-scale and complex
-data. Such techniques include can be divided broadly into
+data. Such techniques can be divided broadly into
 two categories:
 summarizing the data (i.e., estimating the brain connectivity, represent
-a parcellation of voxels' time series with a single time series) 
+a parcellation of voxels' time series with a single time series)
 and uncertainty assessment (i.e., testing for significant difference
-between the connectomes of two populations, determining if the 
+between the connectomes of two populations, determining if the
 connectivity between two region of interests is due to chance).
-We strive to help enable ease of collaboration between these two communities. 
+We strive to help enable ease of collaboration between these two communities.
 While the neuroscientist will benefit from the modern techniques to
-analyze these datasets, the statistician 
+analyze these datasets, the statistician
 will benefit from the lowered barrier-to-entry
 due to the  simplified processes of data acquisition, data management, and data
-sharing. 
+sharing.
 
 
 Towards this end, we propose the BrainConductor project, an integration of
@@ -208,7 +207,7 @@ functionality. In future neuroimaging studies, an open-source platform is of
 necessity to produce collaborative creation of extensible computational tools
 and enhance the reproducibility of research results.
 
-This desire has already  %requirement 
+This desire has already  %requirement
 inspired one of the most prominent projects, Neuroimaging
 Informatics Tools and Resources Clearinghouse (NITRC).
 NITRC is a resourceful repository collecting popular neuroimaging tools
@@ -219,27 +218,27 @@ FreeSurfer\cite{fischl2012freesurfer} and AFNI\cite{cox1996afni}. NITRC also is
 an open repository for many
 data sources such as
 Alzhelmer's Disease Neuroimaging Initiative (ADNI) and the
-1000 Functional Connectome Project (FCP).    
+1000 Functional Connectome Project (FCP).
 However, as successful as NITRC is, there are fundamental
 drawbacks from both the developer and user perspectives.
 From the developer perspective,
 NITRC provides little guidance on effective software
 development.
 This results in two consequences. First, a large amount of
-effort is spent on implementing functions that have 
+effort is spent on implementing functions that have
 previously been developed by other independent teams. Second,
-without establishing an universal file format, 
+without establishing an universal file format,
 developers on NITRC have to either
 write analysis functions for specific file types or spend tremendous
 efforts to handle all file types.
-For example, 
+For example,
 most data sources proffer raw data in the standard industrial DICOM
 format, but most of the software packages work on NIfTI or ANALYZE formats.
 From the user perspective, there are also key obstacles.
 First, software on NITRC are based on different programming models and
 processing pipelines and have different interfaces.
 Hence, investigators always need lots of training sessions to
-learn how to install and use these tools. Second, many statistical 
+learn how to install and use these tools. Second, many statistical
 analysis software require a 2D matrix where each covariate
 represents a column and each sample represents a row. Since neuroimaging
 data is typically represented as a 4D object, new users often
@@ -261,9 +260,9 @@ association studies, the goal is to relate differences the macro- and
 microarchitecture of the human connectome to phenotypic variation among
 individuals\cite{milham2012open}. Towards this end,
 in our
-initial release of BrainConductor, we focus on an open-neuroscience 
+initial release of BrainConductor, we focus on an open-neuroscience
 solution to manage resting-state fMRI data and study its
-subsequent brain connectivity patterns. 
+subsequent brain connectivity patterns.
 In imaging genetics, the ultimate goal
 for BrainConductor project is to identify biomarkers and help early diagnosis
 for a variety of neuropsychiatric disorders. This will involve a future
@@ -277,8 +276,8 @@ The existing features and communities around a language dictate
 its usage and accessibility. As stated before, we are
 interested in problems related to data management, mining and analysis
 associated with neuroimaging technologies. This orientation requires
-a programming environment which able to foster
-efficient for software development, allow
+a programming environment which is able to foster
+efficiency for software development, allowing
 streamlined and reproducible research and stimulating
 interdisciplinary communication and cooperation.
 
@@ -300,20 +299,20 @@ packages. These hundreds of packages are independently developed for specific
 objectives, but the objective-oriented programming style of R guarantees the
 robust interoperability of packages for more complicated applications. All of
 these characteristics of R would decrease development efforts and release time
-for reliable software for neuroimaging data analysis. 
+for reliable software for neuroimaging data analysis.
 Third, R also provides
 support for high-performance\cite{buckner2010gputools} and parallel
-computing\cite{schmidberger2009state}, 
-and access to interfaces to communicate with specialized code
-written in lower-level languages. 
+computing\cite{schmidberger2009state},
+and interfaces to communicate with specialized code
+written in lower-level languages.
 Finally, the community of R is
 consisted of thousands of active users and developers including biologists,
 mathematicians, and engineers. The community provides a natural bridge to
 connect the neuroscientists and statisticians. This is much in line with the
-intention of BrainConductor projects and is the most important motivation of our
-selecting R. 
+intention of the BrainConductor project and is the most important motivation of our
+selecting R.
 
- 
+
 \subsection{Hierarchical Data Structure.} The BrainConductor
 project began with significant investment in the infrastructure construction for
 software development by formulating the standard for general data structures of
@@ -321,18 +320,18 @@ neuroimaging data. A general data structure unifies the interface port and
 increases the reusability and interoperability of software packages. The code
 written for the analysis of a dataset can be adapted to another similar dataset
 since they have the same structure. A researcher doesn't need to modify the code
-interface or even write code from scratch. 
+interface or even write code from scratch.
 
-Currently, the most common file format is NIfTI. 
+Currently, the most common file format is NIfTI.
 NIfTI is a product of the Data Format Working Group
 (DFWG) from the Neuroimaging Informatics Technology Initiative project. It
 contains both the header information about the data acquisition
-parameters and neuroimaging data as a 4D matrix. 
+parameters and neuroimaging data as a 4D matrix.
 Currently, the oro.nifti R package defines the `nifti'
-S4 class in R to manage NIfTI files. However, there are two drawbacks 
+S4 class in R to manage NIfTI files. However, there are two drawbacks
 of this file format that could be encountered by analysts. First, neuroimaging
 data files often comprise a large amount of
-redundant information. 
+redundant information.
 For example,
 the analysis of fMRI data primarily focuses on the gray matter, while the
 processing of diffusion weighted MRI focuses on the white matter region.
@@ -340,36 +339,36 @@ Therefore, a hierarchical data structure would help save storage and memory
 space. Human Connectome Project (HCP) had a similar solution by defining the
 CIFTI
 file format and grayordinates, a combined cortical surface and subcortical
-volume coordinate system\cite{Glasser2013The}. 
+volume coordinate system\cite{Glasser2013The}.
 Second, the NIfTI file format is not flexible for data analytics. Typically,
 phenotype information is stored separately in a different file, and many
 statistical
 methods take as input a 2D matrix organized by samples and covariates.
 
-We define an S4 `NIdata' class based on the NIfTI format 
+We define an S4 `NIdata' class based on the NIfTI format
 in our Brainbase package as
-the general data structure to resolve these problems. 
+the general data structure to resolve these problems.
 At its core, the NIdata class is a generic file type split into
 four slots to store the following information: 1) phenotype
 information, 2) specifics of scan sessions, 3) the neuroimaging data
 and 4) text-based comments or notes associated with the data that
 investigators might document. While we provide an initial structure for storing
-phenotype and scan information, users have the flexibility to disregard or 
+phenotype and scan information, users have the flexibility to disregard or
 modify these templates before reading the data into R.
 Our NIdata format ensures compatibility since most of the conversions from
-the existing NIfTI data format are 
+the existing NIfTI data format are
 straightforward. The Brainbase package provides functions
-to facilitate 
+to facilitate
 reading in the header information and high-dimensional data array from binary
-neuroimaging data files into NIdata class objects. 
+neuroimaging data files into NIdata class objects.
 
 Most of the engineering of the NIdata class revolved around a more suitable
 representation of the neuroimaging data. Like in the CIFTI file
 format\cite{Glasser2013The},
-we automatically convert all neuroimaging data (a 4D matrix) 
+we automatically convert all neuroimaging data (a 4D matrix)
 into a 2D (potentially sparse) matrix where each
-column represents a different voxel 
-in the brain and each row represents 
+column represents a different voxel
+in the brain and each row represents
 a different sample from the time series. To ensure that the column indices are
 compatible across different NIdata objects, we define generic templates in the
 Brainbase packages that dictate which voxel position are assigned to which
@@ -378,22 +377,22 @@ These templates are associated with brain masks and the corresponding tissue
 priors.
 The NIdata class facilitates the processing
 and storage of neuroimaging data based on customizable
-templates. 
-For instance, one of the templates we provide is the MNI 152 brain masks and 
+templates.
+For instance, one of the templates we provide is the MNI 152 brain masks and
 tissue priors typically found in FSL.
 If users want to keep only voxels corresponding to gray matter, all the column
 indices associated with non-gray matter will be `zero'-ed out to save storage.
 Moreover, if users want to perform a
-region-of-interest or parcellation-based analysis are performed, we provide
+region-of-interest or parcellation-based analysis, we provide
 additional functions to change the template and perform the data extraction.
 
 To ensure that our 2D representation of neuroimaging data retains the
-spatial information of each voxel, the Brainbase package provides 
+spatial information of each voxel, the Brainbase package provides
 an R S4 object containing the mapping of voxel location to column index and
 a list enumerating the column indices of neighboring voxels for each voxel
 location. Hence, we can convert our 2D representation back to its original
 4D representation to accommodate past software requirements if needed.
-Thanks to this flexibility, software developers can 
+Thanks to this flexibility, software developers can
 implement algorithms operating directly on the 2D representation in
 NIdata without worrying about representation-conversion. {\color{red}Why is this
 called ``hierarchical''? I haven't really done anything hierarchical...}
@@ -401,20 +400,16 @@ called ``hierarchical''? I haven't really done anything hierarchical...}
 {\color{red}Some concrete numbers of how much memory is saved}
 {\color{red}TODO: This code is half-way complete.}
 
-\subsection{File Conversion.} 
-For developers to write functions using our NIdata format, we need to provide
-suitable functions to convert different input file types into our NIdata format.
-We discuss three popular file types in current use, DICOM, NIfTI and ANALYZE.
-In short, once we have converted the files into NIfTI format, we can directly
-convert the file into our NIdata format as described in the previous section.
+\subsection{File Conversion.}
+For developers to write functions using our NIdata class, we need to provide
+suitable functions to read different input file types into objects of NIdata class as described in the previous section. Here, We discuss three popular file types in current use, DICOM, NIfTI and ANALYZE.
 
-For MRI data (e.g. resting-state fMRI, Diffusion Tensor MRI),
 DICOM is the standard industrial
 format for raw data directly collected from an imaging device. The DICOM format
 is very broad and very sophisticated. In brief, each .dcm suffix file contains a
 number of attributes, including not only the image pixel data but also large
 amounts of meta-data information about the subject, imaging devices and settings
-during data acquisition.  
+during data acquisition.
 
 However, DICOM datasets are redundant, ascribed to the storage of massive
 numbers of small files. This is due to each image slice stored as a separate
@@ -426,12 +421,11 @@ of the ANALYZE format. The NIfTI data format merges the header and image
 information of ANALYZE document into one file (.nii) and enables extending of
 the header information. The NIfTI format has alleviated problems with data
 storage and sharing across diverse centers, and became one of the most popular
-neuroimaging format recently. 
+neuroimaging format recently.
 
 BrainConductor offers functions to read all these data format
 based on existing software in the oro.dicom and oro.nifti packages. We
-provide a generic read.NIdata function that handles all of the file 
-conversions and outputs the desired NIdata object.
+provide a generic function that handles all of these file types and read data into the desired NIdata object.
 {\color{red} TODO: The conversion from DICOM to NIfTI is not well implemented.
 We based on mature
 software dcm2nii (from MRIcron?). The conversion results visualization compared
@@ -444,13 +438,13 @@ matlab installed and linked...}
 \subsection{Software Distribution.}
 
 All software distributed by BrainConductor is in the form of R packages abiding
-to our NIdata structure. This 
+to our NIdata structure. This
 simplifies software delivery, usage and maintenance but puts a burden on the
 developers
 to learn how to write R packages, including documentation and test cases.
 
 As seen by the success of CRAN and BioConductor, the packaging system lies
-at the heart of why R has been a successful language. We follow their example.
+at the heart of why R has been a successful language. We follow their examples.
 Changes are tracked using a central, publicly readable Subversion software
 repository
 so the details of all changes are fully accessible via Subversion.
@@ -458,16 +452,16 @@ Simultaneously, since
 R itself is continually changing to improve performance and functionality, all
 packages
 in BrainConductor undergo testing monthly. These required tests are designed by
-the 
+the
 developers themselves and is performed in an automated fashion to ensure
-all code examples and unit tests run without error.
+all code examples and unit tests run without errors.
 
 For developers to submit their software to BrainConductor for others to use,
 we have designed a specific ``Developers'' section of our BrainConductor website
 to guide the process. The package guidelines revolve around usage-oriented
 documentation and understanding the input and outputs of each parameter.
- Once 
-a package is submitted, feedback is given revise the code or the package is
+ Once
+a package is submitted, feedback is given to revise the code or the package is
 accepted.
 From then on, the package will be available on the
 development branch of the project and be part of in the next release of
@@ -486,7 +480,7 @@ orphaned and no longer be part of the BrainConductor release.
 \subsection{Package Ecosystem and Reference Datasets.}
 BrainConductor provides data packages with well-preprocessed neuroimaging data
 from popular data sources.
-The user experience of BrainConductor starts with the website. Here, users can 
+The user experience of BrainConductor starts with the website. Here, users can
 find out currently available software, documentation, and reference datasets.
 These packages include functions to process fMRI data, perform statistical
 analysis and visualize the results.
@@ -495,7 +489,7 @@ seamlessly install any of the BrainConductor packages through our
 dedicated installation fuction `BCoInstall' or through CRAN itself.
 We have further wrapped popular functions in existing R packages
 within the CRAN Medical Imaging task view to handle our new NIdata format.
-The list of neuroscience-related packages included in BrainConductor are listed 
+The list of neuroscience-related packages included in BrainConductor are listed
 in \Fref{tab:neuro}, while statistical-related packages are listed in
 \Fref{tab:stat}.
 
@@ -506,26 +500,26 @@ in \Fref{tab:neuro}, while statistical-related packages are listed in
     \hline
 	Package Name & Full Name & Description \\ \hline
 	AnalyzeFMRI & Functions for analysis of fMRI datasets % stored in the ANALYZE
-%or NIFTI format 
-	& 
+%or NIFTI format
+	&
 	Functions for I/O, visualisation and analysis of functional Magnetic Resonance
 Imaging (fMRI) datasets stored in the ANALYZE or NIFTI format.
 	\\\hline
 	brainR & Helper functions to misc3d and rgl packages for brain imaging &
 	Includes functions for creating 3D and 4D images using WebGL, RGL, and
 JavaScript Commands \\\hline
-	fmri & Analysis of fMRI experiments & 
+	fmri & Analysis of fMRI experiments &
 	Provides R-functions to perform fmri analysis \\\hline
 	fslr & Wrapper Functions for FSL  from fMRI of the Brain &
 	Wrapper functions that interface with FSL using system commands. \\\hline
-	oro.dicom & DICOM Input / Output & 
+	oro.dicom & DICOM Input / Output &
 	Data input/output functions for data in the DICOM standard \\\hline
-	oro.nifti & NIfTI + ANALYZE + AFNI Input / Output & 
+	oro.nifti & NIfTI + ANALYZE + AFNI Input / Output &
 	Functions for the input/output and visualization of data in the ANALYZE, NIfTI
 or AFNI formats. \\\hline
-	RNiftyReg & Image Registration Using the NiftyReg Library & 
+	RNiftyReg & Image Registration Using the NiftyReg Library &
 	Provides an R interface to the NiftyReg image registration tools \\\hline
-	nat & NeuroAnatomy Toolbox for Analysis & 
+	nat & NeuroAnatomy Toolbox for Analysis &
 	Enables analysis and visualisation of 3D biological image data, especially
 traced neurons \\\hline
 	nat.templatebrains & NeuroAnatomy Toolbox Extension for Handling Template
@@ -554,11 +548,11 @@ selection.
 Estimation &
 	An efficient method of recovering precision matrices by applying the parametric
 simplex method is provided in this package.  \\\hline
-	flare & Family of Lasso Regression & 
+	flare & Family of Lasso Regression &
 	Provides the implementation of a family of Lasso variants including Dantzig
 Selector, LAD Lasso, SQRT Lasso, Lq Lasso for estimating high dimensional sparse
 linear model. \\\hline
-	huge & High-Dimensional Undirected Graph Estimation & 
+	huge & High-Dimensional Undirected Graph Estimation &
 	Provides a general framework for high-dimensional undirected graph
 estimation.\\\hline
 	picasso &  Pathwise Calibrated Sparse Shooting Algorithm & Implements the
@@ -592,7 +586,7 @@ to ensure streamlined compatibility of these imaging resources with our NIdata
 format.
 
 \subsection{Reading Data and Interface.}
-As neuroimaging data spans formats such as DICOM, NIfTI and ANALYZE, we have 
+As neuroimaging data spans formats such as DICOM, NIfTI and ANALYZE, we have
 spent tremendous efforts in our generic read-function `BCoRead' to hide
 all the complexities from the user. After passing in a particular NIfTI/ANALYZE
 file
@@ -623,15 +617,15 @@ and
 the time-series nature of imaging data,
 neuroscientists cannot naively aggregate all the NIdata objects prior to
 performing their
-analysis. 
+analysis.
 
 To facilitate this problem, BrainConductor has developed a general function
-called 
+called
 `BCoPopulation.analysis' which uses five distinct functions: 1) a `grep'
 function to either
 find all the NIdata variables in the R Workspace corresponding to fMRI data a
 user wishes
-to analyze or loads each NIdata object one-by-one or in parallel into memory, 
+to analyze or loads each NIdata object one-by-one or in parallel into memory,
 2) an optional `BCoClassifier' object which reads the phenotype information
 in each NIdata and determines which subjects are in the `case' or `control', 3)
 a customizable `BCoSubject.analysis' subject-level statistical function to be
@@ -642,7 +636,7 @@ that post-processes each of the results in `BCoSubject.analysis' to form a
 population
 estimate, and 5) an customizable and optional `BCoPopulation.difference'
 function
-to compare the difference among the different phenotypes based on the 
+to compare the difference among the different phenotypes based on the
 results of `BCoPopulation.aggregate'. We believe this general
 function will alleviate many coding difficulties when researchers experiment
 with
@@ -653,9 +647,9 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
 \caption{The workflow using BrainConductor's interface. BCoRead (A1) reads the raw neuroimaging
-data and phenotype file into our NIdata file type. This
+data and phenotype file into our NIdata objects. This
 converts the voxel-level data into the parcellation- or RoI-level
-data. Steps B2 to B5 are the individual 
+data. Steps B2 to B5 are the individual
 customizable functions that perform the case-control connectome analysis.
 After B5, an example output of the analysis could be
 the estimated connectivity in controls not in cases and vice-versa.
@@ -670,14 +664,14 @@ and ``BCoPopulation.difference" to handle paired case-control studies.
 {\color{red}TODO: This code has not been developed yet.}
 
 \subsection{Visualization.}
-Visualization plays a tremendously vital role in neuroimaging analysis. 
+Visualization plays a tremendously vital role in neuroimaging analysis.
 It serves as both an exploratory tool to understand the dataset or ensure
 correctness
 of postprocessing. It is also used to interpret high-dimensional statistical
 results.
 We provide appropriate functions for both built ontop of existing R packages
 such
-as `brainR' and `fmri'. 
+as `brainR' and `fmri'.
 
 In the spirit of popular visualization softwares such as AFNI and FSL, we have
 developed `BCoView', an interactive plotter based in R that allows users to
@@ -687,7 +681,7 @@ commands, users can also show the corresponding time-series where the current
 viewing
 cursor is. We expect this viewer to be a comparable alternative to `fslview' in
 the FSL
-software. 
+software.
 
 To understand how well a given preprocessed fMRI data matches a template (i.e.,
 MNI brain
@@ -703,10 +697,10 @@ a parcellation assignment and produces either 2D slices or 3D plot of where the
 parcellations
 are located in the brain.
 Lastly, to visualize the connectome, we develop `BCoView.connectome' which
-visualizes the 
+visualizes the
 3D brain and the corresponding ROI-analysis or parcellation-analysis.
 
-{\color{red}TODO: This code is half-way complete.} 
+{\color{red}TODO: This code is half-way complete.}
 
 \subsection{Reproducible Research.}
 
@@ -715,20 +709,20 @@ in neuroimaging analysis. One of the goals of BrainConductor is to help
 scientists report their analysis in a way that allows exact recreation by
 a third party when given the input data. This should include all figures,
 tables and numeric results. We support and advocate using Jupyter Notebooks for
-this task. While initially supporting Python, Jupyter Notebooks now support 
-the usage of R. The advantage of using Jupyter Notebooks over other competitors 
-such as Sweave and knitr lies in the live coding environment and 
+this task. While initially supporting Python, Jupyter Notebooks now support
+the usage of R. The advantage of using Jupyter Notebooks over other competitors
+such as Sweave and knitr lies in the live coding environment and
 integration of code, figures and text into only one file, the iPython file.
 
 On the BrainConductor website, we advocate the usage of Jupyter Notebooks
-in two ways. First, the majority of the base packages and reference datasets 
-in BrainConductor are accompanied with a Jupyter ``datasheet." This is a 
+in two ways. First, the majority of the base packages and reference datasets
+in BrainConductor are accompanied with a Jupyter ``datasheet." This is a
 Jupyter file that cleanly lists attributes of the dataset, plots the dataset
 and prints simple statistics. Using Jupyter Notebooks makes this process easy
 to maintain while enabling users to get a clear picture of the data without
 having to open R. Second, users can upload their analysis pipeline as a Jupyter
 Notebook onto the BrainConductor website for others to download and view. This
-directly support reproducible research. 
+directly support reproducible research.
 
 {\color{red}TODO: The website does not currently handle this.}
 
@@ -752,13 +746,13 @@ in different voxels or eliminates voxels that are not relevant to the analysis.
 {\color{red}TODO: The wrapper functions need to be written.}
 %A forum within a community of interdisciplinary researchers enhances the
 %communication between …
- 
+
 A brief Conclusion at last.
 
 \section{Case Study}
 
 {\color{red}50 autism, 50 control from ABIDE. Use AAL parcellation to reduce to
-116 voxel graph
+116-ROI graph
 for each subject. Use lasso to do neighborhood selection. Use the median graph
 to
 define the population graph. Output the difference in distance matrix. Should we
@@ -768,7 +762,7 @@ include inference?? I don't have code for inference.}
 \appendix
 
 \begin{methods}
-\section{Using BrainConductor.} 
+\section{Using BrainConductor.}
 The current release of BrainConductor is a test version
 1.0; we require R version to be above 3.1.1. Users of older R versions must
 update their installation to start with BrainConductor. Download the latest
@@ -791,10 +785,10 @@ view on CRAN. Users can suppress the default installation with
 > BCoInstall(installmedicalimgTV = FALSE)
 \end{lstlisting}
 For details of installing a CRAN task view, please see the help document of R
-package "ctv".   
+package "ctv".
 
 BCoInstall also updates outdated R packages with a prompt. Users can suppress
-the prompt easily using the argument ask = FALSE. 
+the prompt easily using the argument ask = FALSE.
 
 In some cases, underlying alterations in the operating system, especially in
 Linux system, require recompiling all installed packages. Users can start a new
@@ -813,8 +807,8 @@ BrainConductor version with
 \end{lstlisting}
 The output provides possible solutions to identified problems, and the help page
 ?BCoValid shows detailed arguments and behaviours of the function.
- 
- 
+
+
 
 
 
@@ -837,7 +831,7 @@ competing financial interests.
  \item[Correspondence] Correspondence and requests for materials should be
 addressed to Han Liu, Ph.D., Sherred Hall 224, Princeton University, Princeton,
 NJ 08544 USA (email: \texttt{hanliu@princeton.edu}), and Yu Wang, Ph.D., Room
-4-303, Rohm Building, E.E. Dept., Tsinghua University, Beijing, China 100084 
+4-303, Rohm Building, E.E. Dept., Tsinghua University, Beijing, China 100084
 (email: \texttt{yu-wang@tsinghua.edu.cn})
 \end{addendum}
 
