@@ -16,7 +16,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D"))
 
 .NIdata <- setClass("NIdata",
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
- hashID = "character"), contains = "BCoBase")
+ ID = "character"), contains = "BCoBase")
 
 .Template <- setClass("Template", contains = "BCoBase")
 
