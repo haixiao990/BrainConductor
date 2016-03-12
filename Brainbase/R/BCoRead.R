@@ -1,20 +1,11 @@
+#WE NEED A SPECIAL PRINT STATEMENT
+
 #Our generic read function
-#WARNING: The interface of this function are to be decided. right now I'm just
-# going to implement the hash table part
-
-#NOTE: I don't think the hash table is a good idea after all... This is cuz
-# a subject could have multiple scans...?
-
 BCoRead <- function(input, controls = NULL, subject.ID = ""){
-  #if(!".BCoHashTable_GLOBAL" %in% ls(.GlobalEnv)){
-  #  .BCoHashTable_GLOBAL <<- hash()
-  #}
 
   #TEMPORARY LOAD
   dat = readNIfTI(input)
-  res = .NIdata(.BCoBase(.BCoData4D(mat = dat@.Data)), ID = subject.ID)
-
-  #.BCoHashTable_GLOBAL[subject.ID] = 1
+  res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), ID = subject.ID)
 
   res
 }
@@ -23,7 +14,7 @@ BCoRead <- function(input, controls = NULL, subject.ID = ""){
 BCoLink.phenotype <- function(tab, subject.ID.col, kept.column.idx){
   assert_that(class(tab) == "data.frame")
   assert_that(class(tab[,subject.ID.col]) == "character")
-  assert_that(all(!duplicated(tab[,subject.ID.col])) #make sure no duplicates
+  assert_that(all(!duplicated(tab[,subject.ID.col]))) #make sure no duplicates
 
   subject.ID = tab[,subject.ID.col]
   variables = ls(.GlobalEnv)
@@ -44,15 +35,18 @@ BCoLink.phenotype <- function(tab, subject.ID.col, kept.column.idx){
     idx = which(subj.vec == tab[i, subject.ID.col])
     
     if(length(idx) > 0){
+      #create the list for the phenotype
+      lis = as.list(tab[i, kept.column.idx])
+      names(lis) = colnam
+   
+      #loop over all data from that subject (handle multiple scans)
       for(j in 1:length(idx)){
-        NIobj = eval(variables[idx.NIdata[idx]])
+        NIobj = eval(as.name(variables[idx.NIdata[idx[j]]]))
         assert_that(class(NIobj) == "NIdata")
     
-        #create the list for the phenotype
-        lis = as.list(tab[i, kept.column.idx])
-        names(lis) = colnam
-   
-        assign(variables[idx.NIdata[idx]], NIobj)
+        NIobj@phenotype = lis
+
+        assign(variables[idx.NIdata[idx[j]]], NIobj, envir = .GlobalEnv)
       }
     }
   }

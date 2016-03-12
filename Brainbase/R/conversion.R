@@ -27,9 +27,13 @@
   assert_that(max(mask) <= prod(dimen))
   assert_that(ncol(mat) == length(mask))
 
-  dat = array(NA, dim = dimen)
-  array.idx = sapply(mask, .convert.2Dto3Dloc, dimen = dimen)
-  dat[array.idx[,1], array.idx[,2], array.idx[,3],] = mat #NEED TO TEST IF THIS WORKS
+  dat = array(0, dim = c(dimen, nrow(mat)))
+
+  #change the mask to handle the indices across different time slices
+  idx = as.numeric(sapply(0:(nrow(mat)-1), function(x){mask+prod(dimen)*x}))  
+
+  #fill in the values
+  dat[idx] = t(mat)
 
   dat
 }
