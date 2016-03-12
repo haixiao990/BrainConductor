@@ -1,0 +1,19 @@
+Package: Brainbase
+Type: Package
+Title: Brainbase: Basic functions for BrainConductor.
+Version: 1.0.1
+Date: 2015-02-04
+<<<<<<< HEAD
+Author: Kevin Lin, Xiang Liu, Haixiao Du
+Maintainer: Kevin Lin <klin1234@gmail.com> 
+ Haixiao Du <duhx11@mails.tsinghua.edu.cn>
+=======
+Author: Kevin Lin, Xiang Liu, Haixiao Du 
+Maintainer: SMILE lab in Princeton University 
+ <princeton-smile-group@googlegroups.com>
+>>>>>>> 9b5ed4518e3c1d53142fb60e9f4cceae95a563e6
+Description: Basic functions that are needed by other packages. Mostly are
+       some I/O functions for Neuroimage data and data structure definitions.
+Depends: R (>= 3.1.0), utils
+Imports: oro.dicom, oro.nifti, fmri
+License: Artistic-2.0
