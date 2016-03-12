@@ -1,7 +1,33 @@
 #S4 NIdata class for Neuroimaging data
 #For details on Fields in NIFTI header, Refer to: http://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields
 
-setClass("NIdata",
+#set the data classes, either 2D or 4D
+.BCoData2D <- setClass("BCoData2D", representation(mat = "matrix", idx = "numeric", base.dim =
+  "numeric"))
+
+.BCoData4D <- setClass("BCoData4D", representation(mat = "array"))
+
+setClassUnion("BCoData", c("BCoData2D", "BCoData4D"))
+
+#set the base class
+.BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))
+
+#set the NIdata type
+
+.NIdata <- setClass("NIdata",
+ representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
+ ID = "character"), contains = "BCoBase")
+
+.Template <- setClass("Template", contains = "BCoBase")
+
+#WARNING: Now that I think about it, these three might be just
+# effectively all be the same...
+setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
+setClass("RegionofInterest", contains = "BCoBase")
+setClass("TissuePriors", representation(tissue = "character"), 
+  contains = "BCoBase", prototype(data = list()))
+
+setClass("scanner_info",
          representation("sizeof_hdr"="numeric",
                         "data_type"="character",
                         "db_name"="character",
@@ -47,7 +73,6 @@ setClass("NIdata",
                         "magic"="character",
                         "extender"="character",
                         "extention"="list",
-                        #"reoriented"="logical",
                         "file_type" = "character",
                         "image" = "array"),
          prototype("sizeof_hdr"=348,
@@ -95,8 +120,6 @@ setClass("NIdata",
                    "magic"="n+1",
                    "extender"="",
                    "extention"=list(esize=0,ecode=0,edata=""),
-                   #"reoriented"=FALSE,
                    "image"=array(1:4,dim=c(2,2)))
 
 )
-#contains="array")
