@@ -4,9 +4,9 @@
 
 setGeneric("read.nii",function(object, filename)  standardGeneric("read.nii"));
 
-setMethod("read.nii", signature(object = "nifti_one"), function(object, filename)
+setMethod("read.nii", signature(object = "NIdata"), function(object, filename)
 {
-  object <- new('nifti_one')
+  object <- new('NIdata')
   con <- file(filename,'rb');
   endian <- if ((sizeof_hdr <- readBin(con,"int",1,4,endian="little")) == 348) "little" else "big"
   object@sizeof_hdr <- 348
@@ -152,7 +152,7 @@ setMethod("read.nii", signature(object = "nifti_one"), function(object, filename
 
 read.NIFTI.nii <- function(filename)
 {
-  a <- new("nifti_one")
+  a <- new("NIdata")
   read.nii(a,filename)
 
 }
@@ -160,9 +160,9 @@ read.NIFTI.nii <- function(filename)
 
 setGeneric("read.hdr_img",function(object, filename  )  standardGeneric("read.hdr_img"))
 
-setMethod("read.hdr_img", signature(object = "nifti_one"), function(object, filename )
+setMethod("read.hdr_img", signature(object = "NIdata"), function(object, filename )
 {
-  object <- new('nifti_one')
+  object <- new('NIdata')
   con <- file(paste(filename,'.hdr',sep=""),'rb')
   endian <- if ((sizeof_hdr <- readBin(con,"int",1,4,endian="little")) == 348) "little" else "big"
   object@sizeof_hdr <- 348
@@ -315,7 +315,7 @@ setMethod("read.hdr_img", signature(object = "nifti_one"), function(object, file
 
 read.NIFTI.hdr_img <- function(filename) #no .img and .hdr in filename
 {
-  a <- new("nifti_one")
+  a <- new("NIdata")
   read.hdr_img(a,filename)
 
 }

@@ -1,7 +1,7 @@
 
 setGeneric("write.nii",function(object, filename ,endian )  standardGeneric("write.nii"));
 
-setMethod("write.nii", signature(object = "nifti_one"), function(object, filename, endian )
+setMethod("write.nii", signature(object = "NIdata"), function(object, filename, endian )
 {
   con = file(filename,'wb')
   writeBin(as.integer(348),con,4,endian=endian)

@@ -2,12 +2,12 @@
 
 setGeneric("read.dcm",function(object, src)  standardGeneric("read.dcm"));
 
-setMethod("read.dcm", signature(object = "nifti_one"), function(object, src)
+setMethod("read.dcm", signature(object = "NIdata"), function(object, src)
 {
   nii_tool <- c(
     'function varargout = nii_tool(cmd, varargin)',
     '% Basic function to create, load and save NIfTI file.',
-    '% ',
+    '% Matlab function copyright (c) 2015, Xiangrui Li, All rights reserved.',
     '% rst = nii_tool(cmd, para);',
     '% ',
     '% To list all command, type',
@@ -5972,20 +5972,29 @@ setMethod("read.dcm", signature(object = "nifti_one"), function(object, src)
 
 
   #source('matlabcode.R')
-  Matlab$startServer()   #start a matlab server
+  #if (!suppressWarnings(require("R.matlab", quietly=TRUE))) {
+  #  install.packages("R.matlab");
+  #  suppressPackageStartupMessages (require("R.matlab", quietly=TRUE))
+  #} else {
+  #  suppressPackageStartupMessages (require("R.matlab", quietly=TRUE))    
+  #}   
+  
+  #Matlab$startServer()   #start a matlab server
   #[1] 0
-  matlab <- Matlab()
-  isOpen <- open(matlab) #connect to matlab
-  if (!isOpen)
-    stop('failure: connect to Matlab Server!')
+  #matlab <- Matlab()
+  #isOpen <- open(matlab) #connect to matlab
+  #if (!isOpen)
+  #  stop('failure: connect to Matlab Server!')
   OutputDir <- 'nii_tmp/'
-  setVariable(matlab,src = src);
+  #setVariable(matlab,src = src);
   #setVariable(matlab,dataFolder = outputPath);
   #setVariable(matlab,outputFormat = outputFormat);
-  setVariable(matlab,dataFolder = OutputDir);
-  evaluate(matlab,'dicm2nii(src,dataFolder,0,0)')
-
-  close(matlab)
+  #setVariable(matlab,dataFolder = OutputDir);
+  commandlines <- paste(c("matlab -nodesktop -nosplash -wait -r \"dicm2nii(\'",src,"\',","\'",OutputDir,"\',0,0); exit\""),collapse = '')
+  system(commandlines)
+  #evaluate(matlab,'dicm2nii(src,dataFolder,0,0)')
+  
+  #close(matlab)
 
   target <- paste(OutputDir,list.files(OutputDir,'*.nii'),sep="")
   object <- read.nii(object,target)
@@ -5998,8 +6007,9 @@ setMethod("read.dcm", signature(object = "nifti_one"), function(object, src)
   file.remove('dicm_img.m')
   file.remove('rename_dict.m')
   file.remove('sort_dicm.m')
-  file.remove('InputStreamByteWrapper.class')
-  file.remove('MatlabServer.m')
+  #file.remove(OutputDir)
+  #file.remove('InputStreamByteWrapper.class')
+  #file.remove('MatlabServer.m')
   object@file_type <- "DICOM"
   object
 }
@@ -6007,6 +6017,6 @@ setMethod("read.dcm", signature(object = "nifti_one"), function(object, src)
 
 read.DICOM.dcm <- function(inputPath)
 {
-  a <- new("nifti_one")
+  a <- new("NIdata")
   read.dcm(a, inputPath)
 }
