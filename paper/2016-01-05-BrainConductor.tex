@@ -109,7 +109,7 @@ data analysis tools}
 %% Notice placement of commas and superscripts and use of &
 %% in the author list
 
-\author{Kevin Lin$^{1*}$，Haixiao Du$^{2*}$, Huazhong
+\author{Kevin Lin$^{1*}$, Haixiao Du$^{2*}$, Huazhong
 Yang$^2$, Yu Wang$^2$, Han Liu$^3${\color{red}}}
 
 \begin{document}
@@ -277,8 +277,8 @@ its usage and accessibility. As stated before, we are
 interested in problems related to data management, mining and analysis
 associated with neuroimaging technologies. This orientation requires
 a programming environment which is able to foster
-efficiency for software development, allowing
-streamlined and reproducible research and stimulating
+efficiency for software development, allow
+streamlined and reproducible research and simulate
 interdisciplinary communication and cooperation.
 
 To meet these requirements, we chose R as the basic programming
@@ -309,7 +309,8 @@ Finally, the community of R is
 consisted of thousands of active users and developers including biologists,
 mathematicians, and engineers. The community provides a natural bridge to
 connect the neuroscientists and statisticians. This is much in line with the
-intention of the BrainConductor project and is the most important motivation of our
+intention of the BrainConductor project and is the most important motivation of
+our
 selecting R.
 
 
@@ -402,7 +403,9 @@ called ``hierarchical''? I haven't really done anything hierarchical...}
 
 \subsection{File Conversion.}
 For developers to write functions using our NIdata class, we need to provide
-suitable functions to read different input file types into objects of NIdata class as described in the previous section. Here, We discuss three popular file types in current use, DICOM, NIfTI and ANALYZE.
+suitable functions to read different input file types into objects of NIdata
+class as described in the previous section. Here, We discuss three popular file
+types in current use, DICOM, NIfTI and ANALYZE.
 
 DICOM is the standard industrial
 format for raw data directly collected from an imaging device. The DICOM format
@@ -425,14 +428,16 @@ neuroimaging format recently.
 
 BrainConductor offers functions to read all these data format
 based on existing software in the oro.dicom and oro.nifti packages. We
-provide a generic function that handles all of these file types and read data into the desired NIdata object.
+provide a generic function that handles all of these file types and read data
+into the desired NIdata object.
 {\color{red} TODO: The conversion from DICOM to NIfTI is not well implemented.
 We based on mature
 software dcm2nii (from MRIcron?). The conversion results visualization compared
 to results of
 oro.nifti or fmri packages.}
 
-{\color{red}TODO: This code is half-way complete. To use dcm2nii, users will need
+{\color{red}TODO: This code is half-way complete. To use dcm2nii, users will
+need
 matlab installed and linked...}
 
 \subsection{Software Distribution.}
@@ -595,13 +600,15 @@ file
 that is easy to understand and has all the desired information parsed
 appropriately.
 One important argument to `BCoRead' is the input of the subject-scan specific ID
-number. Behind the
-scenes, BrainConductor maintains a hash table of all currently used ID numbers
-to ensure
-each NIdata object in the current R workspace has a unique ID number.
-{\color{red}TODO: This code is developed yet.}
+number. 
+%Behind the
+%scenes, BrainConductor maintains a hash table of all currently used ID numbers
+%to ensure
+%each NIdata object in the current R workspace has a unique ID number.
+%{\color{red}TODO: This code is developed yet.}
 Typically, users might want to update their NIdata files to incorporate the
-phenotype information. In that case, BrainConductor has a `BCoUpdate' function
+phenotype information. In that case, BrainConductor has a `BCoLink.phenotype'
+function
 which can appropriately phenotype information in a Comma-Separated Value (CSV)
 file
 to NIdata objects with the corresponding ID.
@@ -646,19 +653,22 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
-\caption{The workflow using BrainConductor's interface. BCoRead (A1) reads the raw neuroimaging
+\caption{The workflow using BrainConductor's interface. BCoRead (A1) reads the
+raw neuroimaging
 data and phenotype file into our NIdata objects. This
 converts the voxel-level data into the parcellation- or RoI-level
 data. Steps B2 to B5 are the individual
 customizable functions that perform the case-control connectome analysis.
 After B5, an example output of the analysis could be
 the estimated connectivity in controls not in cases and vice-versa.
- BCoPopulation.analysis (B6) is the all-in-one function that performs the entire analysis
+ BCoPopulation.analysis (B6) is the all-in-one function that performs the entire
+analysis
 once the functions B2 to B5 are define. The last step is visualization (C6).}
 \label{fig:flowchart}
 \end{figure}
 
-We note that our ``BCoPopulation.analysis'' can reverse the steps ``BCoPopulation.aggregate"
+We note that our ``BCoPopulation.analysis'' can reverse the steps
+``BCoPopulation.aggregate"
 and ``BCoPopulation.difference" to handle paired case-control studies.
 
 {\color{red}TODO: This code has not been developed yet.}
@@ -825,7 +835,7 @@ The output provides possible solutions to identified problems, and the help page
 %% Use \item's to separate, default label is "Acknowledgements"
 
 \begin{addendum}
- \item Put acknowledgements here.
+ \item Put acknowledgments here.
  \item[Competing Interests] The authors declare that they have no
 competing financial interests.
  \item[Correspondence] Correspondence and requests for materials should be
@@ -842,5 +852,6 @@ NJ 08544 USA (email: \texttt{hanliu@princeton.edu}), and Yu Wang, Ph.D., Room
 %%
 	
 \end{document}
+
 
 
