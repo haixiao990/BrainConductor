@@ -127,3 +127,35 @@ setClass("RegionofInterest", contains = "BCoBase")
 setClass("TissuePriors", representation(tissue = "character"), 
   contains = "BCoBase", prototype(data = list()))
 
+
+setMethod("show", "NIdata", function(object){
+  if(length(object@ID) == 0) subj.name = "(Unidentified Subject)" else subj.name = paste0("Subject ", object@ID)
+  cat(paste0("NIdata object for ", subj.name, "\n"))
+
+  if(all(dim(object@data@mat) == 0)){
+    cat("  No data stored in NIdata.\n")
+  } else {
+    if(class(object@data) == "BCoData2D"){
+      perc = length(which(object@data@mat[1,] != 0))
+
+      cat(paste0("  2-Dimensional data representing a 4D image of dimension ",
+        paste0(object@data@base.dim, collapse = ", "), ":\n    ", nrow(object@data@mat), 
+        " elements in series, ", perc,
+        " voxels active (", round(100*perc/ncol(object@data@mat), 2), 
+        "% of all voxels in mask).\n"))
+    } else if (class(object@data) == "BCoData4D") {
+      cat(paste0("  4-Dimensional data of dimension ", 
+        paste0(dim(object@data@mat), collapse = ", "), ": ", nrow(object@data@mat),
+        " elements in series.\n"))
+ 
+    } else if (class(object@data) == "BCoData2DReduc") {
+      cat(paste0("  2-Dimensional data reduced from voxel-level data. ",
+       nrow(object@data@mat), " elements in series, ", ncol(object@data@mat),
+       " different series.\n"))
+    }
+  }
+
+  cat(paste0("  Object consumes about ", round(as.numeric(object.size(object))/1048576, 2), " megabytes.\n"))
+
+  cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
+})

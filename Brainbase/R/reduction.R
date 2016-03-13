@@ -30,7 +30,6 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template,
     if(length(idx.inmat) > 0){
       col.idx = mapvalues(idx.inmat, from = idx, to = nonempty.col, warn_missing = FALSE)
       assert_that(length(col.idx) == length(idx.inmat))
-
       newmat[,i] = func(obj@data@mat, col.idx)
  
       if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')
@@ -61,5 +60,5 @@ BCoreduce <- function(dat, template){
 #do reduction by taking the average of all the time-series in
 # "idx"
 .reduction.mean <- function(dat, idx){
-  apply(dat[,idx], 1, mean)
+  if(length(idx) > 0) apply(dat[,idx, drop = F], 1, mean) else rep(0, nrow(dat))
 }

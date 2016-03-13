@@ -25,14 +25,54 @@ lambda.seq = seq(1, 0.09, length.out = 20)
 for(i in 1:length(subj.path)){
   setwd(subj.path[i])
   var.name = BCoReadandAssign("func2mni.nii.gz", "ABIDE", subject.ID = subj.vec[i])
-  assign(var.name, convert.4Dto2D(eval(as.name(var.name)), MNI_2mm_brain)) 
+  assign(var.name, convert.4Dto2D(eval(as.name(var.name)), AAL_2mm, verbose = F)) 
   #we need to be able to do all this in ReadandAssign. This is quite complicated
 
   assert_that(length(dim(eval(as.name(var.name))@data@mat)) == 2)
 
-  assign(var.name, BCoReduce(eval(as.name(var.name)), AAL_2mm))
-
-  res = huge(eval(as.name(var.name))@data@mat, lambda = lambda.seq)
-
+  assign(var.name, BCoReduce(eval(as.name(var.name)), AAL_2mm, verbose = F))
+  #res = huge(eval(as.name(var.name))@data@mat, lambda = lambda.seq)
   #need to do something with this... store it somewhere?
+
+  if(i %% floor(length(subj.path)/10) == 0) cat('*')
+}
+
+csvfile = read.csv("~/Brainconductor.git/data/ABIDE_pittsburgh.csv")
+csvfile[,2] = as.character(csvfile[,2])
+csvfile[,2] = paste0("00", csvfile[,2])
+
+BCoLink.phenotype(csvfile, 2, c(1, 3, 5, 6, 7))
+
+#save the variables
+setwd("~/fmri_script_test/20160312_casestudyBC")
+variables = ls()
+varClasses = sapply(variables, function(x){class(eval(as.name(x)))})
+idx = which(varClasses == "NIdata")
+for(i in 1:length(idx)){
+  dat = eval(as.name(variables[idx[i]])) #WARNING: pretty inconvinient saving...
+  save(dat, file = paste0(variables[idx[i]], ".RData"))
+}
+
+for(i in 1:length(idx)){
+  colsums = apply(eval(as.name(variables[idx[i]]))@data@mat, 2, function(x){sum(abs(x))})
+  idx.zero = which(colsums == 0)
+  if(length(idx.zero) > 0){
+    print(paste0(variables[idx[i]], " has ", length(idx.zero), " zero-columns."))
+    numrow = nrow(eval(as.name(variables[idx[i]]))@data@mat)    
+
+    tmpobj = eval(as.name(variables[idx[i]]))
+    tmpmat = tmpobj@data@mat
+
+    for(j in 1:length(idx.zero)){
+      set.seed(10*i*j)
+      tmpmat[,idx.zero[j]] = rnorm(numrow)
+    }
+    
+    tmpobj@data@mat = tmpmat
+    assign(variables[idx[i]], tmpobj)
+  }
+
+  res = huge(eval(as.name(variables[idx[i]]))@data@mat, lambda = lambda.seq)
+
+  save(res, file = paste0("graph_", variables[idx[i]], ".RData"))
 }

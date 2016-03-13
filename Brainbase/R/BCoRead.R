@@ -58,18 +58,19 @@ BCoLink.phenotype <- function(tab, subject.ID.col, kept.column.idx){
   #now loop over all rows in tab
   link.phenotype <- function(i){
     idx = which(subj.vec == tab[i, subject.ID.col])
-    
+ 
     if(length(idx) > 0){
       #create the list for the phenotype
       lis = as.list(tab[i, kept.column.idx])
       names(lis) = colnam
-   
+  
       #loop over all data from that subject (handle multiple scans)
       for(j in 1:length(idx)){
         NIobj = eval(as.name(variables[idx.NIdata[idx[j]]]))
         assert_that(class(NIobj) == "NIdata")
     
         NIobj@phenotype = lis
+
 
         assign(variables[idx.NIdata[idx[j]]], NIobj, envir = .GlobalEnv)
       }
