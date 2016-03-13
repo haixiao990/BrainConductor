@@ -11,6 +11,7 @@ source("~/Brainconductor.git/Brainbase/R/NIdata.R")
 source("~/Brainconductor.git/Brainbase/R/conversion.R")
 source("~/Brainconductor.git/Brainbase/R/BCoRead.R")
 source("~/Brainconductor.git/Brainbase/R/reduction.R")
+source("~/Brainconductor.git/Brainstat/R/mediangraph.R")
 
 base.dir = "~/mridata/CPAC_from_TIGER/ABIDE"
 setwd(base.dir)
@@ -40,6 +41,7 @@ for(i in 1:length(subj.path)){
 csvfile = read.csv("~/Brainconductor.git/data/ABIDE_pittsburgh.csv")
 csvfile[,2] = as.character(csvfile[,2])
 csvfile[,2] = paste0("00", csvfile[,2])
+csvfile = csvfile[,c(1:8)]
 
 BCoLink.phenotype(csvfile, 2, c(1, 3, 5, 6, 7))
 
@@ -76,3 +78,32 @@ for(i in 1:length(idx)){
 
   save(res, file = paste0("graph_", variables[idx[i]], ".RData"))
 }
+
+
+#compute the median graph now
+#THIS IS BAD CODING STYLE. This will eventually be moved into Brainstat package
+
+#determine which ones are case and control
+case.idx = csvfile[which(csvfile[,3] == 1),2]
+control.idx = csvfile[which(csvfile[,3] == 2),2]
+#RIGHT NOW WE'RE NOT PAIRING CASE AND CONTROL. (Need to ask jian this)
+
+case.list = list()
+control.list = list()
+
+for(i in 1:length(case.idx)){
+  load(paste0("graph_ABIDE_", case.idx[i], ".RData"))
+  case.list[[i]] = res
+}
+
+for(i in 1:length(control.idx)){
+  load(paste0("graph_ABIDE_", control.idx[i], ".RData"))
+  control.list[[i]] = res
+}
+
+median.case = median.graph(case.list)
+median.control = median.graph(control.list)
+median.diff = median.case - median.control
+table(median.diff)
+
+
