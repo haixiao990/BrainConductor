@@ -1,3 +1,15 @@
+setGeneric("convert.4Dto2D", function(obj, ...) standardGeneric("convert.4Dto2D"))
+
+setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, verbose = TRUE){
+  new.obj = obj
+
+  res = .convert.4Dto2Dmat(obj@data@mat, template, verbose)
+
+  new.obj@data = .BCoData2D(mat = res$mat, mask = res$mask, base.dim = dim(obj@data@mat)[1:3])
+
+  new.obj
+})
+
 #convert 4D matrix into 2D matrix
 .convert.4Dto2Dmat <- function(dat, template = NULL, verbose = TRUE){
   assert_that(is.numeric(dat) & length(dim(dat))==4)

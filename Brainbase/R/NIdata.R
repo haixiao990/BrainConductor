@@ -2,32 +2,20 @@
 #For details on Fields in NIFTI header, Refer to: http://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields
 
 #set the data classes, either 2D or 4D
-.BCoData2D <- setClass("BCoData2D", representation(mat = "matrix", idx = "numeric", base.dim =
+.BCoData2D <- setClass("BCoData2D", representation(mat = "matrix", mask = "numeric", base.dim =
   "numeric"))
 
 .BCoData4D <- setClass("BCoData4D", representation(mat = "array"))
 
-setClassUnion("BCoData", c("BCoData2D", "BCoData4D"))
+.BCoData2DReduc <- setClass("BCoData2DReduc", representation(mat = "matrix", col.mapping = "numeric", 
+  type = "character"))
+
+setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 
 #set the base class
 .BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))
 
-#set the NIdata type
-
-.NIdata <- setClass("NIdata",
- representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
- ID = "character"), contains = "BCoBase")
-
-.Template <- setClass("Template", contains = "BCoBase")
-
-#WARNING: Now that I think about it, these three might be just
-# effectively all be the same...
-setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
-setClass("RegionofInterest", contains = "BCoBase")
-setClass("TissuePriors", representation(tissue = "character"), 
-  contains = "BCoBase", prototype(data = list()))
-
-setClass("scanner_info",
+.scanner_info <- setClass("scanner_info",
          representation("sizeof_hdr"="numeric",
                         "data_type"="character",
                         "db_name"="character",
@@ -123,3 +111,19 @@ setClass("scanner_info",
                    "image"=array(1:4,dim=c(2,2)))
 
 )
+
+#set the NIdata type
+
+.NIdata <- setClass("NIdata",
+ representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
+ ID = "character"), contains = "BCoBase")
+
+.Template <- setClass("Template", contains = "BCoBase")
+
+#WARNING: Now that I think about it, these three might be just
+# effectively all be the same...
+setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
+setClass("RegionofInterest", contains = "BCoBase")
+setClass("TissuePriors", representation(tissue = "character"), 
+  contains = "BCoBase", prototype(data = list()))
+

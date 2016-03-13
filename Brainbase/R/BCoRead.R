@@ -10,6 +10,31 @@ BCoRead <- function(input, controls = NULL, subject.ID = ""){
   res
 }
 
+
+BCoReadandAssign <- function(input, variable.header, controls = NULL, subject.ID = ""){
+  res = BCoRead(input, controls, subject.ID)
+  
+  resname = paste0(variable.header, "_", subject.ID)
+  resname.mod = resname
+ 
+  #determine if "resname" is unique. If not, add integers after it until it is
+  current.vars = ls(.GlobalEnv)
+  if(resname.mod %in% current.vars){
+    iter = 1
+
+    while(TRUE){
+      resname.mod = paste0(resname, "_", iter)
+      if(!resname.mod %in% current.vars) break()
+
+      iter = iter + 1
+    }
+  }
+
+  assign(resname.mod, res, envir = .GlobalEnv)  
+
+  invisible()
+}
+
 #tab is a data.frame (supposedly from a csv file already loaded in R)
 BCoLink.phenotype <- function(tab, subject.ID.col, kept.column.idx){
   assert_that(class(tab) == "data.frame")
