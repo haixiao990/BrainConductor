@@ -1,6 +1,8 @@
 setGeneric("BCoReduce", function(obj, template, ...) standardGeneric("BCoReduce"))
 
-setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template, method = "mean"){
+setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template, 
+ method = "mean", verbose = TRUE){
+
   #WARNING: Currently we have to have it in 2D
   assert_that(class(obj@data) == "BCoData2D")
   assert_that(method %in% c("mean", "pca"))
@@ -18,16 +20,20 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template, 
   idx = obj@data@mask[nonempty.col]
   assert_that(length(nonempty.col) <= length(obj@data@mask))
 
-  uniq = unique(template@data)
+  uniq = unique(as.numeric(template@data@mat))
   uniq = uniq[-which(uniq == 0)]
   newmat = matrix(0, ncol = length(uniq), nrow = nrow(obj@data@mat))
 
   for(i in 1:length(uniq)){
-    idx.inmat = intersect(idx, which(template@data == uniq[i]))
+    idx.inmat = intersect(idx, which(template@data@mat == uniq[i]))
 
     if(length(idx.inmat) > 0){
       col.idx = mapvalues(idx.inmat, from = idx, to = nonempty.col, warn_missing = FALSE)
+      assert_that(length(col.idx) == length(idx.inmat))
+
       newmat[,i] = func(obj@data@mat, col.idx)
+ 
+      if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')
     }
   }
   

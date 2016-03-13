@@ -32,7 +32,7 @@ BCoReadandAssign <- function(input, variable.header, controls = NULL, subject.ID
 
   assign(resname.mod, res, envir = .GlobalEnv)  
 
-  invisible()
+  resname.mod
 }
 
 #tab is a data.frame (supposedly from a csv file already loaded in R)
