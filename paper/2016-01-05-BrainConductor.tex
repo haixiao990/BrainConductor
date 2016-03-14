@@ -102,7 +102,7 @@
 \mkfancyprefix{alg}{Algorithm}
 \mkfancyprefix{ass}{Assumption}
 
-\title{BrainConductor: An open science platform for the development of
+\title{Brainconductor: An open science platform for the development of
 neuroimaging
 data analysis tools}
 
@@ -129,16 +129,16 @@ University, Princeton, NJ 08544 USA
 \end{affiliations}
 
 \begin{abstract}
-    BrainConductor project is a project parallel to Bioconductor. Like
-Bioconductor, BrainConductor is an open platform for sharing neuroimaging data
-and R-based data analysis software. BrainConductor aims at promoting
+    Brainconductor project is a project parallel to Bioconductor. Like
+Bioconductor, Brainconductor is an open platform for sharing neuroimaging data
+and R-based data analysis software. Brainconductor aims at promoting
 interdisciplinary collaboration between neuroscientists and
 statistical scientists, bringing state-of-the-art statistical methodologies and
 toolboxes into neuroscience, and enhancing the reproducibility of remarkable
 research results. We describe details of our motivations, goals, methods, and
-the difference between BrainConductor and related neuroinformatics projects.
+the difference between Brainconductor and related neuroinformatics projects.
 Finally, we present some working instances to better explain advantages of
-BrainConductor.
+Brainconductor.
 \end{abstract}
 
 
@@ -152,7 +152,7 @@ the various data file types and to manage the storage
 of these large-scale datasets. Second, specialized softwares and
 many in-house analysis pipelines have been developed that
 prevent new researchers from entering the field.
-The BrainConductor project is an open-neuroscience
+The Brainconductor project is an open-neuroscience
 initiative to address
 these obstacles.
 As the neuroscience community expands upon open-access
@@ -191,12 +191,19 @@ While the neuroscientist will benefit from the modern techniques to
 analyze these datasets, the statistician
 will benefit from the lowered barrier-to-entry
 due to the  simplified processes of data acquisition, data management, and data
-sharing.
+sharing. These are summarized in \Fref{fig:overview}.
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=400pt]{fig/brainconductor/Brainconductor_overview.png}
+\caption{Specialties of neuroscietists and statisticians and the potential
+topics to explore in collaborative projects.}
+\label{fig:overview}
+\end{figure}
 
-Towards this end, we propose the BrainConductor project, an integration of
+Towards this end, we propose the Brainconductor project, an integration of
 high-quality and easy-access datasets, and user-friendly software for both
-neuroscientists and statisticians. BrainConductor is a project parallel to
+neuroscientists and statisticians. Brainconductor is a project parallel to
 Bioconductor. In the past tens of years,
 Bioconductor\cite{gentleman2004bioconductor} made a great contribution to the
 progress of
@@ -254,24 +261,24 @@ most statistical methods. These concerns are summarized in \Fref{fig:nitrc}.
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_nitrc_chart_v2.png}
 \caption{Drawbacks of NITRC framework, description of the drawbacks and proposed
 solution
-in BrainConductor. {\color{red}Need to fix alignment}}
+in Brainconductor. {\color{red}Need to fix alignment}}
 \label{fig:nitrc}
 \end{figure}
 
 
-The BrainConductor project serves two fundamental goals. In connectome-wide
+The Brainconductor project serves two fundamental goals. In connectome-wide
 association studies, one fundamental goal is to relate differences the macro- and
 microarchitecture of the human connectome to phenotypic variation among
 individuals\cite{milham2012open}. Towards this end,
 in our
-initial release of BrainConductor, we focus on an open-neuroscience
+initial release of Brainconductor, we focus on an open-neuroscience
 solution to manage resting-state fMRI data and study its
 subsequent brain connectivity patterns.
 However, there are many scientific goals to a field as broad as neuroscience.
 In imaging genetics, the ultimate goal
-for BrainConductor project is to identify biomarkers and help early diagnosis
+for Brainconductor project is to identify biomarkers and help early diagnosis
 for a variety of neuropsychiatric disorders. This will involve an
-integration of genomics and neuroimaging data and expansion of BrainConductor
+integration of genomics and neuroimaging data and expansion of Brainconductor
 in the future. Our work paves the foundation for this long-term community 
 project.
 
@@ -289,8 +296,8 @@ streamlined and reproducible research and simulate
 interdisciplinary communication and cooperation.
 
 To meet these requirements, we chose R as the basic programming
-modal for BrainConductor project. Our rationale closely follows
-the reasons adopted in BioConductor which we summarize
+modal for Brainconductor project. Our rationale closely follows
+the reasons adopted in Bioconductor which we summarize
 here\cite{gentleman2004bioconductor}.
 First, R is an accessible high-level language with
 good numerical capabilities allowing quick prototyping of new statistical
@@ -316,12 +323,12 @@ Finally, the community of R is
 consisted of thousands of active users and developers including biologists,
 mathematicians, and engineers. The community provides a natural bridge to
 connect the neuroscientists and statisticians. This is much in line with the
-intention of the BrainConductor project and is the most important motivation of
+intention of the Brainconductor project and is the most important motivation of
 our
 selecting R.
 
 
-\subsection{Hierarchical Data Structure.} The BrainConductor
+\subsection{Hierarchical Data Structure.} The Brainconductor
 project began with significant investment in the infrastructure construction for
 software development by formulating the standard for general data structures of
 neuroimaging data. A general data structure unifies the interface port and
@@ -373,7 +380,7 @@ to facilitate
 reading in the header information and high-dimensional data array from binary
 neuroimaging data files into NIdata class objects.
 
-{\color{red}FIGURE HERE ABOUT THE HIERARCHICAL DATA STRUCTURE}
+
 
 Most of the engineering of the NIdata class revolved around a more suitable
 representation of the neuroimaging data. Like in the CIFTI file
@@ -410,8 +417,20 @@ location. Hence, we can convert our 2D representation back to its original
 4D representation to accommodate past software requirements if needed.
 Thanks to this flexibility, software developers can
 implement algorithms operating directly on the 2D representation in
-NIdata without worrying about representation-conversion. {\color{red}Why is this
-called ``hierarchical''? I haven't really done anything hierarchical...}
+NIdata without worrying about representation-conversion.  The
+schematic displaying the input of data to the end NIdata representation
+is shown in \Fref{fig:fileformat}.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=400pt]{fig/brainconductor/file_format.png}
+\caption{Schematic of the hierarchical data format. On the left is the raw DICOM
+data. In the middle is either the conversion to the NIfTI data or the already-preprocessed
+NIfTI data. In the right are the different components of the NIdata file format. {\color{red}need to change figure to show all the slots. This figure implies
+we should wrap functions in fslr to do preprocessing also}}
+\label{fig:fileformat}
+\end{figure}
+
 
 When designing our NIdata file format in R, we kept the tradition of using S4's
 pass-by-value system rather than using an pointer-based system to pass-by-reference.
@@ -451,7 +470,7 @@ the header information. The NIfTI format has alleviated problems with data
 storage and sharing across diverse centers, and became one of the most popular
 neuroimaging format recently.
 
-BrainConductor offers functions to read all these data format
+Brainconductor offers functions to read all these data format
 based on existing software in the oro.nifti package. We
 provide a generic function that handles all of these file types and read data
 into the desired NIdata object.
@@ -481,13 +500,13 @@ matlab installed and linked...}
 
 \subsection{Software Distribution.}
 
-All software distributed by BrainConductor is in the form of R packages abiding
+All software distributed by Brainconductor is in the form of R packages abiding
 to our NIdata structure. This
 simplifies software delivery, usage and maintenance but puts a burden on the
 developers
 to learn how to write R packages, including documentation and test cases.
 
-As seen by the success of CRAN and BioConductor, the packaging system lies
+As seen by the success of CRAN and Bioconductor, the packaging system lies
 at the heart of why R has been a successful language. We follow their examples.
 Changes are tracked using a central, publicly readable Subversion software
 repository
@@ -495,13 +514,13 @@ so the details of all changes are fully accessible via Subversion.
 Simultaneously, since
 R itself is continually changing to improve performance and functionality, all
 packages
-in BrainConductor undergo testing monthly. These required tests are designed by
+in Brainconductor undergo testing monthly. These required tests are designed by
 the
 developers themselves and is performed in an automated fashion to ensure
 all code examples and unit tests run without errors.
 
-For developers to submit their software to BrainConductor for others to use,
-we have designed a specific ``Developers'' section of our BrainConductor website
+For developers to submit their software to Brainconductor for others to use,
+we have designed a specific ``Developers'' section of our Brainconductor website
 to guide the process. The package guidelines revolve around usage-oriented
 documentation and understanding the input and outputs of each parameter.
  Once
@@ -509,12 +528,12 @@ a package is submitted, feedback is given to revise the code or the package is
 accepted.
 From then on, the package will be available on the
 development branch of the project and be part of in the next release of
-BrainConductor.
+Brainconductor.
 We expect releases to be made every 6 months.
 Each package has a designated maintainer responsive by email address and reacts
 to
 errors, bugs, and user questions. Packages without an active maintainer will be
-orphaned and no longer be part of the BrainConductor release.
+orphaned and no longer be part of the Brainconductor release.
 {\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
 
 
@@ -522,28 +541,28 @@ orphaned and no longer be part of the BrainConductor release.
 
 
 \subsection{Package Ecosystem and Reference Datasets.}
-BrainConductor provides data packages with well-preprocessed neuroimaging data
+Brainconductor provides data packages with well-preprocessed neuroimaging data
 from popular data sources.
-The user experience of BrainConductor starts with the website. Here, users can
+The user experience of Brainconductor starts with the website. Here, users can
 find out currently available software, documentation, and reference datasets.
 These packages include functions to process fMRI data, perform statistical
 analysis and visualize the results.
-Once BrainConductor framework has been set up in R, users can then
-seamlessly install any of the BrainConductor packages through our
+Once Brainconductor framework has been set up in R, users can then
+seamlessly install any of the Brainconductor packages through our
 dedicated installation fuction `BCoInstall' or through CRAN itself.
 We have further wrapped popular functions in existing R packages
 within the CRAN Medical Imaging task view to handle our new NIdata format.
-The list of neuroscience-related packages included in BrainConductor are listed
+The list of neuroscience-related packages included in Brainconductor are listed
 in \Fref{tab:neuro}, while statistical-related packages are listed in
 \Fref{tab:stat}.
 
 
-The base installation of BrainConductor also comes with standardized imaging
+The base installation of Brainconductor also comes with standardized imaging
 resources
 used by the neuroscience community. These include datasets such
 as the Montreal Neurological
 Institute (MNI) brain atlases, the Automated Anatomical Labeling (AAL)
-parcellation,
+parcellation\cite{tzourio2002automated},
 tissue prior,
 and the various lists of region of interests. While most of these
 resources are available when installing FSL, we have taken
@@ -566,12 +585,12 @@ appropriately.
 One important argument to `BCoRead' is the input of the subject-scan specific ID
 number. 
 %Behind the
-%scenes, BrainConductor maintains a hash table of all currently used ID numbers
+%scenes, Brainconductor maintains a hash table of all currently used ID numbers
 %to ensure
 %each NIdata object in the current R workspace has a unique ID number.
 %{\color{red}TODO: This code is developed yet.}
 Typically, users might want to update their NIdata files to incorporate the
-phenotype information. In that case, BrainConductor has a `BCoLink.phenotype'
+phenotype information. In that case, Brainconductor has a `BCoLink.phenotype'
 function
 which can appropriately phenotype information in a Comma-Separated Value (CSV)
 file
@@ -588,7 +607,7 @@ neuroscientists cannot naively aggregate all the NIdata objects prior to
 performing their
 analysis.
 
-To facilitate this problem, BrainConductor has developed a general function
+To facilitate this problem, Brainconductor has developed a general function
 called
 `BCoPopulation.analysis' which uses five distinct functions: 1) a `grep'
 function to either
@@ -615,7 +634,7 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
-\caption{The workflow using BrainConductor's interface. Our illustration
+\caption{{\color{red}typo in population}The workflow using Brainconductor's interface. Our illustration
 is about estimating the connectome from fMRI data, but functions within can be
 adapted to estimate any desired quantity. BCoRead (A1) reads the
 raw neuroimaging
@@ -680,7 +699,7 @@ visualizes the
 \subsection{Reproducible Research.}
 
 It can be surprisingly difficult to retrace the computational steps performed
-in neuroimaging analysis. One of the goals of BrainConductor is to help
+in neuroimaging analysis. One of the goals of Brainconductor is to help
 scientists report their analysis in a way that allows exact recreation by
 a third party when given the input data. This should include all figures,
 tables and numeric results. We support and advocate using Jupyter Notebooks for
@@ -689,21 +708,21 @@ the usage of R. The advantage of using Jupyter Notebooks over other competitors
 such as Sweave and knitr lies in the live coding environment and
 integration of code, figures and text into only one file, the iPython file.
 
-On the BrainConductor website, we advocate the usage of Jupyter Notebooks
+On the Brainconductor website, we advocate the usage of Jupyter Notebooks
 in two ways. First, the majority of the base packages and reference datasets
-in BrainConductor are accompanied with a Jupyter ``datasheet." This is a
+in Brainconductor are accompanied with a Jupyter ``datasheet." This is a
 Jupyter file that cleanly lists attributes of the dataset, plots the dataset
 and prints simple statistics. Using Jupyter Notebooks makes this process easy
 to maintain while enabling users to get a clear picture of the data without
 having to open R. Second, users can upload their analysis pipeline as a Jupyter
-Notebook onto the BrainConductor website for others to download and view. This
+Notebook onto the Brainconductor website for others to download and view. This
 directly support reproducible research.
 
 {\color{red}TODO: The website does not currently handle this.}
 
 \subsection{Statistical Analysis.}
 
-BrainConductor provides statistical analysis tools dedicated to neuroimaging,
+Brainconductor provides statistical analysis tools dedicated to neuroimaging,
 but thanks to the 2D representation and the explicit storage of
 phenotypes of NIdata, most classification, graphical model, or regression
 techniques
@@ -716,7 +735,13 @@ that can be used in conjugation when reading in the data which aggregates
 the series
 in different voxels or eliminates voxels that are not relevant to the analysis.
 
-{\color{red}talk about graphical models}
+Undirected graphs provide a powerful tool for understanding the interrelationships among
+different covariates. For example, in fMRI analysis, each covariate represents 
+a different voxel/parcel/RoI while an edge connects to covariates if there is
+statistical dependency between the two covariates. High-dimensional graphical
+models is a large area of statistical literature, and we have converted 
+a multitude of graphical model estimators to accommodate our NIdata format.
+
 
 {\color{red}TODO: The wrapper functions need to be written.}
 %A forum within a community of interdisciplinary researchers enhances the
@@ -727,7 +752,7 @@ A brief Conclusion at last.
 \section{Case Study}
 
 Autism spectrum disorders (ASD) are characterized by qualitative impairment in reciprocal social communication, as well as by repetitive, restricted, and stereotyped behaviors. Previously considered rare, ASD are now recognized to occur in more than 1\% of children, causing immense suffering to individuals and their families. 
-We provide a short demonstration of the functionalities of BrainConductor to
+We provide a short demonstration of the functionalities of Brainconductor to
 estimate the differences in the connectome between autistic subject and controls based
 on the 57 resting-state fMRI (R-fMRI) scans (30 autistic subjects, 27 controls) from the Autism
 Brain Imaging Data Exchange (ABIDE) collected at the 
@@ -749,20 +774,22 @@ were normalized to Montreal Neurological Institute (MNI152) stereostatic
 space (2mm$^3$ isotropic) with linear regressions and spatially smoothed
 (applied FWHM = 6mm). 
 
+{\color{red}mention the memory size savings}
+
 After the data has been preprocessed, we use various tools developed in BCoViewer
 to visually explore the data. In \Fref{fig:features}, we see two different instances
 of our BCoViewer function to either interactively explore a subject's imaging data (both
 functional and anatomical simultaneously). On the right, BCoViewer plots the AAL parcellation
 on the MNI152 2mm brain template. But another question investigators typically have is 
 how to determine the success of their preprocessing pipeline. We developed another feature
-in BCoViewer to address this, shown in \Fref{fig:comparison} to mimic currently-used methods
+in BCoViewer to address this, shown in \Fref{fig:overlap} to mimic currently-used methods
 in C-PAC.
 
 
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/BCoViewer.png}
-\caption{(Left) An interactive imaging viewer in BCoViewer designed in R to mimic fslview. (Right) A parcellation plotter in BCoViewer.}
+\caption{(Left) An interactive imaging viewer in BCoViewer designed in R to mimic fslview. (Right) A parcellation plotter in BCoViewer. Each color represents a different parcel.}
 \label{fig:features}
 \end{figure}
 
@@ -789,12 +816,30 @@ Based on case-control pairings matching the age, gender and IQ as closely as pos
 we then took the graph-difference between each pair of case and control. Here,
 the graph difference is represented as signed edges in one connectome but not the other. 
 We then computed the median graph\cite{han2013sparse} with 
-25 edges 
+50 edges 
 to generate a population-level graph difference between the cases and controls.
+The entire analysis was done using our BCoPopulation.analysis framework.
 
-{\color{red}Use BrainR to demonstrate the connectivity difference}
+Our analysis determined that several connections within the cerebellum were present
+in controls while severed in cases. In particular, over half the case-control
+pairings showed that in the control's estimated brain connectome, 
+there was statistical dependency between Right lobule IV, V of the cerebellar
+hemisphere (Cerebelum\_4\_5\_R) and Lobule VII of vermis (Vermis\_7) while in the
+case's estimated brain connectome, this connection was missing. A plot
+of these two regions is shown in \Fref{fig:aalconnectome}. While the cerebellum
+is responsible for motor learning and coordination, there is new evidence that
+the cerebellum supports cognitive functions, including language and executive functions,
+as well as affective regulation\cite{goines2011autoantibodies,braunschweig2012maternal}.
+There is supporting evidence from current autism research that the cerebellum plays
+a substantial role in the development of autism\cite{d2015cerebellar,becker2013autism,wang2014cerebellum}.
 
-{\color{red}results and current literature results}
+\begin{figure}[tb]
+\centering
+\includegraphics[width=150pt]{fig/brainconductor/aal_view.png}
+\caption{Perspective plot showing right lobule IV, V of cerebellar hemisphere
+(red) and Lobule VII of vermis (blue). {\color{red}include pictures of entire graph}}
+\label{fig:aalconnectome}
+\end{figure}
 
 \newpage
 \appendix
@@ -802,7 +847,7 @@ to generate a population-level graph difference between the cases and controls.
 \section{Related Tables}
 
 
-We do a comparison of the differences between BioConductor and BrainConductor
+We do a comparison of the differences between Bioconductor and Brainconductor
 in \Fref{tab:bioconductor}.
 
 \begin{table}
@@ -810,9 +855,9 @@ in \Fref{tab:bioconductor}.
 \begin{center}
     \begin{tabular}{ | p{2cm} | p{6.5cm} |  p{6.5cm} |}
     \hline
-	Main Feature & \textbf{BioConductor} & \textbf{BrainConductor} \\ \hline
+	Main Feature & \textbf{Bioconductor} & \textbf{Brainconductor} \\ \hline
 	Data Structure Standards & ExpressionSet and SummarizedExperiment S4 classes based on gene data, and annotation (meta) data associated based on some common databases 
-	& NIdata S4 class based on imaging data and annotation (meta) data \\\hline
+	& NIdata S4 class based on imaging data and annotation (meta) data \\\hline 
 	Annotation and Resources & Provides software (BioMart) for associating microarray and other genomic data in real time with biological metadata from web databases such as GenBank, Entrez genes and PubMed (annotate package) & 
 	Provides interface DICOM, ANALYZE and NIfTI formats currently, but many other formats exist we
 	might not be familiar with. We currently have only specific annotation files (tissue priors,
@@ -824,13 +869,13 @@ in \Fref{tab:bioconductor}.
 	Short Courses & Developed a program of short courses on software and statistical methods for the analysis of genomic data. & Have no courses, but can make if the project is successfully popularized. \\\hline
 	Maintainers & Dedicated maintainers from all over the word & Only two maintainers \\\hline
     \end{tabular}
-    \caption{Contrasts between BioConductor and BrainConductor}
+    \caption{Contrasts between Bioconductor and Brainconductor}
     \label{tab:bioconductor}
 \end{center}
 \end{footnotesize}
 \end{table}
 
-We list related packages that we have integrated into BrainConductor's 
+We list related packages that we have integrated into Brainconductor's 
 base installation. Currently, we have focused on estimate the connectome for
 fMRI data. In \Fref{tab:neuro}, we list various packages that interact with
 fMRI data. In \Fref{tab:stat}, we list various packages that estimate the connectome
@@ -871,7 +916,7 @@ Brains &
 brains. \\
 	\hline
     \end{tabular}
-    \caption{fMRI Packages Incorporated into the BrainConductor Project
+    \caption{fMRI Packages Incorporated into the Brainconductor Project
 {\color{red}Why is the font different...}}
     \label{tab:neuro}
 \end{center}
@@ -907,18 +952,18 @@ estimation. \\\hline
 general framework for analyzing (including estimation, feature selection and
 prediction) and visualize big data. \\\hline
     \end{tabular}
-   \caption{Statistical Packages Incorporated into the BrainConductor Project}
+   \caption{Statistical Packages Incorporated into the Brainconductor Project}
    \label{tab:stat}
 \end{center}
 \end{footnotesize}
 \end{table}
 
 \begin{methods}
-\section{Using BrainConductor.}
-The current release of BrainConductor is a test version
+\section{Using Brainconductor.}
+The current release of Brainconductor is a test version
 1.0; we require R version to be above 3.1.1. Users of older R versions must
-update their installation to start with BrainConductor. Download the latest
-release of R, then download and install basic packages of BrainConductor by
+update their installation to start with Brainconductor. Download the latest
+release of R, then download and install basic packages of Brainconductor by
 starting R and entering the commands
 \begin{lstlisting}[language = R]
 > source("http://10.8.7.219/packages/BrainCo/BCoinstall.R")
@@ -952,7 +997,7 @@ R session and enter
 \end{lstlisting}
 
 Users can check packages that are either outdated or too new for their
-BrainConductor version with
+Brainconductor version with
 \begin{lstlisting}[language = R]
 > library(BrainCoSetup)
 > BCoValid()
@@ -971,7 +1016,7 @@ The output provides possible solutions to identified problems, and the help page
 %% the \bibliography{} command.
 
 
-\bibliography{bib}
+\bibliography{../bib}
 
 %% Here is the endmatter stuff: Supplementary Info, etc.
 %% Use \item's to separate, default label is "Acknowledgements"
