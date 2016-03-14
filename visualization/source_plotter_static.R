@@ -1,0 +1,103 @@
+plot_anatfunc <- function(img1, img2 = NA, location, filename = NA, 
+ window.size = NA, transparency = 1, direction.panel = TRUE){
+  assert_that(length(location)==3)
+  
+  if(length(img2)==1) onlyOne = TRUE else onlyOne = FALSE
+  
+  if(!is.na(filename)) png(filename, height=4, width=6, units="in", res=600)
+  
+  par(mar = rep(0.2,4), bg = "black")
+  if(onlyOne)  par(mfrow = c(2,2)) else par(mfrow=c(2,3))
+  
+  plot_helper(img1, location, window.size = window.size, 
+   direction.panel = direction.panel, transparency = transparency)
+  if(!onlyOne) plot_helper(img2, location, window.size = window.size,
+   direction.panel = direction.panel, transparency = transparency)
+  
+  if(!is.na(filename)) dev.off()
+  
+  invisible()
+}
+
+plot_helper <- function(dat, location, window.size = NA, 
+ transparency = 1, direction.panel = TRUE){
+
+  assert_that(transparency >= 0 & transparency <= 1)
+  assert_that(length(location)==3)
+  
+  red = rgb(1, 0, 0, transparency)
+  dimen = dim(dat)
+  
+  if(is.na(window.size[1])){
+    xrange = 1:dimen[1]
+    yrange = 1:dimen[2]
+    zrange = 1:dimen[3]
+    
+    asp.vec = c(dim(dat)[2]/dim(dat)[1], dim(dat)[3]/dim(dat)[1], dim(dat)[3]/dim(dat)[2])
+  } else {
+    half = floor(window.size/2)
+    
+    xrange = max(location[1]-half[1],1) : min(location[1]+half[1],dimen[1])
+    yrange = max(location[2]-half[2],1) : min(location[2]+half[2],dimen[2])
+    zrange = max(location[3]-half[3],1) : min(location[3]+half[3],dimen[3])
+    
+    asp.vec = rep(1,3)
+  }
+ 
+  zlim = c(min(dat), max(dat))
+
+  image(dat[xrange, location[2], zrange], zlim = zlim, col = grey(seq(0, 1, length = 256)), 
+        asp = asp.vec[2],
+        bty="n", xaxt="n", yaxt="n")
+  
+  lines(x=rep((location[1]-xrange[1]) / diff(range(xrange)), 2), y=c(0,1), 
+        col=red, lwd=2)
+  lines(x=c(0,1), y=rep((location[3]-zrange[1]) / diff(range(zrange)), 2), 
+        col=red, lwd=2)
+
+  text(0.5, 0, "I", col = "white", pos = 3)
+  text(0.5, 1, "S", col = "white", pos = 1)
+  text(0, 0.5, "R", col = "white", pos = 4)
+  text(1, 0.5, "L", col = "white", pos = 2)
+  
+  ####################
+  
+  image(dat[location[1], yrange, zrange], zlim = zlim, col = grey(seq(0, 1, length = 256)), 
+        asp = asp.vec[3],
+        bty="n", xaxt="n", yaxt="n")
+  
+  lines(x=rep((location[2]-yrange[1]) / diff(range(yrange)), 2), y=c(0,1), 
+        col=red, lwd=2)
+  lines(x=c(0,1), y=rep((location[3]-zrange[1]) / diff(range(zrange)), 2),, 
+        col=red, lwd=2)
+  
+  text(0.5, 0, "I", col = "white", pos = 3)
+  text(0.5, 1, "S", col = "white", pos = 1)
+  text(0, 0.5, "P", col = "white", pos = 4)
+  text(1, 0.5, "A", col = "white", pos = 2)
+  
+  ####################  
+  
+  image(dat[xrange, yrange, location[3]], zlim = zlim, col = grey(seq(0, 1, length = 256)), 
+        asp = asp.vec[1],
+        bty="n", xaxt="n", yaxt="n")
+  lines(x=rep((location[1]-xrange[1]) / diff(range(xrange)), 2), y=c(0,1), 
+        col=red, lwd=2)
+  lines(x=c(0,1), y=rep((location[2]-yrange[1]) / diff(range(yrange)), 2), 
+        col=red, lwd=2)
+  
+  text(0.5, 0, "P", col = "white", pos = 3)
+  text(0.5, 1, "A", col = "white", pos = 1)
+  text(0, 0.5, "R", col = "white", pos = 4)
+  text(1, 0.5, "L", col = "white", pos = 2)
+  
+  ####################  
+  
+  #list basic directions
+  if(direction.panel){
+    plot(NA, xlim = c(0,1), ylim = c(0,1), xaxt="n", yaxt="n")
+    text(x = 0.5, y = 0.5, labels = "'Left' Key: Towards 'L'\n 'Right' Key: Towards 'R'\n
+       'Up' Key: Towards 'A'\n 'Down' Key: Towards 'P'\n
+       '.' Key: Towards 'I'\n '/' Key: Towards 'S'", col = "white")
+  }
+}
