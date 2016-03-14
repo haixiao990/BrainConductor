@@ -39,6 +39,9 @@ Matlab function to convert DICOM to NIfTI format
 ##OO-example
 Small example to illustrate pass by value and pass by reference
 
+##Data
+Datasets in .nii.gz form that we would like to include in our packets eventually
+
 #Packages Needed
 The following are the needed packges throughout all our repositories
- - assertthat, huge, R.matlab, utils
+ - assertthat, hash, huge, oro.nifti, plyr, R.matlab, utils
