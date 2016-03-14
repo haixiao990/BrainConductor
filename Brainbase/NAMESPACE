@@ -1,2 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 import(R.matlab)
+import(assertthat)
+import(oro.nifti)
+import(plyr)
