@@ -12,6 +12,8 @@ source("~/Brainconductor.git/Brainbase/R/conversion.R")
 source("~/Brainconductor.git/Brainbase/R/BCoRead.R")
 source("~/Brainconductor.git/Brainbase/R/reduction.R")
 source("~/Brainconductor.git/Brainstat/R/mediangraph.R")
+source("~/Brainconductor.git/Brainstat/R/difference.R")
+
 
 base.dir = "~/mridata/CPAC_from_TIGER/ABIDE"
 setwd(base.dir)
@@ -41,7 +43,7 @@ for(i in 1:length(subj.path)){
 csvfile = read.csv("~/Brainconductor.git/data/ABIDE_pittsburgh.csv")
 csvfile[,2] = as.character(csvfile[,2])
 csvfile[,2] = paste0("00", csvfile[,2])
-csvfile = csvfile[,c(1:8)]
+csvfile = csvfile[,c(1:3,5:7,9:11)]
 
 BCoLink.phenotype(csvfile, 2, c(1, 3, 5, 6, 7))
 
@@ -84,26 +86,46 @@ for(i in 1:length(idx)){
 #THIS IS BAD CODING STYLE. This will eventually be moved into Brainstat package
 
 #determine which ones are case and control
-case.idx = csvfile[which(csvfile[,3] == 1),2]
-control.idx = csvfile[which(csvfile[,3] == 2),2]
-#RIGHT NOW WE'RE NOT PAIRING CASE AND CONTROL. (Need to ask jian this)
+subj.id = csvfile$SUB_ID
 
-case.list = list()
-control.list = list()
+graph.list = list()
 
-for(i in 1:length(case.idx)){
-  load(paste0("graph_ABIDE_", case.idx[i], ".RData"))
-  case.list[[i]] = res
+for(i in 1:length(subj.id)){
+  load(paste0("graph_ABIDE_", subj.id[i], ".RData"))
+  graph.list[[i]] = res
 }
 
-for(i in 1:length(control.idx)){
-  load(paste0("graph_ABIDE_", control.idx[i], ".RData"))
-  control.list[[i]] = res
+#############
+#construct the case-control matching
+idx = which(csvfile$DX_GROUP == 1)
+mapping.mat = matrix(0, ncol = length(idx), nrow = 2)
+mapping.mat[1,] = idx
+csvfile2 = csvfile
+csvfile2$AGE_AT_SCAN = csvfile2$AGE_AT_SCAN/sd(csvfile2$AGE_AT_SCAN)
+csvfile2$FIQ = csvfile2$FIQ/sd(csvfile2$FIQ)
+
+for(i in 1:length(idx)){
+  idx.control = intersect(which(csvfile$DX_GROUP == 2), which(csvfile$SEX == csvfile[idx[i], "SEX"])) 
+  vec = sapply(1:length(idx.control), function(x){
+    sum((csvfile[idx.control[x],c("AGE_AT_SCAN", "FIQ")] - csvfile[idx[i],c("AGE_AT_SCAN", "FIQ")])^2)
+  })
+  mapping.mat[2,i] = idx.control[which.min(vec)]
 }
 
-median.case = median.graph(case.list)
-median.control = median.graph(control.list)
-median.diff = median.case - median.control
-table(median.diff)
+mapping.mat = t(mapping.mat)
 
+##############
+#compute graph differences
+diff.list = graph.difference(graph.list, mapping.mat)
+median.graph = median.graph(diff.list)
 
+idx = which(median.graph != 0)
+length(idx)
+table(abs(median.graph[idx]))
+table(sign(median.graph[idx]))
+
+idx = which(median.graph != 0, arr.ind = T)
+tab = table(idx[,1])
+mult.node = as.numeric(names(tab)[which(tab > 1)])
+graph.row.idx = which(idx[,1] %in% mult.node)
+median.graph[idx[graph.row.idx,1], idx[graph.row.idx,2]]
