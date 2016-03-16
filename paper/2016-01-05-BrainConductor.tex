@@ -110,7 +110,7 @@ data analysis tools}
 %% in the author list
 
 \author{Kevin Lin$^{1*}$, Haixiao Du$^{2*}$, Huazhong
-Yang$^2$, Yu Wang$^2$, Han Liu$^3${\color{red}}}
+Yang$^2$, Yu Wang$^2$, Han Liu$^3$}
 
 \begin{document}
 
@@ -137,7 +137,7 @@ statistical scientists, bringing state-of-the-art statistical methodologies and
 toolboxes into neuroscience, and enhancing the reproducibility of remarkable
 research results. We describe details of our motivations, goals, methods, and
 the difference between Brainconductor and related neuroinformatics projects.
-Finally, we present some working instances to better explain advantages of
+Finally, we present some working instances to better explain the advantages of
 Brainconductor.
 \end{abstract}
 
@@ -186,7 +186,7 @@ identifying relevant biomakers associated with a connectome signature)
 and uncertainty assessment (i.e., testing for significant difference
 between the connectomes of two populations, determining if 
 an extracted feature is due to chance).
-We strive to help enable ease of collaboration between these two communities.
+We strive to help enable the ease of collaboration between these two communities.
 While the neuroscientist will benefit from the modern techniques to
 analyze these datasets, the statistician
 will benefit from the lowered barrier-to-entry
@@ -261,13 +261,14 @@ most statistical methods. These concerns are summarized in \Fref{fig:nitrc}.
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_nitrc_chart_v2.png}
 \caption{Drawbacks of NITRC framework, description of the drawbacks and proposed
 solution
-in Brainconductor. {\color{red}Need to fix alignment}}
+in Brainconductor. %{\color{red}Need to fix alignment}
+}
 \label{fig:nitrc}
 \end{figure}
 
 
 The Brainconductor project serves two fundamental goals. In connectome-wide
-association studies, one fundamental goal is to relate differences the macro- and
+association studies, one fundamental goal is to relate differences between the macro- and
 microarchitecture of the human connectome to phenotypic variation among
 individuals\cite{milham2012open}. Towards this end,
 in our
@@ -306,7 +307,7 @@ incoming researchers, rapid experimentation of
 new statistical ideas, and a shorter development cycle.
 Second, R has a packaging protocol for different software
 modules that can be developed individually and distributed easily. The
-packaging system of R enables a world-wide collaborative construction of the
+packaging system of R enables a worldwide collaborative construction of the
 Comprehensive R Archive Network (CRAN) with a wide range of
 high-quality and well-documented statistical and visualization software
 packages. These hundreds of packages are independently developed for specific
@@ -323,9 +324,8 @@ Finally, the community of R is
 consisted of thousands of active users and developers including biologists,
 mathematicians, and engineers. The community provides a natural bridge to
 connect the neuroscientists and statisticians. This is much in line with the
-intention of the Brainconductor project and is the most important motivation of
-our
-selecting R.
+intention of the Brainconductor project and is the most important motivation for
+our selection of the R language.
 
 
 \subsection{Hierarchical Data Structure.} The Brainconductor
@@ -392,7 +392,7 @@ in the brain and each row represents
 a different sample from the series (i.e., time series in fMRI, directional
 series in DTI). To ensure that the column indices are
 compatible across different NIdata objects, we define generic templates in the
-Brainbase packages that dictate which voxel position are assigned to which
+Brainbase packages that dictate which voxel positions are assigned to which
 columns.
 These templates are associated with brain masks and the corresponding tissue
 priors. 
@@ -407,7 +407,7 @@ Moreover, if users want to perform a
 region-of-interest or parcellation-based analysis, we provide
 additional functions to change the template and perform the data extraction.
 However, users are able to define their own templates via the reslicing functions
-we provide based on the fslr package. {\color{red}Not implemented}
+we provide based on the fslr package. %{\color{red}Not implemented}
 
 To ensure that our 2D representation of neuroimaging data retains the
 spatial information of each voxel, the Brainbase package provides
@@ -426,8 +426,9 @@ is shown in \Fref{fig:fileformat}.
 \includegraphics[width=400pt]{fig/brainconductor/file_format.png}
 \caption{Schematic of the hierarchical data format. On the left is the raw DICOM
 data. In the middle is either the conversion to the NIfTI data or the already-preprocessed
-NIfTI data. In the right are the different components of the NIdata file format. {\color{red}need to change figure to show all the slots. This figure implies
-we should wrap functions in fslr to do preprocessing also}}
+NIfTI data. In the right are the different components of the NIdata file format. %{\color{red}need to change figure to show all the slots. This figure implies
+%we should wrap functions in fslr to do preprocessing also}
+}
 \label{fig:fileformat}
 \end{figure}
 
@@ -442,8 +443,8 @@ considerable burden on future developers to these new coding methods.
 Instead, we chose to keep the simplistic S4 system and design the hierarchical
 data structure to reduce the memory requirements for storing each NIdata object.
 
-{\color{red}Some concrete numbers of how much memory is saved}
-{\color{red}TODO: This code is half-way complete.}
+%{\color{red}Some concrete numbers of how much memory is saved}
+%{\color{red}TODO: This code is half-way complete.}
 
 \subsection{File Conversion.}
 For developers to write functions using our NIdata class, we need to provide
@@ -463,7 +464,7 @@ numbers of small files. This is due to each image slice stored as a separate
 file. ANALYZE and NIfTI-1 formats are more widely employed in the neuroimaging
 community. An ANALYZE format document is composed of one ``hdr" file and one
 ``img" file. The former contains information about the acquisition settings,
-while the ``img" file contain the image data. NIfTI was released as an extension
+while the ``img" file contains the image data. NIfTI was released as an extension
 of the ANALYZE format. The NIfTI data format merges the header and image
 information of ANALYZE document into one file (.nii) and enables extending of
 the header information. The NIfTI format has alleviated problems with data
@@ -477,11 +478,11 @@ into the desired NIdata object.
 We noticed that the oro.dicom package was difficult to use for new users, so
 we altered the implementation of how DICOM files are converted into NIfTI 
 files. An example of the conversion using oro.dicom compared to a conversion
-based on specialized in software such as MRIcron\cite{rorden2011mricro} is
+based on specialized software such as MRIcron\cite{rorden2011mricro} is
 shown in \Fref{fig:dicom}.
-{\color{red} TODO: The conversion from DICOM to NIfTI is not well implemented.
-We based on mature
-software dcm2nii (from MRIcron?).}
+%{\color{red} TODO: The conversion from DICOM to NIfTI is not well implemented.
+%We based on mature
+%software dcm2nii (from MRIcron?).}
 
 \begin{figure}[tb]
 \centering
@@ -491,9 +492,9 @@ software dcm2nii (from MRIcron?).}
 \end{figure}
 
 
-{\color{red}TODO: This code is half-way complete. To use dcm2nii, users will
-need
-matlab installed and linked...}
+%{\color{red}TODO: This code is half-way complete. To use dcm2nii, users will
+%need
+%matlab installed and linked...}
 
 
 
@@ -504,7 +505,7 @@ All software distributed by Brainconductor is in the form of R packages abiding
 to our NIdata structure. This
 simplifies software delivery, usage and maintenance but puts a burden on the
 developers
-to learn how to write R packages, including documentation and test cases.
+to learn how to write R packages, documentation and test cases.
 
 As seen by the success of CRAN and Bioconductor, the packaging system lies
 at the heart of why R has been a successful language. We follow their examples.
@@ -534,7 +535,7 @@ Each package has a designated maintainer responsive by email address and reacts
 to
 errors, bugs, and user questions. Packages without an active maintainer will be
 orphaned and no longer be part of the Brainconductor release.
-{\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
+%{\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
 
 
 \section{User Perspective}
@@ -552,12 +553,12 @@ seamlessly install any of the Brainconductor packages through our
 dedicated installation fuction `BCoInstall' or through CRAN itself.
 We have further wrapped popular functions in existing R packages
 within the CRAN Medical Imaging task view to handle our new NIdata format.
-The list of neuroscience-related packages included in Brainconductor are listed
-in \Fref{tab:neuro}, while statistical-related packages are listed in
-\Fref{tab:stat}.
+%The list of neuroscience-related packages included in Brainconductor are listed
+%in \Fref{tab:neuro}, while statistical-related packages are listed in
+%\Fref{tab:stat}.
 
 
-The base installation of Brainconductor also comes with standardized imaging
+The base installation of Brainconductor also comes with standard imaging
 resources
 used by the neuroscience community. These include datasets such
 as the Montreal Neurological
@@ -592,7 +593,7 @@ number.
 Typically, users might want to update their NIdata files to incorporate the
 phenotype information. In that case, Brainconductor has a `BCoLink.phenotype'
 function
-which can appropriately phenotype information in a Comma-Separated Value (CSV)
+which can appropriately link phenotype information in a Comma-Separated Value (CSV)
 file
 to NIdata objects with the corresponding ID.
 
@@ -634,7 +635,8 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
-\caption{{\color{red}typo in population}The workflow using Brainconductor's interface. Our illustration
+\caption{ %{\color{red}typo in population}
+The workflow using Brainconductor's interface. Our illustration
 is about estimating the connectome from fMRI data, but functions within can be
 adapted to estimate any desired quantity. BCoRead (A1) reads the
 raw neuroimaging
@@ -654,7 +656,7 @@ We note that our ``BCoPopulation.analysis'' can reverse the steps
 ``BCoPopulation.aggregate"
 and ``BCoPopulation.difference" to handle paired case-control studies.
 
-{\color{red}TODO: This code has just begun being developed.}
+%{\color{red}TODO: This code has just begun being developed.}
 
 \subsection{Visualization.}
 Visualization plays a tremendously vital role in neuroimaging analysis.
@@ -694,7 +696,7 @@ Lastly, to visualize the connectome, we develop `BCoView.connectome' which
 visualizes the
 3D brain and the corresponding ROI-analysis or parcellation-analysis.
 
-{\color{red}TODO: This code is half-way complete.}
+%{\color{red}TODO: This code is half-way complete.}
 
 \subsection{Reproducible Research.}
 
@@ -718,7 +720,7 @@ having to open R. Second, users can upload their analysis pipeline as a Jupyter
 Notebook onto the Brainconductor website for others to download and view. This
 directly support reproducible research.
 
-{\color{red}TODO: The website does not currently handle this.}
+%{\color{red}TODO: The website does not currently handle this.}
 
 \subsection{Statistical Analysis.}
 
@@ -743,11 +745,11 @@ models is a large area of statistical literature, and we have converted
 a multitude of graphical model estimators to accommodate our NIdata format.
 
 
-{\color{red}TODO: The wrapper functions need to be written.}
+%{\color{red}TODO: The wrapper functions need to be written.}
 %A forum within a community of interdisciplinary researchers enhances the
 %communication between …
 
-A brief Conclusion at last.
+%A brief Conclusion at last.
 
 \section{Case Study}
 
@@ -774,7 +776,7 @@ were normalized to Montreal Neurological Institute (MNI152) stereostatic
 space (2mm$^3$ isotropic) with linear regressions and spatially smoothed
 (applied FWHM = 6mm). 
 
-{\color{red}mention the memory size savings}
+%{\color{red}mention the memory size savings}
 
 After the data has been preprocessed, we use various tools developed in BCoViewer
 to visually explore the data. In \Fref{fig:features}, we see two different instances
@@ -835,128 +837,136 @@ a substantial role in the development of autism\cite{d2015cerebellar,becker2013a
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=150pt]{fig/brainconductor/aal_view.png}
-\caption{Perspective plot showing right lobule IV, V of cerebellar hemisphere
-(red) and Lobule VII of vermis (blue). {\color{red}include pictures of entire graph}}
+\includegraphics[width=400pt]{fig/brainconductor/aal_view_expand.png}
+\caption{(Left): Perspective plot showing right lobule IV, V of cerebellar hemisphere
+(red) and Lobule VII of vermis (blue). %\color{red}include pictures of entire graph}
+(Middle): A plot of the population connectome differences plotted from
+the axial view. Red edges are ones in
+controls but not in autistic subjects, while green is the opposite. The thickness of 
+the line denotes how many subject-pairs displayed this connectome difference.
+(Right): A plot of all 116 parcels represented by a circle where the size
+of the circle denotes the degree of that parcel in the population connectome difference.
+}
 \label{fig:aalconnectome}
 \end{figure}
 
 \newpage
 \appendix
-
-\section{Related Tables}
-
-
-We do a comparison of the differences between Bioconductor and Brainconductor
-in \Fref{tab:bioconductor}.
-
-\begin{table}
-\begin{footnotesize}
-\begin{center}
-    \begin{tabular}{ | p{2cm} | p{6.5cm} |  p{6.5cm} |}
-    \hline
-	Main Feature & \textbf{Bioconductor} & \textbf{Brainconductor} \\ \hline
-	Data Structure Standards & ExpressionSet and SummarizedExperiment S4 classes based on gene data, and annotation (meta) data associated based on some common databases 
-	& NIdata S4 class based on imaging data and annotation (meta) data \\\hline 
-	Annotation and Resources & Provides software (BioMart) for associating microarray and other genomic data in real time with biological metadata from web databases such as GenBank, Entrez genes and PubMed (annotate package) & 
-	Provides interface DICOM, ANALYZE and NIfTI formats currently, but many other formats exist we
-	might not be familiar with. We currently have only specific annotation files (tissue priors,
-	anatomical parcellation) mostly from the standard FSL installation. \\\hline
-	Website & \url{http://bioconductor.org} & \url{http://52.69.152.114/} 
-	\\\hline
-	Reproducible Research & Advocates using Knitr & Advocates using iPython \\\hline
-	Testing & Automated testing of submitted packages and daily testing of packages & Manual testing of submitted packages \\\hline
-	Short Courses & Developed a program of short courses on software and statistical methods for the analysis of genomic data. & Have no courses, but can make if the project is successfully popularized. \\\hline
-	Maintainers & Dedicated maintainers from all over the word & Only two maintainers \\\hline
-    \end{tabular}
-    \caption{Contrasts between Bioconductor and Brainconductor}
-    \label{tab:bioconductor}
-\end{center}
-\end{footnotesize}
-\end{table}
-
-We list related packages that we have integrated into Brainconductor's 
-base installation. Currently, we have focused on estimate the connectome for
-fMRI data. In \Fref{tab:neuro}, we list various packages that interact with
-fMRI data. In \Fref{tab:stat}, we list various packages that estimate the connectome
-based on data.
-
-\begin{table}
-\begin{footnotesize}
-\begin{center}
-    \begin{tabular}{ | l | p{4cm} |  p{6cm} |}
-    \hline
-	Package Name & Full Name & Description \\ \hline
-	AnalyzeFMRI & Functions for analysis of fMRI datasets % stored in the ANALYZE
-%or NIFTI format
-	&
-	Functions for I/O, visualisation and analysis of functional Magnetic Resonance
-Imaging (fMRI) datasets stored in the ANALYZE or NIFTI format.
-	\\\hline
-	brainR & Helper functions to misc3d and rgl packages for brain imaging &
-	Includes functions for creating 3D and 4D images using WebGL, RGL, and
-JavaScript Commands \\\hline
-	fmri & Analysis of fMRI experiments &
-	Provides R-functions to perform fmri analysis \\\hline
-	fslr & Wrapper Functions for FSL  from fMRI of the Brain &
-	Wrapper functions that interface with FSL using system commands. \\\hline
-	oro.dicom & DICOM Input / Output &
-	Data input/output functions for data in the DICOM standard \\\hline
-	oro.nifti & NIfTI + ANALYZE + AFNI Input / Output &
-	Functions for the input/output and visualization of data in the ANALYZE, NIfTI
-or AFNI formats. \\\hline
-	RNiftyReg & Image Registration Using the NiftyReg Library &
-	Provides an R interface to the NiftyReg image registration tools \\\hline
-	nat & NeuroAnatomy Toolbox for Analysis &
-	Enables analysis and visualisation of 3D biological image data, especially
-traced neurons \\\hline
-	nat.templatebrains & NeuroAnatomy Toolbox Extension for Handling Template
-Brains &
-	Extends package 'nat'  by providing objects and functions for handling template
-brains. \\
-	\hline
-    \end{tabular}
-    \caption{fMRI Packages Incorporated into the Brainconductor Project
-{\color{red}Why is the font different...}}
-    \label{tab:neuro}
-\end{center}
-\end{footnotesize}
-\end{table}
-
-\begin{table}
-\begin{footnotesize}
-\begin{center}
-    \begin{tabular}{ | l | p{4cm} |  p{6cm} |}
-    \hline
-	Package Name & Full Name & Description \\ \hline
-	bigdata & Big Data Analytics & Provides a LASSO regression using stability
-selection.
-	for large-scale data analysis \\\hline
-	camel & Calibrated Machine Learning & Provides a family of high-dimensional calibrated machine learning tools \\\hline
-	fastclime & A Solver for Parameterized Linear Programming to Precision Matrix
-Estimation &
-	An efficient method of recovering precision matrices by applying the parametric
-simplex method is provided in this package.  \\\hline
-	flare & Family of Lasso Regression &
-	Provides the implementation of a family of Lasso variants including Dantzig
-Selector, LAD Lasso, SQRT Lasso, Lq Lasso for estimating high dimensional sparse
-linear model. \\\hline
-	huge & High-Dimensional Undirected Graph Estimation &
-	Provides a general framework for high-dimensional undirected graph
-estimation.\\\hline
-	picasso &  Pathwise Calibrated Sparse Shooting Algorithm & Implements the
-pathwise calibrated sparse shooting algorithm regularized sparse linear
-regression, sparse logistic regression, and sparse undirected graphical model
-estimation. \\\hline
-	smart & Sparse Multivariate Analysis via Rank Transformation & Provides a
-general framework for analyzing (including estimation, feature selection and
-prediction) and visualize big data. \\\hline
-    \end{tabular}
-   \caption{Statistical Packages Incorporated into the Brainconductor Project}
-   \label{tab:stat}
-\end{center}
-\end{footnotesize}
-\end{table}
+%
+%\section{Related Tables}
+%
+%
+%We do a comparison of the differences between Bioconductor and Brainconductor
+%in \Fref{tab:bioconductor}.
+%
+%\begin{table}
+%\begin{footnotesize}
+%\begin{center}
+%    \begin{tabular}{ | p{2cm} | p{6.5cm} |  p{6.5cm} |}
+%    \hline
+%	Main Feature & \textbf{Bioconductor} & \textbf{Brainconductor} \\ \hline
+%	Data Structure Standards & ExpressionSet and SummarizedExperiment S4 classes based on gene data, and annotation (meta) data associated based on some common databases 
+%	& NIdata S4 class based on imaging data and annotation (meta) data \\\hline 
+%	Annotation and Resources & Provides software (BioMart) for associating microarray and other genomic data in real time with biological metadata from web databases such as GenBank, Entrez genes and PubMed (annotate package) & 
+%	Provides interface DICOM, ANALYZE and NIfTI formats currently, but many other formats exist we
+%	might not be familiar with. We currently have only specific annotation files (tissue priors,
+%	anatomical parcellation) mostly from the standard FSL installation. \\\hline
+%	Website & \url{http://bioconductor.org} & \url{http://52.69.152.114/} 
+%	\\\hline
+%	Reproducible Research & Advocates using Knitr & Advocates using iPython \\\hline
+%	Testing & Automated testing of submitted packages and daily testing of packages & Manual testing of submitted packages \\\hline
+%	Short Courses & Developed a program of short courses on software and statistical methods for the analysis of genomic data. & Have no courses, but can make if the project is successfully popularized. \\\hline
+%	Maintainers & Dedicated maintainers from all over the word & Only two maintainers \\\hline
+%    \end{tabular}
+%    \caption{Contrasts between Bioconductor and Brainconductor}
+%    \label{tab:bioconductor}
+%\end{center}
+%\end{footnotesize}
+%\end{table}
+%
+%We list related packages that we have integrated into Brainconductor's 
+%base installation. Currently, we have focused on estimate the connectome for
+%fMRI data. In \Fref{tab:neuro}, we list various packages that interact with
+%fMRI data. In \Fref{tab:stat}, we list various packages that estimate the connectome
+%based on data.
+%
+%\begin{table}
+%\begin{footnotesize}
+%\begin{center}
+%    \begin{tabular}{ | l | p{4cm} |  p{6cm} |}
+%    \hline
+%	Package Name & Full Name & Description \\ \hline
+%	AnalyzeFMRI & Functions for analysis of fMRI datasets % stored in the ANALYZE
+%%or NIFTI format
+%	&
+%	Functions for I/O, visualisation and analysis of functional Magnetic Resonance
+%Imaging (fMRI) datasets stored in the ANALYZE or NIFTI format.
+%	\\\hline
+%	brainR & Helper functions to misc3d and rgl packages for brain imaging &
+%	Includes functions for creating 3D and 4D images using WebGL, RGL, and
+%JavaScript Commands \\\hline
+%	fmri & Analysis of fMRI experiments &
+%	Provides R-functions to perform fmri analysis \\\hline
+%	fslr & Wrapper Functions for FSL  from fMRI of the Brain &
+%	Wrapper functions that interface with FSL using system commands. \\\hline
+%	oro.dicom & DICOM Input / Output &
+%	Data input/output functions for data in the DICOM standard \\\hline
+%	oro.nifti & NIfTI + ANALYZE + AFNI Input / Output &
+%	Functions for the input/output and visualization of data in the ANALYZE, NIfTI
+%or AFNI formats. \\\hline
+%	RNiftyReg & Image Registration Using the NiftyReg Library &
+%	Provides an R interface to the NiftyReg image registration tools \\\hline
+%	nat & NeuroAnatomy Toolbox for Analysis &
+%	Enables analysis and visualisation of 3D biological image data, especially
+%traced neurons \\\hline
+%	nat.templatebrains & NeuroAnatomy Toolbox Extension for Handling Template
+%Brains &
+%	Extends package 'nat'  by providing objects and functions for handling template
+%brains. \\
+%	\hline
+%    \end{tabular}
+%    \caption{fMRI Packages Incorporated into the Brainconductor Project
+%%{\color{red}Why is the font different...}
+%}
+%    \label{tab:neuro}
+%\end{center}
+%\end{footnotesize}
+%\end{table}
+%
+%\begin{table}
+%\begin{footnotesize}
+%\begin{center}
+%    \begin{tabular}{ | l | p{4cm} |  p{6cm} |}
+%    \hline
+%	Package Name & Full Name & Description \\ \hline
+%	bigdata & Big Data Analytics & Provides a LASSO regression using stability
+%selection.
+%	for large-scale data analysis \\\hline
+%	camel & Calibrated Machine Learning & Provides a family of high-dimensional calibrated machine learning tools \\\hline
+%	fastclime & A Solver for Parameterized Linear Programming to Precision Matrix
+%Estimation &
+%	An efficient method of recovering precision matrices by applying the parametric
+%simplex method is provided in this package.  \\\hline
+%	flare & Family of Lasso Regression &
+%	Provides the implementation of a family of Lasso variants including Dantzig
+%Selector, LAD Lasso, SQRT Lasso, Lq Lasso for estimating high dimensional sparse
+%linear model. \\\hline
+%	huge & High-Dimensional Undirected Graph Estimation &
+%	Provides a general framework for high-dimensional undirected graph
+%estimation.\\\hline
+%	picasso &  Pathwise Calibrated Sparse Shooting Algorithm & Implements the
+%pathwise calibrated sparse shooting algorithm regularized sparse linear
+%regression, sparse logistic regression, and sparse undirected graphical model
+%estimation. \\\hline
+%	smart & Sparse Multivariate Analysis via Rank Transformation & Provides a
+%general framework for analyzing (including estimation, feature selection and
+%prediction) and visualize big data. \\\hline
+%    \end{tabular}
+%   \caption{Statistical Packages Incorporated into the Brainconductor Project}
+%   \label{tab:stat}
+%\end{center}
+%\end{footnotesize}
+%\end{table}
 
 \begin{methods}
 \section{Using Brainconductor.}
@@ -1016,13 +1026,13 @@ The output provides possible solutions to identified problems, and the help page
 %% the \bibliography{} command.
 
 
-\bibliography{../bib}
+\bibliography{bib}
 
 %% Here is the endmatter stuff: Supplementary Info, etc.
 %% Use \item's to separate, default label is "Acknowledgements"
 
 \begin{addendum}
- \item Put acknowledgements here.
+% \item Put acknowledgements here.
  \item[Competing Interests] The authors declare that they have no
 competing financial interests.
  \item[Correspondence] Correspondence and requests for materials should be
