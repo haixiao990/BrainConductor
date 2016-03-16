@@ -116,16 +116,16 @@ mapping.mat = t(mapping.mat)
 
 ##############
 #compute graph differences
-diff.list = graph.difference(graph.list, mapping.mat)
-median.graph = median.graph(diff.list)
+diff.list = graph.difference(graph.list, mapping.mat, target.sparsity = 0.1)
+med.graph = median.graph(diff.list, target.quantile = 0.975)
 
-idx = which(median.graph != 0)
+idx = which(med.graph != 0)
 length(idx)
-table(abs(median.graph[idx]))
-table(sign(median.graph[idx]))
+table(abs(med.graph[idx]))
+table(sign(med.graph[idx]))
 
-idx = which(median.graph != 0, arr.ind = T)
+idx = which(med.graph != 0, arr.ind = T)
 tab = table(idx[,1])
 mult.node = as.numeric(names(tab)[which(tab > 1)])
 graph.row.idx = which(idx[,1] %in% mult.node)
-median.graph[idx[graph.row.idx,1], idx[graph.row.idx,2]]
+med.graph[idx[graph.row.idx,1], idx[graph.row.idx,2]]
