@@ -1,7 +1,24 @@
+setGeneric("convert.4Dto2D", function(obj, ...) standardGeneric("convert.4Dto2D"))
+
+setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, verbose = TRUE){
+  new.obj = obj
+
+  if(!is.null(template)){
+    assert_that(class(template) == "Template") #WARNING: need to relax this 
+    template = template@data@mat
+  }
+
+  res = .convert.4Dto2Dmat(obj@data@mat, template, verbose)
+
+  new.obj@data = .BCoData2D(mat = res$mat, mask = res$mask, base.dim = dim(obj@data@mat)[1:3])
+
+  new.obj
+})
+
 #convert 4D matrix into 2D matrix
 .convert.4Dto2Dmat <- function(dat, template = NULL, verbose = TRUE){
   assert_that(is.numeric(dat) & length(dim(dat))==4)
-  assert_that(is.null(template) || all(dim(dat) == dim(template)))
+  assert_that(is.null(template) || all(dim(dat)[1:3] == dim(template)))
 
   dimen = dim(dat)
   if(is.null(template)){
@@ -27,9 +44,13 @@
   assert_that(max(mask) <= prod(dimen))
   assert_that(ncol(mat) == length(mask))
 
-  dat = array(NA, dim = dimen)
-  array.idx = sapply(mask, .convert.2Dto3Dloc, dimen = dimen)
-  dat[array.idx[,1], array.idx[,2], array.idx[,3],] = mat #NEED TO TEST IF THIS WORKS
+  dat = array(0, dim = c(dimen, nrow(mat)))
+
+  #change the mask to handle the indices across different time slices
+  idx = as.numeric(sapply(0:(nrow(mat)-1), function(x){mask+prod(dimen)*x}))  
+
+  #fill in the values
+  dat[idx] = t(mat)
 
   dat
 }

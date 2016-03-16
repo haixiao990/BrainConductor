@@ -44,4 +44,4 @@ Datasets in .nii.gz form that we would like to include in our packets eventually
 
 #Packages Needed
 The following are the needed packges throughout all our repositories
- - assertthat, hash, huge, oro.nifti, R.matlab, utils
+ - assertthat, hash, huge, oro.nifti, plyr, R.matlab, utils

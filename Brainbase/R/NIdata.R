@@ -2,32 +2,20 @@
 #For details on Fields in NIFTI header, Refer to: http://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields
 
 #set the data classes, either 2D or 4D
-.BCoData2D <- setClass("BCoData2D", representation(mat = "matrix", idx = "numeric", base.dim =
+.BCoData2D <- setClass("BCoData2D", representation(mat = "matrix", mask = "numeric", base.dim =
   "numeric"))
 
 .BCoData4D <- setClass("BCoData4D", representation(mat = "array"))
 
-setClassUnion("BCoData", c("BCoData2D", "BCoData4D"))
+.BCoData2DReduc <- setClass("BCoData2DReduc", representation(mat = "matrix", col.mapping = "numeric", 
+  type = "character"))
+
+setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 
 #set the base class
 .BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))
 
-#set the NIdata type
-
-.NIdata <- setClass("NIdata",
- representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
- ID = "character"), contains = "BCoBase")
-
-.Template <- setClass("Template", contains = "BCoBase")
-
-#WARNING: Now that I think about it, these three might be just
-# effectively all be the same...
-setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
-setClass("RegionofInterest", contains = "BCoBase")
-setClass("TissuePriors", representation(tissue = "character"), 
-  contains = "BCoBase", prototype(data = list()))
-
-setClass("scanner_info",
+.scanner_info <- setClass("scanner_info",
          representation("sizeof_hdr"="numeric",
                         "data_type"="character",
                         "db_name"="character",
@@ -123,3 +111,51 @@ setClass("scanner_info",
                    "image"=array(1:4,dim=c(2,2)))
 
 )
+
+#set the NIdata type
+
+.NIdata <- setClass("NIdata",
+ representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
+ ID = "character"), contains = "BCoBase")
+
+.Template <- setClass("Template", contains = "BCoBase")
+
+#WARNING: Now that I think about it, these three might be just
+# effectively all be the same...
+setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
+setClass("RegionofInterest", contains = "BCoBase")
+setClass("TissuePriors", representation(tissue = "character"), 
+  contains = "BCoBase", prototype(data = list()))
+
+
+setMethod("show", "NIdata", function(object){
+  if(length(object@ID) == 0) subj.name = "(Unidentified Subject)" else subj.name = paste0("Subject ", object@ID)
+  cat(paste0("NIdata object for ", subj.name, "\n"))
+
+  if(all(dim(object@data@mat) == 0)){
+    cat("  No data stored in NIdata.\n")
+  } else {
+    if(class(object@data) == "BCoData2D"){
+      perc = length(which(object@data@mat[1,] != 0))
+
+      cat(paste0("  2-Dimensional data representing a 4D image of dimension ",
+        paste0(object@data@base.dim, collapse = ", "), ":\n    ", nrow(object@data@mat), 
+        " elements in series, ", perc,
+        " voxels active (", round(100*perc/ncol(object@data@mat), 2), 
+        "% of all voxels in mask).\n"))
+    } else if (class(object@data) == "BCoData4D") {
+      cat(paste0("  4-Dimensional data of dimension ", 
+        paste0(dim(object@data@mat), collapse = ", "), ": ", nrow(object@data@mat),
+        " elements in series.\n"))
+ 
+    } else if (class(object@data) == "BCoData2DReduc") {
+      cat(paste0("  2-Dimensional data reduced from voxel-level data. ",
+       nrow(object@data@mat), " elements in series, ", ncol(object@data@mat),
+       " different series.\n"))
+    }
+  }
+
+  cat(paste0("  Object consumes about ", round(as.numeric(object.size(object))/1048576, 2), " megabytes.\n"))
+
+  cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
+})
