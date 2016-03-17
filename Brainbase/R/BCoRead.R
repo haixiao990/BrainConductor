@@ -1,13 +1,46 @@
 #WE NEED A SPECIAL PRINT STATEMENT
 
 #Our generic read function
-BCoRead <- function(input, controls = NULL, subject.ID = ""){
+#"controls" is a list which contains preprocessing commands
+BCoRead <- function(input, controls = list(), subject.ID = ""){
 
-  #TEMPORARY LOAD
-  dat = readNIfTI(input)
+  #determine if the 'input' file is DICOM or NIfTI
+  file.ending = strsplit(input, "\\.")[[1]]
+  file.ending = file.ending[length(file.ending)]
+  assert_that(file.ending %in% c(".dcm", "gz", "nii"))
+
+  #if dicom, read dicom reader and convert into 
+  if(file.ending == ".dcm"){
+    
+    #WARNING: The following code does not work, but should be something like this:
+    dat = read.DICOM.dcm(input)
+
+  #if nifti, use the nifti functions
+  } else {
+    
+    #WARNING: We want to use our readNIfTI.R function?  
+    dat = readNIfTI(input)
+  }
+
+  #WARNING; This currently doesn't handle the NIfTI handler
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), ID = subject.ID)
 
+  #immediately convert to 2D matrix if it is dictated in "controls"
+  if(!is.null(controls$convert2D) && controls$convert2D == TRUE){
+    res = convert.4Dto2D(res)
+  }
+
+  #immediately apply a mask if one is supplied
+  if(!is.null(controls$template)){
+    #WARNING: How to pass in the arguments for BCoReduce?
+    res = BCoReduce(res, controls$template)
+  }
+
   res
+}
+
+BCoWrite <- function(obj, type = c("NIfTI", "RData")){
+
 }
 
 
