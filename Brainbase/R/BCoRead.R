@@ -2,7 +2,7 @@
 
 #Our generic read function
 #"controls" is a list which contains preprocessing commands
-BCoRead <- function(input, controls = NULL, subject.ID = ""){
+BCoRead <- function(input, controls = list(), subject.ID = ""){
 
   #determine if the 'input' file is DICOM or NIfTI
   file.ending = strsplit(input, "\\.")[[1]]
@@ -26,12 +26,12 @@ BCoRead <- function(input, controls = NULL, subject.ID = ""){
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), ID = subject.ID)
 
   #immediately convert to 2D matrix if it is dictated in "controls"
-  if(controls$convert2D == TRUE){
+  if(!is.null(controls$convert2D) && controls$convert2D == TRUE){
     res = convert.4Dto2D(res)
   }
 
   #immediately apply a mask if one is supplied
-  if(!is.null(controsl$template)){
+  if(!is.null(controls$template)){
     #WARNING: How to pass in the arguments for BCoReduce?
     res = BCoReduce(res, controls$template)
   }

@@ -1,5 +1,9 @@
 context("Reading and phenotype linking")
 
+library(assertthat)
+library(oro.nifti)
+library(testthat)
+
 source("~/Brainconductor.git/Brainbase/R/BCoRead.R")
 source("~/Brainconductor.git/Brainbase/R/NIdata.R")
 
