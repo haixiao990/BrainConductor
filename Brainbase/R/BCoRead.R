@@ -2,7 +2,8 @@
 
 #Our generic read function
 #"controls" is a list which contains preprocessing commands
-BCoRead <- function(input, controls = list(), subject.ID = ""){
+BCoRead <- function(input, template = NULL, subject.ID = "",
+  controls = list(convert2D = F, method = "mean", verbose = T)){
 
   #determine if the 'input' file is DICOM or NIfTI
   file.ending = strsplit(input, "\\.")[[1]]
@@ -18,12 +19,11 @@ BCoRead <- function(input, controls = list(), subject.ID = ""){
   #if nifti, use the nifti functions
   } else {
     
-    #WARNING: We want to use our readNIfTI.R function?  
     dat = readNIfTI(input)
   }
 
-  #WARNING; This currently doesn't handle the NIfTI handler
-  res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), ID = subject.ID)
+  res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), 
+   scanner_info = .create.scaninfo(dat), ID = subject.ID)
 
   #immediately convert to 2D matrix if it is dictated in "controls"
   if(!is.null(controls$convert2D) && controls$convert2D == TRUE){
@@ -31,18 +31,13 @@ BCoRead <- function(input, controls = list(), subject.ID = ""){
   }
 
   #immediately apply a mask if one is supplied
-  if(!is.null(controls$template)){
+  if(!is.null(template)){
     #WARNING: How to pass in the arguments for BCoReduce?
-    res = BCoReduce(res, controls$template)
+    res = BCoReduce(res, template, controls$method, controls$verbose)
   }
 
   res
 }
-
-BCoWrite <- function(obj, type = c("NIfTI", "RData")){
-
-}
-
 
 BCoReadandAssign <- function(input, variable.header, controls = NULL, subject.ID = ""){
   res = BCoRead(input, controls, subject.ID)

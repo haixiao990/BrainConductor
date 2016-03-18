@@ -1,5 +1,8 @@
 setGeneric("BCoReduce", function(obj, template, ...) standardGeneric("BCoReduce"))
 
+#WARNING: need a method if there template is just a vector
+#WARNING: need a way to pass in a function 
+
 setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template, 
  method = "mean", verbose = TRUE){
 
