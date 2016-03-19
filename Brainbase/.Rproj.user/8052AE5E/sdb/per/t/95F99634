@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "data.import <- function (filename, filetype = NULL, reorient = F,...)\n{\n  filename <- sub(\"\\\\.gz$\", \"\", filename)\n  if(is.null(filetype)){\n    parts <- strsplit(filename,\"\\\\.\")\n    nparts <- length(parts[[1]])\n    filesuff <- parts[[1]][nparts] \n    filetype  <- switch(filesuff, \n                        nii = 'NIFTI',\n                        hdr = 'ANALYZE',\n                        HEAD = 'AFNI',\n                        dcm = 'DICOMfile')\n    if(nparts == 1 || is.null(filetype))\n      .stop('The filename is invalid, please either input the entire filename\n             or set up a filetype if the filename is just a prefix')\n  }\n  allowed_type <- c(\"NIFTI\", \"ANALYZE\", \"AFNI\", \"DICOMfile\", \"DICOMdir\")\n  if(!filetype %in% allowed_type)\n    .stop('Invalid filetype')\n  if (filetype == 'NIFTI')\n    object <- readNIFTI(filename, reorient = reorient)\n  if (filetype == 'ANALYZE'){\n    object <- readANALYZE(filename,...)\n    object <- as(object,'nifti')\n  }\n  if (filetype == 'DICOMfile'){\n    object <- readDICOMFile(filename,...)\n    object <- dicom2nifti(object)\n  }\n  if(filetype == 'DICOMdir'){\n    object <- readDICOM(filename,...)\n    object <- dicom2nifti(object)\n  }\n  if (filetype == 'AFNI'){\n    object <- read.AFNI(filename,setmask=F,...)\n    object <- fmri2oro(object)\n  }\n  return(object)\n}\n\ndata.export <- function(object, filename, filetype = NULL,...){\n  if(is.null(filetype)){\n    parts <- strsplit(filename,\"\\\\.\")\n    nparts <- length(parts[[1]])\n    filesuff <- parts[[1]][nparts] \n    filetype  <- switch(filesuff, \n                        nii = 'NIFTI',\n                        hdr = 'ANALYZE',\n                        HEAD = 'AFNI',\n                        dcm = 'DICOMfile')\n    if(nparts == 1 || is.null(filetype))\n      .stop('The filename is invalid, please either input the entire filename\n             or set up a filetype if the filename is just a prefix')\n  }\n  allowed_type <- c(\"NIFTI\", \"ANALYZE\", \"AFNI\", \"DICOMfile\", \"DICOMdir\")\n  if(!filetype %in% allowed_type)\n    .stop('Invalid filetype')\n  if (filetype == 'NIFTI')\n    writeNIFTI(filename, reorient = reorient)\n  if (filetype == 'ANALYZE'){\n    object <- readANALYZE(filename)\n    object <- as(object,'nifti')\n  }\n  if (filetype == 'DICOMfile'){\n    object <- readDICOMFile(filename)\n    object <- dicom2nifti(object)\n  }\n  if(filetype == 'DICOMdir'){\n    object <- readDICOM(filename)\n    object <- dicom2nifti(object)\n  }\n  if (filetype == 'AFNI'){\n    object <- read.AFNI(filename,setmask=F)\n    object <- fmri2oro(object)\n  }\n  \n}  \n  ",
+    "created" : 1458231000206.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1185222669",
+    "id" : "95F99634",
+    "lastKnownWriteTime" : 1457622575,
+    "last_content_update" : 1457622575,
+    "path" : "D:/Documents/github/BrainConductor/Brainbase/R/io.R",
+    "project_path" : "R/io.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
