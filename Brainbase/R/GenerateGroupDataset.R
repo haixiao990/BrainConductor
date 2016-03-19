@@ -19,8 +19,8 @@ setMethod("GenerateGroupDataset", signature("character", "character", "character
                           rda   = 'Rdata',
                           "NIfile")
       if (filetype == 'Rdata'){
-        Objname <- load(filename[i])          #How to return the object saved in Rdata file?
-        ####
+        Objname <- load(filename[i])          
+        Obj <- get(Objname)
       } else {
         BCoRead(filename[i])
       }
