@@ -1,9 +1,11 @@
-#WE NEED A SPECIAL PRINT STATEMENT
-
 #Our generic read function
 #"controls" is a list which contains preprocessing commands
 BCoRead <- function(input, template = NULL, subject.ID = "",
   controls = list(convert2D = F, method = "mean", verbose = T)){
+
+  assert_that(is.null(tmplate) || class(template) == "Template")
+
+  con = convert.list2NIcontrol(controls)
 
   #determine if the 'input' file is DICOM or NIfTI
   file.ending = strsplit(input, "\\.")[[1]]
@@ -13,7 +15,7 @@ BCoRead <- function(input, template = NULL, subject.ID = "",
   #if dicom, read dicom reader and convert into 
   if(file.ending == ".dcm"){
     
-    #WARNING: The following code does not work, but should be something like this:
+    #WARNING: The following code might not work, but should be something like this:
     dat = read.DICOM.dcm(input)
 
   #if nifti, use the nifti functions
@@ -26,14 +28,13 @@ BCoRead <- function(input, template = NULL, subject.ID = "",
    scanner_info = .create.scaninfo(dat), ID = subject.ID)
 
   #immediately convert to 2D matrix if it is dictated in "controls"
-  if(!is.null(controls$convert2D) && controls$convert2D == TRUE){
+  if(con@convert2D){
     res = convert.4Dto2D(res)
   }
 
   #immediately apply a mask if one is supplied
-  if(!is.null(template)){
-    #WARNING: How to pass in the arguments for BCoReduce?
-    res = BCoReduce(res, template, controls$method, controls$verbose)
+  if(!is.null(template) & con@convert2D){
+    res = BCoReduce(res, template, con@method, con@verbose)
   }
 
   res

@@ -1,5 +1,24 @@
 #DOES THIS NEED TO BE AN S4 FUNCTION?
 
+.NIcontrol <- setClass("NIcontrol", representation(convert2D = "logical",
+  method = "function", verbose = "logical"),
+  prototype(convert2D = F, method = .reduction.mean, verbose = T))
+
+convert.list2NIcontrol <- function(lis){
+  con = .NIcontrol()
+  
+  if(!is.null(lis$convert2D)) con@convert2D = lis$convert2D
+  if(!is.null(lis$verbose)) con@verbose = lis$verbose
+
+  if(!is.null(lis$method)){
+    if(class(lis$method) == "function") con@method = lis$method
+    if(lis$method == "mean") con@method = .reduction.mean
+    if(lis$method == "pca") con@method = .reduction.pca
+  }
+   
+  con
+}
+
 convert.nifti2nidata <- function(dat){
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)),
    scanner_info = .create.scaninfo(dat), ID = subject.ID)

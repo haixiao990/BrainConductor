@@ -4,14 +4,14 @@ setMethod("BCoWrite", signature("NIdata"), function(obj, filename.prefix,
   type = c("NIfTI", "RData"), 
   controls = list(onefile = T, gzipped = T, verbose = F, warn = -1)){
 
-  #need to check type is valid
+  assert_that(type %in% c("NIfTI", "RData") & length(type) == 1)
   type = type[1]  
 
   if(type == "RData"){
     save(obj, file = paste0(filename.prefix, ".RData"))
   } else if(type == "NIfTI"){
 
-    #warning: make sure the matrix is 4D or 2D but not 2Dreduc
+    assert_that(class(obj@data) == "BCoData2D" | class(obj@data) == "BCoData4D")
 
     nim = convert.nidata2nift(obj)
     writeNIfTI(nim, filename.prefix, controls$onefile, controls$gzipped,

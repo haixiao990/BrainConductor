@@ -118,6 +118,9 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
  ID = "character"), contains = "BCoBase")
 
+
+#WARNING: should give warning if there are no 0's
+#WARNING: make sure there is only one row
 .Template <- setClass("Template", contains = "BCoBase")
 
 #WARNING: Now that I think about it, these three might be just

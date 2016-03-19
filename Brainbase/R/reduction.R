@@ -1,39 +1,68 @@
 setGeneric("BCoReduce", function(obj, template, ...) standardGeneric("BCoReduce"))
 
-#WARNING: need a method if there template is just a vector
-#WARNING: need a way to pass in a function 
-
 setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template, 
  method = "mean", verbose = TRUE){
 
-  #WARNING: Currently we have to have it in 2D
-  assert_that(class(obj@data) == "BCoData2D")
+  #check dimensions are the same
+  #need to figure out which representation it uses...
+  if(class(template@data) == "BCoData4D") {
+    assert_that(all(dim(Template@data) == obj@data@base.dim))
+  } else if(class(template@data) == "BCoData2D") {
+    assert_that(all(Template@data@base.dim == obj@data@base.dim))
+  }
+
+  #extract the vector
+  if(class(template@data) == "BCoData4D") {
+    vec = Template@data@mat[obj@data@mask]
+  } else {
+    #handle BCoData2D
+    #WARNING: Test this!!!
+    idx = intersect(Template@data@mask, obj@data@mask)
+    idx.remap = mapvalues(idx, from = obj@data@mask, to = 1:ncol(obj@data@mat))
+    vec = rep(0, ncol(obj@data@mat))
+    vec[idx.remap] = Template[idx]
+  }
+
+  #run in vector form
+  BCoReduce(NIdata, vec, method, verbose)
+
+}
+
+setMethod("BCoReduce", signature("NIdata", "numeric"), function(obj, template,
+ method = "mean", verbose = TRUE){
   assert_that(method %in% c("mean", "pca"))
+  assert_that(ncol(obj@data@mat) == length(template))
+
+  if(class(obj@data) == "BCoData2D"){
+    if(verbose) print("Converting 4D matrix into 2D matrix.\n")
+    obj = convert.4Dto2D(obj)
+  }
 
   if(method == "mean"){
     func = .reduction.mean
   } else if(method == "pca"){
     func = .reduction.pca
-  }   
+  } else {
+    assert_that(class(method) == "function")  
+    func = method
+  }
 
   #find out which voxel locations are empty
   nonempty.col = which(obj@data@mat[1,] != 0)
+  assert_that(length(nonempty.col) > 0)
 
-  #WARNING: This code is only for parcellations
   idx = obj@data@mask[nonempty.col]
   assert_that(length(nonempty.col) <= length(obj@data@mask))
 
-  uniq = unique(as.numeric(template@data@mat))
-  uniq = uniq[-which(uniq == 0)]
+  uniq = unique(template)
+  if(length(which(uniq == 0)) > 0) uniq = uniq[-which(uniq == 0)]
   newmat = matrix(0, ncol = length(uniq), nrow = nrow(obj@data@mat))
 
   for(i in 1:length(uniq)){
-    idx.inmat = intersect(idx, which(template@data@mat == uniq[i]))
+    idx.inter = intersect(idx, which(template == uniq[i]))
 
     if(length(idx.inmat) > 0){
-      col.idx = mapvalues(idx.inmat, from = idx, to = nonempty.col, warn_missing = FALSE)
-      assert_that(length(col.idx) == length(idx.inmat))
-      newmat[,i] = func(obj@data@mat, col.idx)
+      newmat[,i] = func(obj@data@mat, idx.inter)
  
       if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')
     }
@@ -44,15 +73,6 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template,
 
   newobj
 })
-
-#generic wrapper function to reduce
-BCoreduce <- function(dat, template){
-  #FILL THIS IN WHEN WE DECIDE UPON THE REPRESENTATION
-}
-
-#reduce voxel-level 2D matrix into parcel-level 2D matrix
-
-#reduce voxel-level 2D matrix by gray matter tissue prior
 
 #do reduction by doing pca on all the time-series in "idx"
 # and taking the leading eigenvector
