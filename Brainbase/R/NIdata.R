@@ -15,7 +15,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 #set the base class
 .BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))
 
-.scanner_info <- setClass("scanner_info",
+.scanner_info <- setClass("scanner_info",              #Haixiao: I'll check the header a.s.a.p.
          representation("sizeof_hdr"="numeric",
                         "data_type"="character",
                         "db_name"="character",
@@ -36,7 +36,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "scl_slope"="numeric",
                         "scl_inter"="numeric",
                         "slice_end"="numeric",
-                        "slice_code"="character", # character?
+                        "slice_code"="character", # character? 
                         "xyzt_units"="character", # character?
                         "cal_max"="numeric",
                         "cal_min"="numeric",
