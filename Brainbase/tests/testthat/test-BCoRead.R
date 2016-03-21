@@ -6,6 +6,10 @@ library(testthat)
 
 source("~/Brainconductor.git/Brainbase/R/BCoRead.R")
 source("~/Brainconductor.git/Brainbase/R/NIdata.R")
+source("~/Brainconductor.git/Brainbase/R/conversion.R")
+source("~/Brainconductor.git/Brainbase/R/reduction.R")
+source("~/Brainconductor.git/Brainbase/R/BCoRead_Helper.R")
+
 
 test_that("Verify phenotype linking works", {
   subj1 = BCoRead("~/Brainconductor.git/data/50002_ABIDE_segment.nii.gz", subject.ID = "50002")
@@ -22,4 +26,19 @@ test_that("Verify phenotype linking works", {
 
   expect_true(length(subj1@phenotype) == 5)
   expect_true(length(subj2@phenotype) == 5)
+})
+
+test_that("BCoRead is working", {
+  subj1 = BCoRead("~/Brainconductor.git/data/50002_ABIDE_segment.nii.gz", subject.ID = "50002")
+
+  mat = get.matrix(subj1) 
+
+  expect_true(length(getSlots(class(subj1@scanner_info))) == 45)
+  expect_true(all(dim(mat) == c(91, 109, 91, 10)))
+ 
+  subj1 = BCoRead("~/Brainconductor.git/data/50002_ABIDE_segment.nii.gz", subject.ID = "50002", controls = list(convert2D = T))
+ 
+  mat = get.matrix(subj1)
+
+  expect_true(all(dim(mat) == c(10, 252390)))
 })

@@ -26,7 +26,7 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template,
   #run in vector form
   BCoReduce(NIdata, vec, method, verbose)
 
-}
+})
 
 setMethod("BCoReduce", signature("NIdata", "numeric"), function(obj, template,
  method = "mean", verbose = TRUE){

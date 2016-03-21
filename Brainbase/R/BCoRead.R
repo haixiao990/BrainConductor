@@ -1,9 +1,9 @@
 #Our generic read function
 #"controls" is a list which contains preprocessing commands
 BCoRead <- function(input, template = NULL, subject.ID = "",
-  controls = list(convert2D = F, method = "mean", verbose = T)){
+  controls = list(convert2D = F, method = "mean", verbose = F)){
 
-  assert_that(is.null(tmplate) || class(template) == "Template")
+  assert_that(is.null(template) || class(template) == "Template")
 
   con = convert.list2NIcontrol(controls)
 
