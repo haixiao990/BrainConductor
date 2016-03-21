@@ -1,12 +1,12 @@
 {
-    "contents" : "setGeneric(\"GenerateGroupDataset\", function(Path, SbjList, Mask, ...) standardGeneric(\"GenerateGroupDataset\")) \n#Maybe Mask and Template could also be in NIdata class format, with a specific description slot to indicate data, mask, or ROI template\n\nsetMethod(\"GenerateGroupDataset\", signature(\"character\", \"character\", \"NIData\"), function(Path, SbjList, template, verbose = TRUE){\n  \n  \n  \n})",
+    "contents" : "setGeneric(\"GenerateGroupDataset\", function(Path, SbjList, OutputPath, Mask, lb = NULL, ub = NULL, ...) standardGeneric(\"GenerateGroupDataset\")) \n#Maybe Mask and Template could also be in NIdata class format, with a specific description slot to indicate data, mask, or ROI template\n\nsetMethod(\"GenerateGroupDataset\", signature(\"character\", \"character\", \"character\",\"NIData\", \"numeric\", \"numeric\"), function(Path, SbjList, template, verbose = TRUE){\n  num_Sbj <- length(SbjList)\n  for (i in 1:num_Sbj) {\n    Sbjfilename[i] <- list.files(Path,SbjList[i])\n  }\n  \n    \n  filename <- paste0(Path,\"/\",Sbjfilename) \n  for (i in 1:length(filename)) {\n      filename[i] <- sub(\"\\\\.gz$\", \"\", filename[i])\n      parts <- strsplit(filename[i],\"\\\\.\")\n      nparts <- length(parts[[1]])\n      filesuff <- parts[[1]][nparts] \n      filetype  <- switch(filesuff, \n                          Rdata = 'Rdata',\n                          rda = 'Rdata',\n                          \"NIfile\")\n      if (filetype == 'Rdata'){\n        Objname <- load(filename[i])          \n        if (length(Objname)!=1)\n          .warning('The Rdata file of ',SbjList[i],'includes not only one objects')\n        Obj <- get(Objname)\n        if (class(obj)!='NIdata')\n          .warning('The Rdata file ')\n      } else {\n        obj <- BCoRead(filename[i])\n      }\n      \n      #write BCod\n      outputfile = paste0(outputdir,'/',)\n      save( , outputfile)\n  }\n  save(Mask, output)\n  \n})",
     "created" : 1458373510545.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3859635726",
+    "hash" : "1932238392",
     "id" : "680E242C",
-    "lastKnownWriteTime" : 1458379086,
+    "lastKnownWriteTime" : 1458543117,
     "path" : "~/GitHub/BrainConductor/Brainbase/R/GenerateGroupDataset.R",
     "project_path" : "R/GenerateGroupDataset.R",
     "properties" : {
