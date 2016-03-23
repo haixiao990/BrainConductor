@@ -15,7 +15,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 #set the base class
 .BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))
 
-.scanner_info <- setClass("scanner_info",              #Haixiao: I'll check the header a.s.a.p.
+.scanner_info <- setClass("scanner_info",
          representation("sizeof_hdr"="numeric",
                         "data_type"="character",
                         "db_name"="character",
@@ -36,13 +36,9 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "scl_slope"="numeric",
                         "scl_inter"="numeric",
                         "slice_end"="numeric",
-<<<<<<< HEAD
-                        "slice_code"="character", # character? 
+                        
+                        "slice_code"="character", # character?
                         "xyzt_units"="character", # character?
-=======
-                        "slice_code"="numeric",
-                        "xyzt_units"="numeric",
->>>>>>> refs/remotes/origin/kevin
                         "cal_max"="numeric",
                         "cal_min"="numeric",
                         "slice_duration"="numeric",
@@ -64,8 +60,10 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "srow_z"="vector",
                         "intent_name"="character",
                         "magic"="character",
-                        "extender"="vector",
-                        "reoriented"="logical"),
+                        "extender"="character",
+                        "extention"="list",
+                        "file_type" = "character",
+                        "image" = "array"),
          prototype("sizeof_hdr"=348,
                    "data_type"="",
                    "db_name"="",
@@ -86,8 +84,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                    "scl_slope"=numeric(1),
                    "scl_inter"=numeric(1),
                    "slice_end"=numeric(1),
-                   "slice_code"=0,
-                   "xyzt_units"=10,
+                   "slice_code"="",
+                   "xyzt_units"="",
                    "cal_max"=numeric(1),
                    "cal_min"=numeric(1),
                    "slice_duration"=numeric(1),
@@ -110,7 +108,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                    "intent_name"="",
                    "magic"="n+1",
                    "extender"="",
-                   "reoriented"=TRUE)
+                   "extention"=list(esize=0,ecode=0,edata=""),
+                   "image"=array(1:4,dim=c(2,2)))
 
 )
 
@@ -120,9 +119,6 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
  ID = "character"), contains = "BCoBase")
 
-
-#WARNING: should give warning if there are no 0's
-#WARNING: make sure there is only one row
 .Template <- setClass("Template", contains = "BCoBase")
 
 #WARNING: Now that I think about it, these three might be just
@@ -132,15 +128,6 @@ setClass("RegionofInterest", contains = "BCoBase")
 setClass("TissuePriors", representation(tissue = "character"), 
   contains = "BCoBase", prototype(data = list()))
 
-setGeneric("get.matrix", function(obj) standardGeneric("get.matrix"))
-
-setMethod("get.matrix", signature("NIdata"), function(obj){
-  get.matrix(obj@data)
-})
-
-setMethod("get.matrix", signature("BCoData"), function(obj){
-  obj@mat
-})
 
 setMethod("show", "NIdata", function(object){
   if(length(object@ID) == 0) subj.name = "(Unidentified Subject)" else subj.name = paste0("Subject ", object@ID)
@@ -173,5 +160,3 @@ setMethod("show", "NIdata", function(object){
 
   cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
 })
-
-

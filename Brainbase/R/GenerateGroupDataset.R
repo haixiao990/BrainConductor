@@ -1,38 +1,77 @@
-setGeneric("GenerateGroupDataset", function(Path, SbjList, OutputPath, Mask, lb = NULL, ub = NULL, ...) standardGeneric("GenerateGroupDataset")) 
+setGeneric("GenerateGroupDataset", function(Path, SbjList, OutputPath, Mask, GroupName = "Group",lb = NULL, ub = NULL, ...) standardGeneric("GenerateGroupDataset")) 
 #Maybe Mask and Template could also be in NIdata class format, with a specific description slot to indicate data, mask, or ROI template
 
-setMethod("GenerateGroupDataset", signature("character", "character", "character","NIData", "numeric", "numeric"), function(Path, SbjList, template, verbose = TRUE){
+setMethod("GenerateGroupDataset", signature("character", "character", "character","Template","character","numeric", "numeric"), function(Path, SbjList, template, verbose = TRUE){
   num_Sbj <- length(SbjList)
   for (i in 1:num_Sbj) {
     Sbjfilename[i] <- list.files(Path,SbjList[i])
   }
+  Sbjfilename <- sub("\\.gz$", "", Sbjfilename)
+  filepath <- paste0(Path,"/",Sbjfilename)
   
-    
-  filename <- paste0(Path,"/",Sbjfilename) 
+  if (!dir.exists(OutputPath))
+      dir.create(OutputPath)
+  
+  Group_Scanner_Info <- new(scanner_info)
+  
   for (i in 1:length(filename)) {
-      filename[i] <- sub("\\.gz$", "", filename[i])
-      parts <- strsplit(filename[i],"\\.")
-      nparts <- length(parts[[1]])
-      filesuff <- parts[[1]][nparts] 
-      filetype  <- switch(filesuff, 
+      fileinfo <- file.info(filepath[i])
+      
+      outputfilename <- character(0)
+      ################## check file type #######################
+      if (fileinfo$isdir) {
+        filetype <- "NIFolder"
+        outputfilename <- paste0(Groupname,"_",Sbjfilename[i],".Rdata")
+      }
+      else{
+        parts <- strsplit(Sbjfilename[i],"\\.")[[1]]
+        filesuff <- parts[length(parts)] 
+        filetype  <- switch(filesuff, 
                           Rdata = 'Rdata',
                           rda = 'Rdata',
-                          "NIfile")
+                          "NIfile")          
+      
+        outputfilename <- sub(filesuff,"Rdata",Sbjfilename[i])
+        outputfilename <- paste0(Groupname,"_",outputfilename)
+      }
+      ##########################################################
+      
       if (filetype == 'Rdata'){
         Objname <- load(filename[i])          
-        if (length(Objname)!=1)
-          .warning('The Rdata file of ',SbjList[i],'includes not only one objects')
+        if (length(Objname)!=1){
+          .warning(paste('The Rdata file of',SbjList[i], 
+                         'includes multiple objects, only the first object will be loaded')
+                  )
+        }
         Obj <- get(Objname)
-        if (class(obj)!='NIdata')
-          .warning('The Rdata file ')
+        if (class(obj)!='NIdata'){
+          .warning(paste('The Rdata file of',SbjList[i],
+                         'includes not an NIdata object')
+                  )
+          next
+        }
       } else {
-        obj <- BCoRead(filename[i])
+        obj <- BCoRead(filepath[i])
+        if (is.null(obj)){
+          .warning(paste('Can\'t read image file of',SbjList[i],
+                         ':', filepath[i])
+                  )
+          next
+        }
       }
       
-      #write BCod
-      outputfile = paste0(outputdir,'/',)
-      save( , outputfile)
+      #write image data within the group-unified mask
+      if (i==1)
+        Group_Scanner_Info <- obj@scanner_info
+      #else if (scanner_info is not matched) .stop("The scanner information is not matched among the subjects")
+        
+      outputfile <-  paste0(outputdir,'/',outputfilename)
+      save(obj@data, outputfile)
   }
-  save(Mask, output)
   
+  MaskDataFile <- paste0(outputdir,"/",Groupname,"_mask.Rdata")
+  ScannerInfoFile <- paste0(outputdir,"/",Groupname,"_ScannerInfo.Rdata")
+  save(Mask, MaskDataFile)
+  save(Group_Scanner_Info,ScannerInfoFile)
 })
+
