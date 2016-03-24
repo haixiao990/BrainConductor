@@ -1,7 +1,7 @@
-setGeneric("GenerateGroupDataset", function(Path, SbjList, OutputPath, Mask, GroupName = "Group",lb = NULL, ub = NULL, ...) standardGeneric("GenerateGroupDataset")) 
+setGeneric("GenerateGroupDataset", function(Path, SbjList,  Mask, GroupName = "Group", OutputPath = "./", lb = NULL, ub = NULL, ...) standardGeneric("GenerateGroupDataset")) 
 #Maybe Mask and Template could also be in NIdata class format, with a specific description slot to indicate data, mask, or ROI template
 
-setMethod("GenerateGroupDataset", signature("character", "character", "character","Template","character","numeric", "numeric"), function(Path, SbjList, template, verbose = TRUE){
+setMethod("GenerateGroupDataset", signature("character", "character", "Template", "character", "character","numeric", "numeric"), function(Path, SbjList, template, verbose = TRUE){
   num_Sbj <- length(SbjList)
   for (i in 1:num_Sbj) {
     Sbjfilename[i] <- list.files(Path,SbjList[i])
@@ -73,5 +73,7 @@ setMethod("GenerateGroupDataset", signature("character", "character", "character
   ScannerInfoFile <- paste0(outputdir,"/",Groupname,"_ScannerInfo.Rdata")
   save(Mask, MaskDataFile)
   save(Group_Scanner_Info,ScannerInfoFile)
+  
+  GroupFileList <- list.files(path = outputdir)
 })
 
