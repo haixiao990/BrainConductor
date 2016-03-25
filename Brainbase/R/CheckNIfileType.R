@@ -1,34 +1,74 @@
-############## function check if it is a nifti file #################
-.is.NIFTI.file <- function(fname, checkDamage = FALSE){   
-  isNIfTI <- FALSE
+############## function check if it is a afni file #################
+.is.AFNIfile <- function(filename){
+  isAFNIfile <- FALSE
   
-  fname <- sub("\\.gz$", "", fname)
-  fname <- sub("\\.nii$", "", fname)
-  fname <- sub("\\.hdr$", "", fname)
-  fname <- sub("\\.img$", "", fname)
+  filename <- sub("\\.gz$", "", filename)
+  filename <- sub("\\.HEAD$", "", filename)
+  filename <- sub("\\.head$", "", filename)
+  filename <- sub("\\.BRIK$", "", filename)
+  filename <- sub("\\.brik$", "", filename)
+  if (  (file.exists(paste(fname, "HEAD", sep=".")) &&
+         file.exists(paste(fname, "BRIK", sep=".")))  ||
+        (file.exists(paste(fname, "HEAD", sep=".")) &&
+         file.exists(paste(fname, "BRIK.gz", sep=".")))) {
+    isAFNIfile <- TRUE 
+  }
+  isAFNIfile
+}
+
+########## function check if files are in hdr/img format ##########
+.is.HDRandIMG <- function(filename){
+  isHDRandIMG <- FALSE
   
-  nii <- paste(fname, "nii", sep=".")
-  niigz <- paste(fname, "nii.gz", sep=".")
-  hdr <- paste(fname, "hdr", sep=".")
-  hdrgz <- paste(fname, "hdr.gz", sep=".")
-  img <- paste(fname, "img", sep=".")
-  imggz <- paste(fname, "img.gz", sep=".")
+  filename <- sub("\\.gz$", "", filename)
+  filename <- sub("\\.hdr$", "", filename)
+  filename <- sub("\\.img$", "", filename)
   
-  if (file.exists(niigz) || file.exists(nii))
-    isNIfTI <- TRUE
-  
-  
+  if ( (file.exists(paste(filename, "hdr", sep=".")) &&
+         file.exists(paste(filename, "img", sep="."))) ||
+       (file.exists(paste(filename, "hdr.gz", sep=".")) &&
+         file.exists(paste(filename, "img.gz", sep=".")))) {
+    isHDRandIMG <- TRUE
+  }
+  isHDRandIMG
 }
 
 ############## function check if it is a nifti file #################
-.check.ANALYZE.file <- function(filename, checkDamage = FALSE){
+.ANALYZEorNIFTI <- function(filename,gzipped = FALSE){
   
+  filetype <- NULL
+  
+  if (gzipped) {
+    fid <- gzfile(filename, "rb")
+  } else {
+    fid <- file(filename, "rb")
+  }
+  endian <- .Platform$endian
+  sizeof.hdr <- readBin(fid, integer(), size=4, endian=endian)
+  if (sizeof.hdr != 348) {
+    close(fid)
+    endian <- "swap"
+    if (gzipped) {
+      fid <- gzfile(filename, "rb")
+    } else {
+      fid <- file(filename, "rb")
+    }
+    sizeof.hdr <- readBin(fid, integer(), size=4, endian=endian)
+  }
+  
+  if (sizeof.hdr == 348){
+    invisible(readChar(fid,nchars = 340,useBytes = TRUE))
+    magic <- readChar(fid,nchars = 4,TRUE)
+    if (magic == "")
+      filetype <- "ANALYZE"
+    else 
+      filetype <- "NIfTI"
+  }
+  close(fid)
+  filetype
 }
 
-############## function check if it is a nifti file #################
-.check.AFNI.file <- function(filename, checkDamage = FALSE ){
-  
-}
+
 
 
 .NIfile.type <- function(filename, pattern = NULL){
@@ -38,18 +78,18 @@
   
   
   filetype <- NULL
-  singlefile <- TRUE
+  Datafolder <- FALSE
   gzipped <- FALSE
   
   ####################Check if it is a folder####################
   fileinfo <- file.info(filename)
   if (fileinfo$isdir) {
-    singlefile <- FALSE
+    Datafolder <- TRUE
     filelist <- list.files(path = filename, pattern, full.names = TRUE)
     for (i in 1:length(filelist)){
       .type <- .NIfile.type(filelist[i])
       
-      if (.type$singlefile == FALSE)
+      if (.type$Datafolder == TRUE)
         .stop(paste(.dQuote(filename),", this folder contains other folders, 
                     This is not allowed. Please check the data folder!"))
       
@@ -64,29 +104,33 @@
   }
   ###############################################################
   else {
+    
     filesuff <- strsplit(filename,"\\.")[[1]]
     if (filesuff[length(filesuff)] == "gz"){
       gzipped <- TRUE
-      filename <- sub("\\.gz$", "", filename)
+      #filename <- sub("\\.gz$", "", filename)
       filesuff <- filesuff[length(filesuff) - 1]
     }
     else {
+      gzipped <- FALSE
       filesuff <- filesuff[length(filesuff)]
     }
     
     filetype  <- switch(filesuff, 
                       nii = 'NIFTI',
-                      hdr = 'ANALYZE',
-                      img = 'ANALYZE',
-                      head = 'AFNI',
-                      brik = 'AFNI',
                       dcm = 'DICOM')
+    
+    if(is.null(filetype)) 
+      if (.is.AFNIfile(filename)){
+        filetype <- "AFNI"
+      }
+      else if (.is.HDRandIMG(filename)){
+        filetype <- .ANALYZEorNIFTI(filename,gzipped)
+      }
   }
   
-        
-  if (is.null(filetype))
-    .stop(paste(.dQuote(filename),"is not a file or folder in valid NI format"))
+  #if (is.null(filetype))
+  #  .stop(paste(.dQuote(filename),"is not a file or folder with valid NI format"))
   
-  type <- list(filetype = filetype, gzipped = gzipped, singlefile = singlefile)
-
+  type <- list(filetype = filetype, gzipped = gzipped, Datafolder = Datafolder)
 }
