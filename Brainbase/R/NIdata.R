@@ -118,14 +118,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 
 #WARNING: should give warning if there are no 0's
 #WARNING: make sure there is only one row
-.Template <- setClass("Template", contains = "BCoBase")
-
-#WARNING: Now that I think about it, these three might be just
-# effectively all be the same...
-setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
-setClass("RegionofInterest", contains = "BCoBase")
-setClass("TissuePriors", representation(tissue = "character"), 
-  contains = "BCoBase", prototype(data = list()))
+.Template <- setClass("Template", representation(scanner_info = "scanner_info",
+  exra = "list"), contains = "BCoBase")
 
 setGeneric("get.matrix", function(obj) standardGeneric("get.matrix"))
 
@@ -133,8 +127,18 @@ setMethod("get.matrix", signature("NIdata"), function(obj){
   get.matrix(obj@data)
 })
 
+setMethod("get.matrix", signature("Template"), function(obj){
+  get.matrix(obj@data)
+})
+
 setMethod("get.matrix", signature("BCoData"), function(obj){
   obj@mat
+})
+
+setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
+
+setMethod("get.phenotype", signature("NIdata"), function(obj){
+  obj@phenotype
 })
 
 setMethod("show", "NIdata", function(object){

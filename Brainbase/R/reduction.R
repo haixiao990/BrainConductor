@@ -6,46 +6,47 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template,
   #check dimensions are the same
   #need to figure out which representation it uses...
   if(class(template@data) == "BCoData4D") {
-    assert_that(all(dim(Template@data) == obj@data@base.dim))
+    assert_that(all(dim(template@data) == obj@data@base.dim))
   } else if(class(template@data) == "BCoData2D") {
-    assert_that(all(Template@data@base.dim == obj@data@base.dim))
+    assert_that(all(template@data@base.dim == obj@data@base.dim))
   }
 
   #extract the vector
   if(class(template@data) == "BCoData4D") {
-    vec = Template@data@mat[obj@data@mask]
+
+   #WARNING: need to deal with 0's here
+    vec = template@data@mat[obj@data@mask]
   } else {
     #handle BCoData2D
     #WARNING: Test this!!!
-    idx = intersect(Template@data@mask, obj@data@mask)
+    idx = intersect(template@data@mask, obj@data@mask)
     idx.remap = mapvalues(idx, from = obj@data@mask, to = 1:ncol(obj@data@mat))
     vec = rep(0, ncol(obj@data@mat))
-    vec[idx.remap] = Template[idx]
+    vec[idx.remap] = template[idx]
   }
 
   #run in vector form
-  BCoReduce(NIdata, vec, method, verbose)
+  BCoReduce(obj, vec, method, verbose)
 
 })
 
 setMethod("BCoReduce", signature("NIdata", "numeric"), function(obj, template,
  method = "mean", verbose = TRUE){
-  assert_that(method %in% c("mean", "pca"))
+  assert_that(class(method) == "function" || method %in% c("mean", "pca"))
   assert_that(ncol(obj@data@mat) == length(template))
 
-  if(class(obj@data) == "BCoData2D"){
+  if(class(obj@data) == "BCoData4D"){
     if(verbose) print("Converting 4D matrix into 2D matrix.\n")
     obj = convert.4Dto2D(obj)
   }
 
-  if(method == "mean"){
+  if(class(method) == "function"){
+    func = method
+  } else if(method == "mean"){
     func = .reduction.mean
   } else if(method == "pca"){
     func = .reduction.pca
-  } else {
-    assert_that(class(method) == "function")  
-    func = method
-  }
+  } 
 
   #find out which voxel locations are empty
   nonempty.col = which(obj@data@mat[1,] != 0)
@@ -61,7 +62,7 @@ setMethod("BCoReduce", signature("NIdata", "numeric"), function(obj, template,
   for(i in 1:length(uniq)){
     idx.inter = intersect(idx, which(template == uniq[i]))
 
-    if(length(idx.inmat) > 0){
+    if(length(idx.inter) > 0){
       newmat[,i] = func(obj@data@mat, idx.inter)
  
       if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')

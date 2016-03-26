@@ -1,6 +1,6 @@
 #Our generic read function
 #"controls" is a list which contains preprocessing commands
-BCoRead <- function(input, template = NULL, subject.ID = "",
+BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
   controls = list(convert2D = F, method = "mean", verbose = F)){
 
   assert_that(is.null(template) || class(template) == "Template")
@@ -29,12 +29,12 @@ BCoRead <- function(input, template = NULL, subject.ID = "",
 
   #immediately convert to 2D matrix if it is dictated in "controls"
   if(con@convert2D){
-    res = convert.4Dto2D(res)
+    res = convert.4Dto2D(res, template = template, verbose = con@verbose)
   }
 
   #immediately apply a mask if one is supplied
-  if(!is.null(template) & con@convert2D){
-    res = BCoReduce(res, template, con@method, con@verbose)
+  if(!is.null(mask) & con@convert2D){
+    res = BCoReduce(res, mask, con@method, con@verbose)
   }
 
   res
