@@ -13,8 +13,6 @@ setMethod("BCoReduce", signature("NIdata", "Template"), function(obj, template,
 
   #extract the vector
   if(class(template@data) == "BCoData4D") {
-
-   #WARNING: need to deal with 0's here
     vec = template@data@mat[obj@data@mask]
   } else {
     #handle BCoData2D

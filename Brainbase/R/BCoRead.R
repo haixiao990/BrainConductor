@@ -5,7 +5,7 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
 
   assert_that(is.null(template) || class(template) == "Template")
 
-  con = convert.list2NIcontrol(controls)
+  con = .convert.list2Readcontrol(controls)
 
   #determine if the 'input' file is DICOM or NIfTI
   file.ending = strsplit(input, "\\.")[[1]]
