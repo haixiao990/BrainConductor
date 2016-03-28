@@ -2,7 +2,7 @@
 
 .NIcontrol <- setClass("NIcontrol", representation(convert2D = "logical",
   method = "function", verbose = "logical"),
-  prototype(convert2D = F, method = .reduction.mean, verbose = T))
+  prototype(convert2D = F, method = .reduction.mean, verbose = F))
 
 convert.list2NIcontrol <- function(lis){
   con = .NIcontrol()
