@@ -131,8 +131,12 @@ setMethod("get.matrix", signature("Template"), function(obj){
   get.matrix(obj@data)
 })
 
-setMethod("get.matrix", signature("BCoData"), function(obj){
-  obj@mat
+setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
+  if(output2D & class(obj) == "BCoData4D"){
+    convert.4Dto2D(obj, verbose = F)
+  } else {
+    obj@mat
+  }
 })
 
 setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
