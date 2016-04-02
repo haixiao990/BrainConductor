@@ -1,11 +1,11 @@
 #DOES THIS NEED TO BE AN S4 FUNCTION?
 
-.NIcontrol <- setClass("NIcontrol", representation(convert2D = "logical",
+.Readcontrol <- setClass("Readcontrol", representation(convert2D = "logical",
   method = "function", verbose = "logical"),
-  prototype(convert2D = F, method = .reduction.mean, verbose = T))
+  prototype(convert2D = F, method = .reduction.mean, verbose = F))
 
-convert.list2NIcontrol <- function(lis){
-  con = .NIcontrol()
+.convert.list2Readcontrol <- function(lis){
+  con = .Readcontrol()
   
   if(!is.null(lis$convert2D)) con@convert2D = lis$convert2D
   if(!is.null(lis$verbose)) con@verbose = lis$verbose
@@ -30,8 +30,10 @@ convert.nidata2nifti <- function(obj){
   dat = new('nifti')
   
   #WARNING: NEED A CONVERSION BACK TO 4D IF NEEDED
+  if(class(obj@data) == "BCoData4D"){
+    dat@.Data = obj@data@mat
+  }
 
-  dat@.Data = obj@data
   scaninfo = obj@scanner_info
   
   dat@aux_file = scaninfo@aux_file
