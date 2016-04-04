@@ -119,7 +119,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
  ID = "character"), contains = "BCoBase")
 
-<<<<<<< HEAD
+
 .Template <- setClass("Template", contains = "BCoBase")
 
 #WARNING: Now that I think about it, these three might be just
@@ -129,7 +129,6 @@ setClass("RegionofInterest", contains = "BCoBase")
 setClass("TissuePriors", representation(tissue = "character"), 
   contains = "BCoBase", prototype(data = list()))
 
-=======
 
 #WARNING: should give warning if there are no 0's
 #WARNING: make sure there is only one row
@@ -153,17 +152,14 @@ setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
     obj@mat
   }
 })
-<<<<<<< HEAD
-=======
->>>>>>> kevin
->>>>>>> origin/Haixiao
+
 
 setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
 
 setMethod("get.phenotype", signature("NIdata"), function(obj){
   obj@phenotype
 })
->>>>>>> refs/remotes/origin/kevin
+
 
 setMethod("show", "NIdata", function(object){
   if(length(object@ID) == 0) subj.name = "(Unidentified Subject)" else subj.name = paste0("Subject ", object@ID)
