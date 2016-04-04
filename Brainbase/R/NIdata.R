@@ -153,6 +153,10 @@ setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
     obj@mat
   }
 })
+<<<<<<< HEAD
+=======
+>>>>>>> kevin
+>>>>>>> origin/Haixiao
 
 setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
 
