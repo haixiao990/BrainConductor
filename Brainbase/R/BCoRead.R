@@ -40,8 +40,12 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
   res
 }
 
-BCoReadandAssign <- function(input, variable.header, controls = NULL, subject.ID = ""){
-  res = BCoRead(input, controls, subject.ID)
+BCoReadandAssign <- function(input, variable.header, 
+ template = NULL, mask = NULL,
+ controls = list(convert2D = F, method = "mean", verbose = F), subject.ID = ""){
+
+  res = BCoRead(input, template = template, mask = mask,
+   subject.ID = subject.ID, controls = controls)
   
   resname = paste0(variable.header, "_", subject.ID)
   resname.mod = resname
@@ -64,21 +68,15 @@ BCoReadandAssign <- function(input, variable.header, controls = NULL, subject.ID
   resname.mod
 }
 
+#WARNING: could probably put in "options" a global variable of the template
 #tab is a data.frame (supposedly from a csv file already loaded in R)
 BCoLink.phenotype <- function(tab, subject.ID.col, kept.column.idx){
   assert_that(class(tab) == "data.frame")
   assert_that(class(tab[,subject.ID.col]) == "character")
   assert_that(all(!duplicated(tab[,subject.ID.col]))) #make sure no duplicates
 
-  subject.ID = tab[,subject.ID.col]
-  variables = ls(.GlobalEnv)
-  varClasses = sapply(variables, function(x){
-    class(eval(as.name(x)))
-  })
-
-  #find the NIdata variables
-  idx.NIdata = which(varClasses == "NIdata")
-  subj.vec = sapply(variables[idx.NIdata], function(x){
+  obj.vec = BCoSubjectFinder.default()
+  subj.vec = sapply(obj.vec, function(x){
     eval(as.name(x))@ID
   })
 

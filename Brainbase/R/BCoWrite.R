@@ -40,4 +40,27 @@ setMethod("BCoWrite", signature("NIdata"), function(obj, filename.prefix,
   invisible()
 })
 
+#find all the NIdata objs in the workspace and save them according to their
+# variable name
+BCoWrite.all <- function(file.dir = NULL, subj.header = NULL, controls = list(type = "RData", onefile = T, gzipped = T, verbose = F, warn = -1)){
+  
+  #make sure fir.dir is a valid string
+  assert_that(substr(file.dir, nchar(file.dir), nchar(file.dir)) == '/')
 
+  subj.vec = BCoSubjectFinder.default()
+  if(!is.null(subj.header)) {
+    assert_that(is.character(subj.header) & length(subj.header) == 1)
+    subj.vec = grep(subj.header, subj.vec, value = T)
+  }
+
+  for(i in subj.vec){
+    BCoWrite(eval(as.name(i)), filename.prefix = paste0(file.dir,
+     deparse(substitute(i))), controls = controls)
+
+    if(is.null(controls$verbose) || controls$verbose){
+      paste0("Writing for ", i, " is complete!")
+    }
+  }
+
+  invisible()
+}
