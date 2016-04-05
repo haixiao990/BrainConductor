@@ -1,7 +1,7 @@
 setGeneric("convert.4Dto2D", function(obj, ...) standardGeneric("convert.4Dto2D"))
 
 setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, verbose = TRUE){
-  assert_that(class(obj@mat) == "BCoData4D")
+  assert_that(class(obj@mat) == "BCoData4D") ##should be obj@data?
  
   new.obj = obj
 
@@ -65,7 +65,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 }
 
 #onvert a location (single matrix index from 1 to prod(dimen)) into 3D coordinates
-.convert.2Dto3Dloc <- function(idx, dimen){
+.convert.2Dto3Dloc <- function(idx, dimen){        ##maybe idx should be mask or it is confused with idx in .convert.2Dto4Dmat function
   assert_that(is.numeric(idx))
   assert_that(length(dimen)==3 & is.numeric(dimen))
   assert_that(idx <= prod(dimen))
@@ -73,7 +73,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
   z = ceiling(idx / (dimen[1]*dimen[2]))
 
   tmp = idx %% (dimen[1]*dimen[2])
-  if(tmp==0) tmp = dimen[1]*dimen[2]
+  if(tmp==0) tmp = dimen[1]*dimen[2] #should be tmp[tmp==0] = 4?
   y = ceiling(tmp / dimen[1])
 
   x = tmp %% dimen[1]
