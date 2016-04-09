@@ -1,3 +1,15 @@
+BCoSubjectFinder.default <- function(){
+ variables = ls(.GlobalEnv)
+ varClasses = sapply(variables, function(x){
+   class(eval(as.name(x)))
+ })
+
+  #find the NIdata variables
+  idx.NIdata = which(varClasses == "NIdata")
+
+  variables[idx.NIdata]
+}
+
 #DOES THIS NEED TO BE AN S4 FUNCTION?
 
 .Readcontrol <- setClass("Readcontrol", representation(convert2D = "logical",
@@ -24,14 +36,18 @@ convert.nifti2nidata <- function(dat){
    scanner_info = .create.scaninfo(dat), ID = subject.ID)
 }
 
+
+#WARNING: maybe make this an S4 function?
 convert.nidata2nifti <- function(obj){
-  #WARNING: need to check obj has a BCoData2D or BCoData4D
+ 
+  assert_that(class(obj@data) == "BCoData4D" | class(obj@data) = "BCoData2D") 
 
   dat = new('nifti')
   
-  #WARNING: NEED A CONVERSION BACK TO 4D IF NEEDED
   if(class(obj@data) == "BCoData4D"){
     dat@.Data = obj@data@mat
+  } else if(class(obj@data) == "BCoData2D"){
+    dat@.Data = .convert.4Dto2Dmat(obj@data@mat, obj@data@mask, obj@data@base.dim)
   }
 
   scaninfo = obj@scanner_info

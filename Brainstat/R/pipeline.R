@@ -1,15 +1,3 @@
-BCoSubjectFinder.default <- function(){
- variables = ls(.GlobalEnv)
- varClasses = sapply(variables, function(x){
-   class(eval(as.name(x)))
- })
-
-  #find the NIdata variables
-  idx.NIdata = which(varClasses == "NIdata")
-
-  variables[idx.NIdata]
-}
-
 BCoClassifier.default <- function(subj.vec, custom.arg){
   pheno.vec = sapply(subj.vec, function(x){
     get.phenotype(eval(as.name(subj.vec[[i]])))[1]
