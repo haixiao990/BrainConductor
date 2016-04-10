@@ -7,22 +7,47 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
 
   con = .convert.list2Readcontrol(controls)
 
+  ####### check the type of 'input' file. ###########
+  NIfileType = .NIfile.type(input)
+  
+  if(is.null(NIfileType$filetype)) 
+    .stop(paste(.dQuote(input),"is not a file or folder with valid NI format"))
+  
+  if(NIfileType$filetype == 'DICOM')
+    dat = read.DICOM.dcm(input)          ##read a single dicom file or dicom folder
+  else if (NIfileType$Datafolder == TRUE)
+    .stop(paste(.dQuote(input),"is a folder containning ",.sQuote(input),
+                "files! Please use specific file name instead of folder directory
+                 or use BCoMerge to merge seperated 3D files into one 4Dnifti file"))
+  
+  if (NIfileType$filetype == 'NIFTI')
+    dat = readNIfTI(input)
+  if (NIfileType$filetype == 'ANALYZE'){
+    dat <- readANALYZE(filename,...)
+    dat <- as(dat,'nifti')
+  }
+  if (filetype == 'AFNI'){
+    dat <- readAFNI(filename,setmask=F,...)
+    dat <- as(dat,'nifti')
+  }
+  
   #determine if the 'input' file is DICOM or NIfTI
-  file.ending = strsplit(input, "\\.")[[1]]
-  file.ending = file.ending[length(file.ending)]
-  assert_that(file.ending %in% c(".dcm", "gz", "nii"))
+  #file.ending = strsplit(input, "\\.")[[1]]
+  #file.ending = file.ending[length(file.ending)]
+  #assert_that(file.ending %in% c(".dcm", "gz", "nii"))
 
+  
   #if dicom, read dicom reader and convert into 
-  if(file.ending == ".dcm"){
+  #if(file.ending == ".dcm"){
     
     #WARNING: The following code might not work, but should be something like this:
-    dat = read.DICOM.dcm(input)
+   # dat = read.DICOM.dcm(input)
 
   #if nifti, use the nifti functions
-  } else {
+  #} else {
     
-    dat = readNIfTI(input)
-  }
+  #  dat = readNIfTI(input)
+  #}
 
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), 
    scanner_info = .create.scaninfo(dat), ID = subject.ID)

@@ -2,7 +2,7 @@
 
 setGeneric("read.dcm",function(object, src)  standardGeneric("read.dcm"));
 
-setMethod("read.dcm", signature(object = "NIdata"), function(object, src)
+setMethod("read.dcm", signature(object = "nifti"), function(object, src)
 {
   nii_tool <- c(
     'function varargout = nii_tool(cmd, varargin)',
@@ -5997,7 +5997,7 @@ setMethod("read.dcm", signature(object = "NIdata"), function(object, src)
   #close(matlab)
 
   target <- paste(OutputDir,list.files(OutputDir,'*.nii'),sep="")
-  object <- read.nii(object,target)
+  dat <- readNIfTI(target)
   file.remove(paste(OutputDir,list.files(OutputDir,'dcm*'),sep=""))
   file.remove(target)
   file.remove('nii_tool.m')
@@ -6010,13 +6010,13 @@ setMethod("read.dcm", signature(object = "NIdata"), function(object, src)
   #file.remove(OutputDir)
   #file.remove('InputStreamByteWrapper.class')
   #file.remove('MatlabServer.m')
-  object@file_type <- "DICOM"
-  object
+  ##object@file_type <- "DICOM"
+  dat
 }
 )
 
 read.DICOM.dcm <- function(inputPath)
 {
-  a <- new("NIdata")
-  read.dcm(a, inputPath)
+  dat <- new("nifti")
+  read.dcm(dat, inputPath)
 }
