@@ -153,6 +153,22 @@ setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
   }
 })
 
+<<<<<<< HEAD
+=======
+setMethod("is.functional", function(obj) standardGeneric("is.functional"))
+
+setGeneric("is.functional", signature("BCoData"), function(obj){
+  if(class(obj) == "BCoData4D"){
+    if(dim(obj@mat)[4] > 1) return(TRUE) else return(FALSE)
+  } else if(class(obj) == "BCoData2D" | class(obj) == "BCoData2DReduc"){
+    if(nrow(obj@mat) > 1) return(TRUE) else return(FALSE)
+  } return(FALSE)
+})
+
+setGeneric("is.functional", signature("NIdata"), function(obj){
+  is.functional(obj@data)
+})
+>>>>>>> refs/remotes/origin/kevin
 
 setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
 
