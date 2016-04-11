@@ -1,6 +1,8 @@
 setGeneric("convert.4Dto2D", function(obj, ...) standardGeneric("convert.4Dto2D"))
 
 setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, verbose = TRUE){
+  assert_that(class(obj@data) == "BCoData4D")
+ 
   new.obj = obj
 
   if(!is.null(template)){
@@ -14,6 +16,21 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 
   new.obj
 })
+
+setGeneric("convert.2Dto4D", function(obj) standardGeneric("convert.2Dto3D"))
+
+
+setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
+  assert_that(class(obj@data) == "BCoData2D")
+
+  new.obj = obj
+
+  res = .convert.2Dto4Dmat(obj@data@mat, obj@data@mask, obj@data@base.dimen)
+
+  new.obj@data = .BCoData4D(mat = res)
+
+  new.obj
+}
 
 #convert 4D matrix into 2D matrix
 .convert.4Dto2Dmat <- function(dat, template = NULL, verbose = TRUE){
@@ -39,7 +56,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 }
 
 #convert 2D matrix back to 4D matrix
-.convert.2Dto4Dmat <- function(mat, mask, dimen, verbose = TRUE){
+.convert.2Dto4Dmat <- function(mat, mask, dimen){
   assert_that(min(mask) >= 0)
   assert_that(max(mask) <= prod(dimen))
   assert_that(ncol(mat) == length(mask))

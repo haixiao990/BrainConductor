@@ -36,8 +36,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "scl_slope"="numeric",
                         "scl_inter"="numeric",
                         "slice_end"="numeric",
-                        "slice_code"="character", # character?
-                        "xyzt_units"="character", # character?
+                        "slice_code"="numeric",
+                        "xyzt_units"="numeric",
                         "cal_max"="numeric",
                         "cal_min"="numeric",
                         "slice_duration"="numeric",
@@ -59,10 +59,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "srow_z"="vector",
                         "intent_name"="character",
                         "magic"="character",
-                        "extender"="character",
-                        "extention"="list",
-                        "file_type" = "character",
-                        "image" = "array"),
+                        "extender"="vector",
+                        "reoriented"="logical"),
          prototype("sizeof_hdr"=348,
                    "data_type"="",
                    "db_name"="",
@@ -83,8 +81,8 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                    "scl_slope"=numeric(1),
                    "scl_inter"=numeric(1),
                    "slice_end"=numeric(1),
-                   "slice_code"="",
-                   "xyzt_units"="",
+                   "slice_code"=0,
+                   "xyzt_units"=10,
                    "cal_max"=numeric(1),
                    "cal_min"=numeric(1),
                    "slice_duration"=numeric(1),
@@ -107,8 +105,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                    "intent_name"="",
                    "magic"="n+1",
                    "extender"="",
-                   "extention"=list(esize=0,ecode=0,edata=""),
-                   "image"=array(1:4,dim=c(2,2)))
+                   "reoriented"=TRUE)
 
 )
 
@@ -118,15 +115,49 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
  ID = "character"), contains = "BCoBase")
 
-.Template <- setClass("Template", contains = "BCoBase")
 
-#WARNING: Now that I think about it, these three might be just
-# effectively all be the same...
-setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBase")
-setClass("RegionofInterest", contains = "BCoBase")
-setClass("TissuePriors", representation(tissue = "character"), 
-  contains = "BCoBase", prototype(data = list()))
+#WARNING: should give warning if there are no 0's
+#WARNING: make sure there is only one row
+.Template <- setClass("Template", representation(scanner_info = "scanner_info",
+  exra = "list"), contains = "BCoBase")
 
+setGeneric("get.matrix", function(obj) standardGeneric("get.matrix"))
+
+setMethod("get.matrix", signature("NIdata"), function(obj){
+  get.matrix(obj@data)
+})
+
+setMethod("get.matrix", signature("Template"), function(obj){
+  get.matrix(obj@data)
+})
+
+setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
+  if(output2D & class(obj) == "BCoData4D"){
+    convert.4Dto2D(obj, verbose = F)
+  } else {
+    obj@mat
+  }
+})
+
+setMethod("is.functional", function(obj) standardGeneric("is.functional"))
+
+setGeneric("is.functional", signature("BCoData"), function(obj){
+  if(class(obj) == "BCoData4D"){
+    if(dim(obj@mat)[4] > 1) return(TRUE) else return(FALSE)
+  } else if(class(obj) == "BCoData2D" | class(obj) == "BCoData2DReduc"){
+    if(nrow(obj@mat) > 1) return(TRUE) else return(FALSE)
+  } return(FALSE)
+})
+
+setGeneric("is.functional", signature("NIdata"), function(obj){
+  is.functional(obj@data)
+})
+
+setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
+
+setMethod("get.phenotype", signature("NIdata"), function(obj){
+  obj@phenotype
+})
 
 setMethod("show", "NIdata", function(object){
   if(length(object@ID) == 0) subj.name = "(Unidentified Subject)" else subj.name = paste0("Subject ", object@ID)
@@ -159,3 +190,5 @@ setMethod("show", "NIdata", function(object){
 
   cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
 })
+
+
