@@ -121,7 +121,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
 .Template <- setClass("Template", representation(scanner_info = "scanner_info",
   exra = "list"), contains = "BCoBase")
 
-setGeneric("get.matrix", function(obj) standardGeneric("get.matrix"))
+setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
 
 setMethod("get.matrix", signature("NIdata"), function(obj){
   get.matrix(obj@data)
@@ -139,17 +139,17 @@ setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
   }
 })
 
-setMethod("is.functional", function(obj) standardGeneric("is.functional"))
+setGeneric("is.functional", function(obj) standardGeneric("is.functional"))
 
-setGeneric("is.functional", signature("BCoData"), function(obj){
+setMethod("is.functional", signature("BCoData"), function(obj){
   if(class(obj) == "BCoData4D"){
     if(dim(obj@mat)[4] > 1) return(TRUE) else return(FALSE)
   } else if(class(obj) == "BCoData2D" | class(obj) == "BCoData2DReduc"){
     if(nrow(obj@mat) > 1) return(TRUE) else return(FALSE)
-  } return(FALSE)
+  } else return(FALSE)
 })
 
-setGeneric("is.functional", signature("NIdata"), function(obj){
+setMethod("is.functional", signature("NIdata"), function(obj){
   is.functional(obj@data)
 })
 
@@ -176,7 +176,7 @@ setMethod("show", "NIdata", function(object){
         "% of all voxels in mask).\n"))
     } else if (class(object@data) == "BCoData4D") {
       cat(paste0("  4-Dimensional data of dimension ", 
-        paste0(dim(object@data@mat), collapse = ", "), ": ", nrow(object@data@mat),
+        paste0(dim(object@data@mat), collapse = ", "), ": ", dim(object@data@mat)[4],
         " elements in series.\n"))
  
     } else if (class(object@data) == "BCoData2DReduc") {

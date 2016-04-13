@@ -14,7 +14,7 @@ BCoFSL <- function(func.call, conversion.list = NULL, output.file = NULL){
   }
 
 
-  if(!is.null(converstion.list){
+  if(!is.null(converstion.list)){
     #write to directory
     for(i in 1:length(converstion.list)){
       BCoWrite(eval(parse(text = converstion.list[i])), filename.prefix = names(conversion.list)[i])
