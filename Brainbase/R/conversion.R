@@ -21,8 +21,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
   new.obj
 })
 
-setGeneric("convert.2Dto4D", function(obj) standardGeneric("convert.2Dto3D"))
-
+setGeneric("convert.2Dto4D", function(obj) standardGeneric("convert.2Dto4D"))
 
 setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
   assert_that(class(obj@data) == "BCoData2D")
@@ -34,7 +33,7 @@ setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
   new.obj@data = .BCoData4D(mat = res)
 
   new.obj
-}
+})
 
 #convert 4D matrix into 2D matrix
 .convert.4Dto2Dmat <- function(dat, template = NULL, verbose = TRUE){
