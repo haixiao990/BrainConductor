@@ -40,7 +40,7 @@ convert.nifti2nidata <- function(dat){
 #WARNING: maybe make this an S4 function?
 convert.nidata2nifti <- function(obj){
  
-  assert_that(class(obj@data) == "BCoData4D" | class(obj@data) = "BCoData2D") 
+  assert_that(class(obj@data) == "BCoData4D" | class(obj@data) == "BCoData2D")
 
   dat = new('nifti')
   
