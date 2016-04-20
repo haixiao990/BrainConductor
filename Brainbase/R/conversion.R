@@ -1,6 +1,12 @@
 setGeneric("convert.4Dto2D", function(obj, ...) standardGeneric("convert.4Dto2D"))
 
 setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, verbose = TRUE){
+<<<<<<< HEAD
+  assert_that(class(obj@mat) == "BCoData4D") ##should be obj@data?
+=======
+  assert_that(class(obj@data) == "BCoData4D")
+>>>>>>> refs/remotes/origin/kevin
+ 
   new.obj = obj
 
   if(!is.null(template)){
@@ -11,6 +17,20 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
   res = .convert.4Dto2Dmat(obj@data@mat, template, verbose)
 
   new.obj@data = .BCoData2D(mat = res$mat, mask = res$mask, base.dim = dim(obj@data@mat)[1:3])
+
+  new.obj
+})
+
+setGeneric("convert.2Dto4D", function(obj) standardGeneric("convert.2Dto4D"))
+
+setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
+  assert_that(class(obj@data) == "BCoData2D")
+
+  new.obj = obj
+
+  res = .convert.2Dto4Dmat(obj@data@mat, obj@data@mask, obj@data@base.dimen)
+
+  new.obj@data = .BCoData4D(mat = res)
 
   new.obj
 })
@@ -39,7 +59,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 }
 
 #convert 2D matrix back to 4D matrix
-.convert.2Dto4Dmat <- function(mat, mask, dimen, verbose = TRUE){
+.convert.2Dto4Dmat <- function(mat, mask, dimen){
   assert_that(min(mask) >= 0)
   assert_that(max(mask) <= prod(dimen))
   assert_that(ncol(mat) == length(mask))
@@ -63,7 +83,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 }
 
 #onvert a location (single matrix index from 1 to prod(dimen)) into 3D coordinates
-.convert.2Dto3Dloc <- function(idx, dimen){
+.convert.2Dto3Dloc <- function(idx, dimen){        ##maybe idx should be mask or it is confused with idx in .convert.2Dto4Dmat function
   assert_that(is.numeric(idx))
   assert_that(length(dimen)==3 & is.numeric(dimen))
   assert_that(idx <= prod(dimen))
@@ -71,7 +91,7 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
   z = ceiling(idx / (dimen[1]*dimen[2]))
 
   tmp = idx %% (dimen[1]*dimen[2])
-  if(tmp==0) tmp = dimen[1]*dimen[2]
+  if(tmp==0) tmp = dimen[1]*dimen[2] #should be tmp[tmp==0] = 4?
   y = ceiling(tmp / dimen[1])
 
   x = tmp %% dimen[1]

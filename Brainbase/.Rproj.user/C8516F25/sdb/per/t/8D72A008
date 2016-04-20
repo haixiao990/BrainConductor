@@ -1,0 +1,17 @@
+{
+    "contents" : "setGeneric(\"BCoReduce\", function(obj, template, ...) standardGeneric(\"BCoReduce\"))\n\nsetMethod(\"BCoReduce\", signature(\"NIdata\", \"Template\"), function(obj, template, \n method = \"mean\", verbose = TRUE){\n\n  #WARNING: Currently we have to have it in 2D\n  assert_that(class(obj@data) == \"BCoData2D\")\n  assert_that(method %in% c(\"mean\", \"pca\"))\n\n  if(method == \"mean\"){\n    func = .reduction.mean\n  } else if(method == \"pca\"){\n    func = .reduction.pca\n  }   \n\n  #find out which voxel locations are empty\n  nonempty.col = which(obj@data@mat[1,] != 0)\n\n  #WARNING: This code is only for parcellations\n  idx = obj@data@mask[nonempty.col]\n  assert_that(length(nonempty.col) <= length(obj@data@mask))\n\n  uniq = unique(as.numeric(template@data@mat))\n  uniq = uniq[-which(uniq == 0)]\n  newmat = matrix(0, ncol = length(uniq), nrow = nrow(obj@data@mat))\n\n  for(i in 1:length(uniq)){\n    idx.inmat = intersect(idx, which(template@data@mat == uniq[i]))\n\n    if(length(idx.inmat) > 0){\n      col.idx = mapvalues(idx.inmat, from = idx, to = nonempty.col, warn_missing = FALSE)\n      assert_that(length(col.idx) == length(idx.inmat))\n      newmat[,i] = func(obj@data@mat, col.idx)\n \n      if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')\n    }\n  }\n  \n  newobj = obj\n  newobj@data = .BCoData2DReduc(mat = newmat, col.mapping = uniq, type = \"AAL\")\n\n  newobj\n})\n\n#generic wrapper function to reduce\nBCoreduce <- function(dat, template){\n  #FILL THIS IN WHEN WE DECIDE UPON THE REPRESENTATION\n}\n\n#reduce voxel-level 2D matrix into parcel-level 2D matrix\n\n#reduce voxel-level 2D matrix by gray matter tissue prior\n\n#do reduction by doing pca on all the time-series in \"idx\"\n# and taking the leading eigenvector\n.reduction.pca <- function(dat, idx){\n  #USE THE R PACKAGE THE SPECIALIZES IN LEADING EIGENVECTOR\n}\n\n#do reduction by taking the average of all the time-series in\n# \"idx\"\n.reduction.mean <- function(dat, idx){\n  if(length(idx) > 0) apply(dat[,idx, drop = F], 1, mean) else rep(0, nrow(dat))\n}\n",
+    "created" : 1458373548983.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3396412230",
+    "id" : "8D72A008",
+    "lastKnownWriteTime" : 1458035431,
+    "path" : "~/GitHub/BrainConductor/Brainbase/R/reduction.R",
+    "project_path" : "R/reduction.R",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

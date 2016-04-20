@@ -1,0 +1,18 @@
+{
+    "contents" : "#Test the GenerateGroupDataset function\nPATH <- system.file(\"nifti/trtgroup\",package = \"Brainbase\")\nSbjList <-  list.files(path = PATH)\nSbjList <- SbjList[-grep(\"mask\", SbjList, fixed=T)]\n\n\n",
+    "created" : 1458378472994.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2492713470",
+    "id" : "A3769394",
+    "lastKnownWriteTime" : 1458379084,
+    "path" : "~/GitHub/BrainConductor/Brainbase/tests/testGenerateGroupDataset.R",
+    "project_path" : "tests/testGenerateGroupDataset.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

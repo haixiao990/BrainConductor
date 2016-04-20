@@ -36,6 +36,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
                         "scl_slope"="numeric",
                         "scl_inter"="numeric",
                         "slice_end"="numeric",
+                        
                         "slice_code"="character", # character?
                         "xyzt_units"="character", # character?
                         "cal_max"="numeric",
@@ -118,6 +119,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  representation(phenotype = "list", scanner_info = "scanner_info", extra = "list", 
  ID = "character"), contains = "BCoBase")
 
+
 .Template <- setClass("Template", contains = "BCoBase")
 
 #WARNING: Now that I think about it, these three might be just
@@ -126,6 +128,57 @@ setClass("Parcellation", representation(names = "data.frame"), contains = "BCoBa
 setClass("RegionofInterest", contains = "BCoBase")
 setClass("TissuePriors", representation(tissue = "character"), 
   contains = "BCoBase", prototype(data = list()))
+
+
+#WARNING: should give warning if there are no 0's
+#WARNING: make sure there is only one row
+.Template <- setClass("Template", representation(scanner_info = "scanner_info",
+  exra = "list"), contains = "BCoBase")
+
+setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
+
+setMethod("get.matrix", signature("NIdata"), function(obj){
+  get.matrix(obj@data)
+})
+
+setMethod("get.matrix", signature("Template"), function(obj){
+  get.matrix(obj@data)
+})
+
+setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
+  if(output2D & class(obj) == "BCoData4D"){
+    convert.4Dto2D(obj, verbose = F)
+  } else {
+    obj@mat
+  }
+})
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+setMethod("is.functional", function(obj) standardGeneric("is.functional"))
+=======
+setGeneric("is.functional", function(obj) standardGeneric("is.functional"))
+>>>>>>> kevin
+
+setMethod("is.functional", signature("BCoData"), function(obj){
+  if(class(obj) == "BCoData4D"){
+    if(dim(obj@mat)[4] > 1) return(TRUE) else return(FALSE)
+  } else if(class(obj) == "BCoData2D" | class(obj) == "BCoData2DReduc"){
+    if(nrow(obj@mat) > 1) return(TRUE) else return(FALSE)
+  } else return(FALSE)
+})
+
+setMethod("is.functional", signature("NIdata"), function(obj){
+  is.functional(obj@data)
+})
+>>>>>>> refs/remotes/origin/kevin
+
+setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
+
+setMethod("get.phenotype", signature("NIdata"), function(obj){
+  obj@phenotype
+})
 
 
 setMethod("show", "NIdata", function(object){
@@ -145,7 +198,7 @@ setMethod("show", "NIdata", function(object){
         "% of all voxels in mask).\n"))
     } else if (class(object@data) == "BCoData4D") {
       cat(paste0("  4-Dimensional data of dimension ", 
-        paste0(dim(object@data@mat), collapse = ", "), ": ", nrow(object@data@mat),
+        paste0(dim(object@data@mat), collapse = ", "), ": ", dim(object@data@mat)[4],
         " elements in series.\n"))
  
     } else if (class(object@data) == "BCoData2DReduc") {

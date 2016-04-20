@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "setGeneric(\"GenerateGroupDataset\", function(Path, SbjList, OutputPath, Mask, lb = NULL, ub = NULL, ...) standardGeneric(\"GenerateGroupDataset\")) \n#Maybe Mask and Template could also be in NIdata class format, with a specific description slot to indicate data, mask, or ROI template\n\nsetMethod(\"GenerateGroupDataset\", signature(\"character\", \"character\", \"character\",\"NIData\", \"numeric\", \"numeric\"), function(Path, SbjList, template, verbose = TRUE){\n#  num_Sbj <- length(SbjList)\n#  for (i in 1:num_Sbj) {\n#    filename[i] <- list.files(Path,SbjList[i])\n#  }\n  \n    \n  filename <- paste0(Path,\"/\",SbjList) \n  for (i in 1:length(filename)) {\n      filename[i] <- sub(\"\\\\.gz$\", \"\", filename[i])\n      parts <- strsplit(filename[i],\"\\\\.\")\n      nparts <- length(parts[[1]])\n      filesuff <- parts[[1]][nparts] \n      filetype  <- switch(filesuff, \n                          Rdata = 'Rdata',\n                          rda   = 'Rdata',\n                          \"NIfile\")\n      if (filetype == 'Rdata'){\n        Objname <- load(filename[i])          \n        Obj <- get(Objname)\n      } else {\n        BCoRead(filename[i])\n      }\n      \n      #write BCod\n      outputfile = paste0(outputdir,'/',)\n      save( , outputfile)\n  }\n  save(Mask, output)\n  \n})",
+    "created" : 1458407975915.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "182406321",
+    "id" : "D0DAF3D2",
+    "lastKnownWriteTime" : 1458427880,
+    "last_content_update" : 1458427880878,
+    "path" : "D:/Documents/github/BrainConductor/Brainbase/R/GenerateGroupDataset.R",
+    "project_path" : "R/GenerateGroupDataset.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
