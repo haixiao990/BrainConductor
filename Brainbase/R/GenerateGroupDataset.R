@@ -15,35 +15,32 @@ setMethod("GenerateGroupDataset", signature("character", "character", "Template"
   Group_Scanner_Info <- new(scanner_info)
   
   for (i in 1:length(filename)) {
-      fileinfo <- file.info(filepath[i])
       
       outputfilename <- character(0)
       ################## check file type #######################
-      if (fileinfo$isdir) {
-        filetype <- "NIFolder"
+      dataformat <- .NIfile.type(filepath[i])
+      if (is.null(dataformat$filetype))
+        .stop(paste(.dQuote(filepath[i]),"is not a file or folder with valid NI format"))
+      
+      if (dataformat$Datafolder) {
         outputfilename <- paste0(Groupname,"_",Sbjfilename[i],".Rdata")
       }
       else{
-        parts <- strsplit(Sbjfilename[i],"\\.")[[1]]
-        filesuff <- parts[length(parts)] 
-        filetype  <- switch(filesuff, 
-                          Rdata = 'Rdata',
-                          rda = 'Rdata',
-                          "NIfile")          
-      
+       
         outputfilename <- sub(filesuff,"Rdata",Sbjfilename[i])
         outputfilename <- paste0(Groupname,"_",outputfilename)
       }
       ##########################################################
       
-      if (filetype == 'Rdata'){
+      if (dataformat$filetype == 'Rdata'){
         Objname <- load(filename[i])          
         if (length(Objname)!=1){
           .warning(paste('The Rdata file of',SbjList[i], 
                          'includes multiple objects, only the first object will be loaded')
                   )
         }
-        Obj <- get(Objname)
+        Obj <- get(Objname[1])
+        remove(list = Objname)
         if (class(obj)!='NIdata'){
           .warning(paste('The Rdata file of',SbjList[i],
                          'includes not an NIdata object')
