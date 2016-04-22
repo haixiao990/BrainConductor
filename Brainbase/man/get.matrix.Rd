@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{get.matrix}
+\alias{get.matrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,15 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+get.matrix(obj, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{obj}{
+%%     ~~Describe \code{obj} here~~
+}
+  \item{\dots}{
+%%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
@@ -47,11 +50,11 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
-{
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
-  }
+structure(function (obj, ...) 
+standardGeneric("get.matrix"), generic = structure("get.matrix", package = "Brainbasetmp"), package = "Brainbasetmp", group = list(), valueClass = character(0), signature = "obj", default = `\001NULL\001`, skeleton = (function (obj, 
+    ...) 
+stop("invalid call in method dispatch to 'get.matrix' (no default method)", 
+    domain = NA))(obj, ...), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

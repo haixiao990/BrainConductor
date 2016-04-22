@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{convert.nifti2nidata}
+\alias{convert.nifti2nidata}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,12 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+convert.nifti2nidata(dat)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{dat}{
+%%     ~~Describe \code{dat} here~~
 }
 }
 \details{
@@ -47,10 +47,10 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
+function (dat) 
 {
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
+    res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), 
+        scanner_info = .create.scaninfo(dat), ID = subject.ID)
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
