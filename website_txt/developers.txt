@@ -1,0 +1,1 @@
+Brainconductor is an open development project. All developers from the scientific community are welcome to contribute software to this project. New packages are added to the project through a package submission process after a review. Developers can submit software, experimental data and supplementary data packages to us.
