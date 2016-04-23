@@ -1,0 +1,56 @@
+
+Using Brainconductor 
+Install R
+Install Packages
+Find Packages
+Update Packages
+Using BCoInstall()
+Using Brainconductor        
+
+The current release of Brainconductor is a prototype version 1.0; it requires R version no less than 3.2.2. Users of older R versions must update their installation.        
+Install the latest release of R, then get the Brainconductor by starting R and entering the commands        
+source("http://52.69.152.114/BCoInstall.R") 
+BCoInstall()
+Details, including instructions to install additional packages and to update, and find are provided below. Brainconductor uses BCoInstall() as a basic function for managing Brainconductor resources.
+Install R
+
+Download the most recent version of R. The R FAQs and the R Installation and Administration Manual contain detailed instructions for installing R on various platforms (Linux, OS X, and Windows being the main ones).
+Start the R program; on Windows and OS X, this will usually mean double-clicking on the R application, on UNIX-like systems, type “R” at a shell prompt.
+As a first step with R, start the R help browser by typing help.start() in the R command window. For help on any function, e.g. the “sum” function, type ? sum.
+Install Brainconductor Packages
+
+Use the BCoInstall.R script to install Brainconductor packages. To install basic packages, type the following in an R command window:
+source("http://52.69.152.114/BCoInstall.R") 
+BCoInstall()
+       
+Install specific packages, e.g., “Brainstat” and “Templates”, with
+BCoInstall(c("Brainstat", "Templates"))
+       
+The BCoInstall() function (in the BrainCoSetup package installed by the BCoInstall.R script) has arguments that change its default behavior; type ? BCoInstall for further help.
+Find Brainconductor Packages
+
+Visit the software package list to discover available packages.
+Update Installed Brainconductor Packages
+
+To update packages within your version of Brainconductor, start a new session of R and enter
+source("http://52.69.152.114/BCoInstall.R") 
+BCoInstall()     ## R version 3.0 or later
+       
+Set the argument ask=FALSE to automatically update old packages without prompting. Read the help page for ? BCoInstall for additional details.
+
+Recompiling installed Brainconductor packages
+
+Rarely, underlying changes in the operating system require ALL installed packages to be recompiled for source (C or Fortran) compatibility. One way to address this might be to start a new R session and enter
+source("http://Brainconductor.org/BCoInstall.R") 
+pkgs <- rownames(installed.packages())
+BCoInstall(pkgs, type="source")
+       
+As this will reinstall all currently installed packages, it likely involves a significant amount of network bandwidth and compilation time. All packages are implicitly updated, and the cumulative effect might introduce wrinkles that disrupt your work flow. It also requires that you have the necessary compilers installed.
+Using BCoInstall()
+
+R pacakges are often installed via install.packages(), However, BCoInstall() is the recommended way to install Brainconductor packages. The main reason is that, Brainconductor, like Bioconductor, has a repository and release schedule that differs from R. BCoInstall() helps set up Brainconductor repositories and check both local R version and the correlated most recent ‘release’ Brainconductor version.
+The main purpose of source("https://brainconductor.org/BCoInstall.R") is to install and attach the ‘BrainCoSetup’ package.
+In a new installation, the script installs the most recent version of the BrainCoSetup package relevant to the version of local R, regardless of the relative times of R and Brainconductor release cycles. The BrainCoSetup package serves as the primary way to get the appropriate version of Brainconductor.
+The BCoInstall() function is provided by BrainCoSetup. This is a wrapper around install.packages, but with the Brainconductor repository, which is not included in the repository option in R.
+BCoInstall() also helps users to remain current within a release, by default checking for out-of-date packages and asking if the user would like to update.
+The BrainCoSetup package also provides BCoValid() to test that the installed packages are not from different Brainconductor releases (the ‘too new’ or out-of-date packages have been installed from source rather than a repository) to ensure every software package in Brainconductor release is matched with other dependencies.
