@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{read.dcm}
+\alias{read.dcm}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,15 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+read.dcm(object, src)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{object}{
+%%     ~~Describe \code{object} here~~
+}
+  \item{src}{
+%%     ~~Describe \code{src} here~~
 }
 }
 \details{
@@ -47,11 +50,12 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
-{
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
-  }
+structure(function (object, src) 
+standardGeneric("read.dcm"), generic = structure("read.dcm", package = "Brainbasetmp"), package = "Brainbasetmp", group = list(), valueClass = character(0), signature = c("object", 
+"src"), default = `\001NULL\001`, skeleton = (function (object, 
+    src) 
+stop("invalid call in method dispatch to 'read.dcm' (no default method)", 
+    domain = NA))(object, src), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
