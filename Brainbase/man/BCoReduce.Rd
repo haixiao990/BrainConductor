@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{BCoReduce}
+\alias{BCoReduce}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,18 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+BCoReduce(obj, template, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{obj}{
+%%     ~~Describe \code{obj} here~~
+}
+  \item{template}{
+%%     ~~Describe \code{template} here~~
+}
+  \item{\dots}{
+%%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
@@ -47,11 +53,12 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
-{
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
-  }
+structure(function (obj, template, ...) 
+standardGeneric("BCoReduce"), generic = structure("BCoReduce", package = "Brainbasetmp"), package = "Brainbasetmp", group = list(), valueClass = character(0), signature = c("obj", 
+"template"), default = `\001NULL\001`, skeleton = (function (obj, 
+    template, ...) 
+stop("invalid call in method dispatch to 'BCoReduce' (no default method)", 
+    domain = NA))(obj, template, ...), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

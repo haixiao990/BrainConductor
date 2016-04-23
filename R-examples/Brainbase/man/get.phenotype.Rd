@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{get.phenotype}
+\alias{get.phenotype}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,12 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+get.phenotype(obj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{obj}{
+%%     ~~Describe \code{obj} here~~
 }
 }
 \details{
@@ -47,11 +47,10 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
-{
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
-  }
+structure(function (obj) 
+standardGeneric("get.phenotype"), generic = structure("get.phenotype", package = "Brainbasetmp"), package = "Brainbasetmp", group = list(), valueClass = character(0), signature = "obj", default = `\001NULL\001`, skeleton = (function (obj) 
+stop("invalid call in method dispatch to 'get.phenotype' (no default method)", 
+    domain = NA))(obj), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

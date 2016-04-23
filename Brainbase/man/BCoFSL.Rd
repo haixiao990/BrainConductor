@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{BCoFSL}
+\alias{BCoFSL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,18 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+BCoFSL(func.call, conversion.list = NULL, output.file = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{func.call}{
+%%     ~~Describe \code{func.call} here~~
+}
+  \item{conversion.list}{
+%%     ~~Describe \code{conversion.list} here~~
+}
+  \item{output.file}{
+%%     ~~Describe \code{output.file} here~~
 }
 }
 \details{
@@ -47,10 +53,30 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
+function (func.call, conversion.list = NULL, output.file = NULL) 
 {
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
+    if (is.null(options("fsl.path"))) {
+        if (length(Sys.getenv("FSLDIR")) == 0) {
+            stop("FSL options are not set")
+        }
+        else {
+            options(fsl.path = Sys.getenv("FSLDIR"))
+        }
+    }
+    if (is.null(options("fsl.outputtype"))) {
+        print("FSL option 'fsl.outputtype' set to 'NIFTI_GZ' by default")
+        options(fsl.outputtype = "NIFTI_GZ")
+    }
+    if (!is.null(converstion.list)) {
+        for (i in 1:length(converstion.list)) {
+            BCoWrite(eval(parse(text = converstion.list[i])), 
+                filename.prefix = names(conversion.list)[i])
+        }
+    }
+    eval(parse(text = func.call))
+    if (!is.null(output.file)) {
+        BCoRead(output.file)
+    }
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

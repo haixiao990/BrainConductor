@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{BCoSubjectFinder.default}
+\alias{BCoSubjectFinder.default}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,14 +8,9 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+BCoSubjectFinder.default()
 }
 %- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
-}
-}
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
@@ -47,10 +42,14 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
+function () 
 {
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
+    variables = ls(.GlobalEnv)
+    varClasses = sapply(variables, function(x) {
+        class(eval(as.name(x)))
+    })
+    idx.NIdata = which(varClasses == "NIdata")
+    variables[idx.NIdata]
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

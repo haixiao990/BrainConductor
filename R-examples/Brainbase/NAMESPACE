@@ -1,0 +1,24 @@
+exportPattern("^[[:alpha:]]+")
+exportMethods(
+    "BCoReduce",
+    "BCoWrite",
+    "convert.2Dto4D",
+    "convert.4Dto2D",
+    "get.matrix",
+    "get.phenotype",
+    "is.functional",
+    "read.dcm",
+    "show" 
+)
+exportClasses(
+    "BCoBase",
+     "BCoData",
+     "BCoData2D",
+     "BCoData2DReduc",
+     "BCoData4D",
+     "NIdata",
+     "Readcontrol",
+     "scanner_info",
+     "Template",
+     "Writecontrol" 
+)

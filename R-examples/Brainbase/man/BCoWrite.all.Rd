@@ -1,5 +1,5 @@
-\name{read.DICOM.dcm}
-\alias{read.DICOM.dcm}
+\name{BCoWrite.all}
+\alias{BCoWrite.all}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
@@ -8,12 +8,18 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.DICOM.dcm(inputPath)
+BCoWrite.all(file.dir = NULL, subj.header = NULL, controls = list(type = "RData", onefile = T, gzipped = T, verbose = F, warn = -1))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{inputPath}{
-%%     ~~Describe \code{inputPath} here~~
+  \item{file.dir}{
+%%     ~~Describe \code{file.dir} here~~
+}
+  \item{subj.header}{
+%%     ~~Describe \code{subj.header} here~~
+}
+  \item{controls}{
+%%     ~~Describe \code{controls} here~~
 }
 }
 \details{
@@ -47,10 +53,25 @@ read.DICOM.dcm(inputPath)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (inputPath) 
+function (file.dir = NULL, subj.header = NULL, controls = list(type = "RData", 
+    onefile = T, gzipped = T, verbose = F, warn = -1)) 
 {
-    a <- new("nifti_one")
-    read.dcm(a, inputPath)
+    assert_that(substr(file.dir, nchar(file.dir), nchar(file.dir)) == 
+        "/")
+    subj.vec = BCoSubjectFinder.default()
+    if (!is.null(subj.header)) {
+        assert_that(is.character(subj.header) & length(subj.header) == 
+            1)
+        subj.vec = grep(subj.header, subj.vec, value = T)
+    }
+    for (i in subj.vec) {
+        BCoWrite(eval(as.name(i)), filename.prefix = paste0(file.dir, 
+            deparse(substitute(i))), controls = controls)
+        if (is.null(controls$verbose) || controls$verbose) {
+            paste0("Writing for ", i, " is complete!")
+        }
+    }
+    invisible()
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
