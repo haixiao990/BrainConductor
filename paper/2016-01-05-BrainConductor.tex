@@ -152,7 +152,7 @@ First, domain-specific expertise and computational power is needed to handle
 the various data file types and to manage the storage
 of these large-scale datasets. Second, specialized softwares and
 many in-house analysis pipelines have been developed that
-prevent new researchers from entering the field.
+prevent new researchers from entering the field {\color{red}(why? the logic is not clear here)}.
 The Brainconductor project is an open-neuroscience
 initiative to address
 these obstacles.
@@ -169,30 +169,26 @@ Our goal is to %, and the foremost of all is to
 build a knowledge hub and interdisciplinary community by connecting
 neuroscientists and statisticians.  Neuroscientists
 drive the scientific process by collecting new data and constructing focused
-experiments. Non-invasive imaging techniques have gain popularity to
+experiments. Non-invasive imaging techniques have gained popularity to
 investigate how phenotypic variation
 influence the connectivity differences in the human
-connectome among individuals\cite{sporns2005human,sporns2011human}. These
-include structural and functional MRI,
+connectome among individuals\cite{sporns2005human,sporns2011human} 
+{\color{red}(The connectome study is a hot topic in neuroimage but not all of them)}. 
+These include structural and functional MRI,
 diffusion tensor imaging (DTI), and Electroencephalography
 (EEG).
-On
-the other hand, statisticians bring new statistical methods
+On the other hand, statisticians bring new statistical methods
 designed to address the high-dimensional, large-scale and complex
 data. Such techniques can be divided broadly into
 two categories:
 feature extraction (i.e., estimating the connectome, representing
 a parcellation of voxels' time series with a single time series,
 identifying relevant biomakers associated with a connectome signature)
+{\color{red}(again too much focus on the connectome, and what is connectome signature)}
 and uncertainty assessment (i.e., testing for significant difference
 between the connectomes of two populations, determining if 
 an extracted feature is due to chance).
-<<<<<<< HEAD
 We strive to help enable the ease of collaboration between these two communities.
-=======
-We strive to help enable the ease of collaboration between these two
-communities.
->>>>>>> refs/remotes/origin/kevin
 While the neuroscientist will benefit from the modern techniques to
 analyze these datasets, the statistician
 will benefit from the lowered barrier-to-entry
@@ -266,28 +262,19 @@ most statistical methods. These concerns are summarized in \Fref{fig:nitrc}.
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_nitrc_chart_v2.png}
 \caption{Drawbacks of NITRC framework, description of the drawbacks and proposed
-solution
-<<<<<<< HEAD
-in Brainconductor. %{\color{red}Need to fix alignment}
-=======
-in Brainconductor. {\color{red}Need to fix alignment}
->>>>>>> refs/remotes/origin/kevin
+solution in Brainconductor. {\color{red}Need to fix alignment}
+
 }
 \label{fig:nitrc}
 \end{figure}
 
 
 The Brainconductor project serves two fundamental goals. In connectome-wide
-<<<<<<< HEAD
-association studies, one fundamental goal is to relate differences between the macro- and
-=======
+
 association studies, one fundamental goal is to relate differences between the
-macro- and
->>>>>>> refs/remotes/origin/kevin
-microarchitecture of the human connectome to phenotypic variation among
+macro- and microarchitecture of the human connectome to phenotypic variation among
 individuals\cite{milham2012open}. Towards this end,
-in our
-initial release of Brainconductor, we focus on an open-neuroscience
+in our initial release of Brainconductor, we focus on an open-neuroscience
 solution to manage resting-state fMRI data and study its
 subsequent brain connectivity patterns.
 However, there are many scientific goals to a field as broad as neuroscience.
@@ -579,26 +566,12 @@ shown in \Fref{fig:dicom}.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/dicom.png}
-<<<<<<< HEAD
-\caption{Comparison between conversion functions from oro.dicom package (left) and from our Brainbase  package (right).  Our function showed better compatibility  with widely-used visualization tools such as MRIcron.}
-=======
+
 \caption{Comparison between conversion functions from oro.dicom package (left)
 and from our Brainbase  package (right).  Our function showed better
 compatibility  with widely-used visualization tools such as MRIcron.}
->>>>>>> refs/remotes/origin/kevin
 \label{fig:dicom}
 \end{figure}
-
-
-<<<<<<< HEAD
-%{\color{red}TODO: This code is half-way complete. To use dcm2nii, users will
-%need
-%matlab installed and linked...}
-
-=======
->>>>>>> refs/remotes/origin/kevin
-
-
 
 \subsection{Software Distribution.}
 
@@ -636,11 +609,9 @@ Each package has a designated maintainer responsive by email address and reacts
 to
 errors, bugs, and user questions. Packages without an active maintainer will be
 orphaned and no longer be part of the Brainconductor release.
-<<<<<<< HEAD
-%{\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
-=======
+
 {\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
->>>>>>> refs/remotes/origin/kevin
+
 
 
 \section{User Perspective}
@@ -669,11 +640,7 @@ used by the neuroscience community. These include datasets such
 as the Montreal Neurological
 Institute (MNI) brain atlases, the Automated Anatomical Labeling (AAL)
 parcellation\cite{tzourio2002automated},
-<<<<<<< HEAD
-tissue prior,
-=======
 tissue prior {\color{red}From where?},
->>>>>>> refs/remotes/origin/kevin
 and the various lists of region of interests. While most of these
 resources are available when installing FSL, we have taken
 efforts to integrate these datasets into the analysis in R itself.
@@ -690,20 +657,6 @@ all the complexities from the user. With an input NIfTI file name or directory o
 DICOM files, `BCoRead' outputs the desired NIdata
 file.
 One important argument to `BCoRead' is the input of the subject-scan specific ID
-<<<<<<< HEAD
-number. 
-%Behind the
-%scenes, Brainconductor maintains a hash table of all currently used ID numbers
-%to ensure
-%each NIdata object in the current R workspace has a unique ID number.
-%{\color{red}TODO: This code is developed yet.}
-Typically, users might want to update their NIdata files to incorporate the
-phenotype information. In that case, Brainconductor has a `BCoLink.phenotype'
-function
-which can appropriately link phenotype information in a Comma-Separated Value (CSV)
-file
-to NIdata objects with the corresponding ID.
-=======
 number if available. 
 Typically, users might want to update their NIdata files to incorporate the
 phenotype information. In that case, Brainconductor has a `BCoLink.phenotype'
@@ -713,7 +666,6 @@ which can appropriately link phenotype information in a Comma-Separated Value
 BCoRead has an extension to automatically generate the variable names to store
 the NIdata objects. This can be useful when users have hundreds of NIfTI
 objects to load into R and also ensures reproducible research.
->>>>>>> refs/remotes/origin/kevin
 
 One of the fundamental obstacles of neuroimaging data analysis is bringing a
 sample-level
@@ -726,16 +678,10 @@ neuroscientists cannot naively aggregate all the NIdata objects prior to
 performing their
 analysis.
 
-<<<<<<< HEAD
-To facilitate this problem, Brainconductor has developed a general function
-=======
 To facilitate this problem, Brainconductor provides a general function
->>>>>>> refs/remotes/origin/kevin
-called
-`BCoPopulation.analysis' which uses five distinct functions: 1) `BCoSubjectFinder' to
+called `BCoPopulation.analysis' which uses five distinct functions: 1) `BCoSubjectFinder' to
 find the relevant NIdata objects in the R Workspace corresponding to fMRI data a
-user wishes
-to analyze,
+user wishes to analyze,
 2) an optional `BCoClassifier' object which separates the NIdata objects into
 different cohorts based on the loaded phenotype information such as `case' and
 `control', 3)
@@ -758,11 +704,9 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
-<<<<<<< HEAD
-\caption{ %{\color{red}typo in population}
-=======
+
 \caption{ {\color{red}typo in population}
->>>>>>> refs/remotes/origin/kevin
+
 The workflow using Brainconductor's interface. Our illustration
 is about estimating the connectome from fMRI data, but functions within can be
 adapted to estimate any desired quantity. BCoRead (A1) reads the
@@ -780,27 +724,21 @@ once the functions B2 to B5 are define. The last step is visualization (C6).}
 \end{figure}
 
 We note that our ``BCoPopulation.analysis'' can reverse the steps
-``BCoPopulation.aggregate"
-<<<<<<< HEAD
-and ``BCoPopulation.difference" to handle paired case-control studies.
+``BCoPopulation.aggregate" and ``BCoDifference" to handle paired case-control studies.
 
-%{\color{red}TODO: This code has just begun being developed.}
-=======
-and ``BCoDifference" to handle paired case-control studies.
->>>>>>> refs/remotes/origin/kevin
 
 \subsection{Visualization.}
 Visualization plays a tremendously vital role in neuroimaging analysis.
 It serves as both an exploratory tool to understand the dataset or ensure
-correctness
-of postprocessing. It is also used to interpret high-dimensional statistical
+correctness of postprocessing. It is also used to interpret high-dimensional statistical
 results.
 We provide appropriate functions for both built ontop of existing R packages
 such
 as `brainR' and `fmri'.
 
-In the spirit of popular visualization softwares such as AFNI and FSL, we have
-developed `BCoView', an interactive plotter based in R that allows users to
+In the spirit of popular visualization softwares such as AFNI and FSL
+{\color(red) (not representative visualization softwares, FSLviewer, mricron), 
+we have developed `BCoView', an interactive plotter based in R that allows users to
 scroll around and
 zoom-in, zoom-out of the neuroimage using keyboard commands. With other keyboard
 commands, users can also show the corresponding series where the current
@@ -827,10 +765,6 @@ Lastly, to visualize the connectome, we develop `BCoView.connectome' which
 visualizes the
 3D brain and the corresponding ROI-analysis or parcellation-analysis.
 
-<<<<<<< HEAD
-%{\color{red}TODO: This code is half-way complete.}
-=======
->>>>>>> refs/remotes/origin/kevin
 
 \subsection{Reproducible Research.}
 

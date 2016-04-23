@@ -117,6 +117,8 @@
     }
     
     filetype  <- switch(filesuff, 
+                      Rdata = 'Rdata',
+                      rda = 'Rdata',  
                       nii = 'NIFTI',
                       dcm = 'DICOM')
     

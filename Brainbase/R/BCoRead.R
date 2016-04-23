@@ -10,7 +10,7 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
   ####### check the type of 'input' file. ###########
   NIfileType = .NIfile.type(input)
   
-  if(is.null(NIfileType$filetype)) 
+  if(is.null(NIfileType$filetype) || (NIfileType$filetype == 'Rdata')) 
     .stop(paste(.dQuote(input),"is not a file or folder with valid NI format"))
   
   if(NIfileType$filetype == 'DICOM')
@@ -50,7 +50,7 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
   #}
 
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)), 
-   scanner_info = .create.scaninfo(dat), ID = subject.ID)
+  scanner_info = .create.scaninfo(dat), ID = subject.ID)
 
   #immediately convert to 2D matrix if it is dictated in "controls"
   if(con@convert2D){
