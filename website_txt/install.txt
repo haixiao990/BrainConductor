@@ -40,7 +40,7 @@ Set the argument ask=FALSE to automatically update old packages without promptin
 
 Recompiling installed Brainconductor packages
 
-Rarely, underlying changes in the operating system require ALL installed packages to be recompiled for source (C or Fortran) compatibility. One way to address this might be to start a new R session and enter
+Rarely, underlying changes in the operating system require ALL installed packages to be recompiled for source (C or Fortran) compatibility. One way to address this is to start a new R session and enter
 source("http://Brainconductor.org/BCoInstall.R") 
 pkgs <- rownames(installed.packages())
 BCoInstall(pkgs, type="source")
