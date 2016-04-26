@@ -150,9 +150,11 @@ application of these methods to large-scale neuroimaging data
 in practice.
 First, domain-specific expertise and computational power is needed to handle
 the various data file types and to manage the storage
-of these large-scale datasets. Second, specialized softwares and
-many in-house analysis pipelines have been developed that
-prevent new researchers from entering the field.
+of these large-scale datasets. Second, the pipeline of a typical
+neuroimaging analysis can span multiple software platforms such as FSL, AFNI,
+Python, Matlab and R. This decentralized workflow hinders a reproducible 
+analysis and discourages new researchers from learning all the
+necessary tools across different platforms.
 The Brainconductor project is an open-neuroscience
 initiative to address
 these obstacles.
@@ -169,26 +171,27 @@ Our goal is to %, and the foremost of all is to
 build a knowledge hub and interdisciplinary community by connecting
 neuroscientists and statisticians.  Neuroscientists
 drive the scientific process by collecting new data and constructing focused
-experiments. Non-invasive imaging techniques have gain popularity to
-investigate how phenotypic variation
-influence the connectivity differences in the human
-connectome among individuals\cite{sporns2005human,sporns2011human}. These
-include structural and functional MRI,
+experiments. Non-invasive imaging techniques have gained popularity to
+investigate the influence of phenotypic variation
+on brain connectome\cite{sporns2005human,sporns2011human},
+the coordination among different brain regions when users perform
+tasks {\color{red}wording and citation},
+the structural architecture of the brain {\color{red}citation} and many more. 
+These include structural and functional MRI,
 diffusion tensor imaging (DTI), and Electroencephalography
 (EEG).
-On
-the other hand, statisticians bring new statistical methods
+On the other hand, statisticians bring new statistical methods
 designed to address the high-dimensional, large-scale and complex
 data. Such techniques can be divided broadly into
 two categories:
-feature extraction (i.e., estimating the connectome, representing
-a parcellation of voxels' time series with a single time series,
-identifying relevant biomakers associated with a connectome signature)
+feature extraction (i.e., estimating the connectome or structural 
+properties of the brain, summarizing
+a parcellation of voxels into a single statistic,
+identifying relevant biomakers associated with changes in the connectome architecture)
 and uncertainty assessment (i.e., testing for significant difference
 between the connectomes of two populations, determining if 
 an extracted feature is due to chance).
-We strive to help enable the ease of collaboration between these two
-communities.
+We strive to help enable the ease of collaboration between these two communities.
 While the neuroscientist will benefit from the modern techniques to
 analyze these datasets, the statistician
 will benefit from the lowered barrier-to-entry
@@ -262,24 +265,25 @@ most statistical methods. These concerns are summarized in \Fref{fig:nitrc}.
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_nitrc_chart_v2.png}
 \caption{Drawbacks of NITRC framework, description of the drawbacks and proposed
-solution
-in Brainconductor. {\color{red}Need to fix alignment}
+solution in Brainconductor. {\color{red}Need to fix alignment}
 }
 \label{fig:nitrc}
 \end{figure}
 
 
 The Brainconductor project serves two fundamental goals. In connectome-wide
+
 association studies, one fundamental goal is to relate differences between the
-macro- and
-microarchitecture of the human connectome to phenotypic variation among
+macro- and microarchitecture of the human connectome to phenotypic variation among
 individuals\cite{milham2012open}. Towards this end,
-in our
-initial release of Brainconductor, we focus on an open-neuroscience
+in our initial release of Brainconductor, we focus on an open-neuroscience
 solution to manage resting-state fMRI data and study its
-subsequent brain connectivity patterns.
-However, there are many scientific goals to a field as broad as neuroscience.
-In imaging genetics, the ultimate goal
+subsequent brain connectivity patterns. {\color{red}Do we want to explicitly say
+this?}
+However, there are many scientific goals to a field as broad as neuroscience,
+and we plan to support all types of neuroimaging analyses within Brainconductor
+with the help of the community.
+For example, in imaging genetics, the ultimate goal
 for Brainconductor project is to identify biomarkers and help early diagnosis
 for a variety of neuropsychiatric disorders. This will involve an
 integration of genomics and neuroimaging data and expansion of Brainconductor
@@ -389,6 +393,8 @@ S4 class provides an initial structure for storing
 phenotype and scan information, users have the flexibility to disregard or
 modify these templates before reading the data into R.
 
+
+
 Most of the engineering of the NIdata class revolved around a more suitable
 representation of the neuroimaging data to overcome the potential
 drawbacks of the NIfTI format. Like in the CIFTI file
@@ -447,13 +453,16 @@ we provide based on the fslr package.
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=400pt]{fig/brainconductor/file_format.png}
-\caption{Schematic of the hierarchical data format. On the left is the raw DICOM
-data. In the middle is either the conversion to the NIfTI data or the
-already-preprocessed
-NIfTI data. In the right are the different components of the NIdata file format.
-{\color{red}need to change figure to show all the slots. }
-}
+\includegraphics[width=250pt]{fig/brainconductor/NIdata.png}
+\caption{Schematic of the hierarchical data format. The top-most bullet represents
+the slot for the Subject ID. The next bullet represents the slots for the user-defined
+phenotype information and scan info (i.e. from the NIfTI header). Next, the neuroimaging
+slot represents a hierarchical data structure where data can be stored as 4-dimensional
+matrix (BCoData4D), as a 2-dimensional matrix where each column represents a voxel in
+the mask (BCoData2D) or as a 2-dimensional matrix where each column represents a
+summary of each region of interest (BCoData2DReduc). The next slot represents a wildcard
+where users can store anything of relevance such as analytical results. The last
+slot is for users to write any notes for future reference.}
 \label{fig:fileformat}
 \end{figure}
 
@@ -513,15 +522,12 @@ shown in \Fref{fig:dicom}.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/dicom.png}
+
 \caption{Comparison between conversion functions from oro.dicom package (left)
 and from our Brainbase  package (right).  Our function showed better
 compatibility  with widely-used visualization tools such as MRIcron.}
 \label{fig:dicom}
 \end{figure}
-
-
-
-
 
 \subsection{Software Distribution.}
 
@@ -559,7 +565,9 @@ Each package has a designated maintainer responsive by email address and reacts
 to
 errors, bugs, and user questions. Packages without an active maintainer will be
 orphaned and no longer be part of the Brainconductor release.
+
 {\color{red}TODO: Change wording, currently copied from Bioconductor paper.}
+
 
 
 \section{User Perspective}
@@ -627,11 +635,9 @@ performing their
 analysis.
 
 To facilitate this problem, Brainconductor provides a general function
-called
-`BCoPopulation.analysis' which uses five distinct functions: 1) `BCoSubjectFinder' to
+called `BCoPopulation.analysis' which uses five distinct functions: 1) `BCoSubjectFinder' to
 find the relevant NIdata objects in the R Workspace corresponding to fMRI data a
-user wishes
-to analyze,
+user wishes to analyze,
 2) an optional `BCoClassifier' object which separates the NIdata objects into
 different cohorts based on the loaded phenotype information such as `case' and
 `control', 3)
@@ -654,6 +660,7 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
+
 \caption{ {\color{red}typo in population}
 The workflow using Brainconductor's interface. Our illustration
 is about estimating the connectome from fMRI data, but functions within can be
@@ -672,21 +679,20 @@ once the functions B2 to B5 are define. The last step is visualization (C6).}
 \end{figure}
 
 We note that our ``BCoPopulation.analysis'' can reverse the steps
-``BCoPopulation.aggregate"
-and ``BCoDifference" to handle paired case-control studies.
+``BCoPopulation.aggregate" and ``BCoDifference" to handle paired case-control studies.
+
 
 \subsection{Visualization.}
 Visualization plays a tremendously vital role in neuroimaging analysis.
 It serves as both an exploratory tool to understand the dataset or ensure
-correctness
-of postprocessing. It is also used to interpret high-dimensional statistical
+correctness of postprocessing. It is also used to interpret high-dimensional statistical
 results.
 We provide appropriate functions for both built ontop of existing R packages
 such
 as `brainR' and `fmri'.
 
-In the spirit of popular visualization softwares such as AFNI and FSL, we have
-developed `BCoView', an interactive plotter based in R that allows users to
+In the spirit of popular visualization softwares such as AFNI, FSLviewer, and MRIcron, 
+we have developed `BCoView', an interactive plotter based in R that allows users to
 scroll around and
 zoom-in, zoom-out of the neuroimage using keyboard commands. With other keyboard
 commands, users can also show the corresponding series where the current
@@ -743,10 +749,11 @@ having to open R. Second, users can upload their analysis pipeline as a Jupyter
 Notebook onto the Brainconductor website for others to download and view. This
 directly support reproducible research.
 
-{\color{red}TODO: The website does not currently handle this.}
+%{\color{red}TODO: The website does not currently handle this.}
 
 %{\color{red}Maybe we should switch the dialog. The point is that we are automating
 %functions that users could code themselves. }
+
 
 \subsection{Integration with Statistical Analysis Software.}
 
@@ -768,6 +775,7 @@ function
 that can be used in conjugation when reading in the data which aggregates
 the series
 in different voxels or eliminates voxels that are not relevant to the analysis.
+
 
 Undirected graphs provide a powerful tool for understanding the
 interrelationships among
@@ -799,7 +807,6 @@ Brain Imaging Data Exchange (ABIDE) collected at the
 University of Pittsburgh, School of Medicine\cite{di2014autism}. 
 The subjects are 7 to 35 years of age, where the autistic subjects were
 diagnosed with the Autism Diagnostic Interview-Revised and the Autism Diagnostic
-
 Observation Schedule-General. The controls are selected to be healthy
 individuals to match the autistic subjects in age (within 3.5 years), IQ (within
 12 points on the full-scale) and gender.
@@ -815,6 +822,7 @@ signals) and temporal filtering (0.001-0.08Hz). The derived R-fMRI measures
 were normalized to Montreal Neurological Institute (MNI152) stereostatic
 space (2mm$^3$ isotropic) with linear regressions and spatially smoothed
 (applied FWHM = 6mm). 
+
 
 {\color{red}mention the memory size savings}
 
@@ -870,6 +878,7 @@ in BCoView to determine alignment between anatomical and functional images.
 AAL. (Right) A parcellation plotter in BCoViewer. Each color represents a
 different parcel in AAL.}
 \label{fig:aal}
+
 \end{figure}
 
 \begin{figure}[tb]
@@ -1160,7 +1169,4 @@ NJ 08544 USA (email: \texttt{hanliu@princeton.edu}), and Yu Wang, Ph.D., Room
 %%
 	
 \end{document}
-
-
-
 
