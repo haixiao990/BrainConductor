@@ -4,16 +4,22 @@ library(rgl)
 library(misc3d)
 library(assertthat)
 
-#WARNING: make the controls
-.plot.parcellation <- function(parcellation, parcel.list, file.name, template = NULL, val = NULL,
-  shape.list = NULL, view = "sagittal",
+.plot3dparcelcontrol <- setClass("plot3dparcelcontrol", representation(view = "character", 
+ bot.col = "character", top.col = "character", window.size = "numeric", 
+ return.shape = "logical", return.scene = "logical"), prototype(view = "sagittal", 
+ bot.col = rgb(252, 245, 192, max = 255), top.col = rgb(186, 109, 26, max = 255),
+ window.size = c(0, 23, 1366, 728), return.shape = F, return.scene = F))
+
+plot3D.parcellation <- function(obj, parcel.list, file.name, val = NULL, shape.list = NULL,
+  controls = list(view = "sagittal",
   bot.col = rgb(252, 245, 192, max = 255), top.col = rgb(186, 109, 26, max = 255),
-  window.size = c(0, 23, 1366, 728)){
+  window.size = c(0, 23, 1366, 728), return.shape = F, return.scene = F){
+
+  con = .list2control(controls, "plot3dparcelcontrol")
+
   if(!is.null(val)) assert_that(all(val >= 0) & all(val <= 1))
   #WARNING: do a conversion if not
   assert_that(class(parcellation@data) == "BCoData4D")
-
-  #WARNING: allow template
 
   #WARNING: maybe this should also be adjustable
   H.pi = matrix(1, ncol = 3, nrow = 3)
@@ -22,10 +28,10 @@ library(assertthat)
   dimen = dim(parcellation@data@mat)
 
   #generate color spectrum
-  colfunc = colorRampPalette(c(bot.col, top.col))
+  colfunc = colorRampPalette(c(con@bot.col, con@top.col))
   col.vec = colfunc(50)
 
-  par3d("windowRect" = c(0,23,1366,728))
+  par3d("windowRect" = con@window.size)
   material3d(shininess = 0, specular = "#000000")
 
   #translate the values if val to colors
@@ -47,28 +53,30 @@ library(assertthat)
   
     names(shape.list) = parcel.list
 
-    save(shape.list, file = "~/Brainconductor.git/data/AAL_shapes.RData")
+   #WARNING: NEED TO OUTPUT THE SHAPES SOMEHOW
   }
 
   for(i in 1:length(parcel.list)){
-    plot(shape.list[[i]], drawpoints = F, cont = quant, alphavec = 1, colors = col.vec[val.idx[i]], xlab = "",
-      ylab = "", zlab = "", xlim = c(1,dimen[1]), ylim = c(1,dimen[2]), zlim = c(1,dimen[3]), add = T,
+    plot(shape.list[[i]], drawpoints = F, cont = quant, alphavec = 1, 
+      colors = col.vec[val.idx[i]], xlab = "",
+      ylab = "", zlab = "", xlim = c(1,dimen[1]), ylim = c(1,dimen[2]), 
+      zlim = c(1,dimen[3]), add = T,
       axes = F, box = F)
   }
 
   #WARNING: ALLOW MULTIPLE SHOTS
-  mat = .RGLviewfinder(view)
+  mat = .RGLviewfinder(con@view)
   par3d("userMatrix" = mat)
 
   clear3d(type = "lights") 
   light3d(specular = "black")
   light3d(diffuse = rgb(0.4, 0.4, 0.4), specular = "black")
 
-    rgl.snapshot(file.name)
+  rgl.snapshot(file.name)
 
   scene = scene3d()
 
-  scene
+  if(con@return.scene) scene else invisible()
 }
 
 .RGLviewfinder <- function(view){
