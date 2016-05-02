@@ -1,5 +1,7 @@
-Brainconductor project is a project parallel to Bioconductor. Like Bioconductor, Brainconductor is an open platform for sharing neuroimaging data and data analysis software based on R programming language. Brainconductor aims at promoting interdisciplinary collaboration between neuroscientists and statistical scientists, bringing state-of-the-art statistical methodologies and toolboxes into neuroscience, and enhancing the reproducibility of remarkable research results.
-The Brainconductor project started in 2015 and is overseen by a core team, based primarily at the statistical machine learning lab, Princeton University. and by other members coming from US and international institutions.
+Brainconductor project is a project parallel to Bioconductor. Like Bioconductor, Brainconductor is an open platform for sharing neuroimaging data and data analysis software based on the R programming language. Brainconductor aims at promoting interdisciplinary collaboration between neuroscientists and statistical scientists, bringing state-of-the-art statistical methodologies and toolboxes into neuroscience, and enhancing the reproducibility of remarkable research results.
+
+The Brainconductor project started in 2015 and is overseen by a core team primarily based in the statistical machine learning lab at Princeton University. Other members involved are from US and international institutions.
+
 Brainconductor Packages
 
 Most Brainconductor components are distributed as R packages. The functional scope of Brainconductor packages includes the analysis of multi-modal neuroimaging data (e.g., MRI, EEG, and other data).
@@ -7,14 +9,22 @@ Project Goals
 
 The Brainconductor project serves two fundamental goals. In connectome-wide association studies, one fundamental goal is to relate differences between the macro- and microarchitecture of the human connectome to phenotypic variation among individuals. Towards this end, in our initial release of Brainconductor, we focus on an open-neuroscience solution to manage resting-state fMRI data and study its subsequent brain connectivity patterns. However, there are many scientific goals to a field as broad as neuroscience. In imaging genetics, the ultimate goal for Brainconductor project is to identify biomarkers and help early diagnosis for a variety of neuropsychiatric disorders. This will involve an integration of genomics and neuroimaging data and expansion of Brainconductor in the future.
 The initial work of Brainconductor paves the foundation for this long-term community project in several aspects:
-To provide access to state-of-the-art statistical and graphical methods for the analysis of neuroimaging data.
+
+To provide access to state-of-the-art statistical and graphical model methods for the analysis of neuroimaging data.
+
 To provide an open-source platform that enables the rapid development and deployment of scalable, extensible, and interoperable software.
+
 To further scientific understanding by producing high-quality documentation and reproducible research with well-organized data packages.
 Main Features
 
 Functionality of R. Using R provides a programming environment which is able to foster efficiency for software development, allow streamlined and reproducible research and simulate interdisciplinary communication and cooperation.
+
 General data structure with high compatibility. The Brainconductor project began with significant investment in the infrastructure construction for software development by formulating the data structures of neuroimaging data. A general data structure unifies the interface port and increases the reusability and interoperability of software packages. An S4 ‘NIdata’ class was defined as the basic data structure based on the NIfTI format, which is widely used in neuroimaging data representation. Our NIdata format ensures compatibility since most of the conversions from the existing NIfTI data format are straightforward. The Brainbase package provides functions to facilitate reading in the header information and high-dimensional data array from binary neuroimaging data files in different formats into a unified NIdata class objects
+
 Software Distribution. All software distributed by Brainconductor is in the form of R packages abiding to our NIdata structure. This simplifies software delivery, usage and maintenance but puts a burden on the developers to learn how to write R packages, documentation and test cases.
-Statistical and visualization methods. The Brainconductor project provides access to powerful statistical and graphical methods for the analysis of high-dimensional neuroimaging data using the R package system. A broad range of statistical and graphical techniques, including linear and non-linear modeling, cluster analysis, prediction, resampling, survival analysis, and time-series analysis. Besides, visualization plays a tremendously vital role in neuroimaging analysis. It serves as both an exploratory tool to understand the dataset or ensure correctness of postprocessing. It is also used to interpret high-dimensional statistical results. Brainconductor provides appropriate functions for both built ontop of existing R packages such as ‘brainR’ and ‘fmri’.
+
+Statistical and visualization methods. The Brainconductor project provides access to powerful statistical and graphical methods for the analysis of high-dimensional neuroimaging data using the R package system. This includes a broad range of statistical and graphical techniques, including linear and non-linear modeling, cluster analysis, prediction, resampling, survival analysis, and time-series analysis. Visualization plays a tremendously vital role in neuroimaging analysis, serves as both an exploratory tool to understand the dataset. It also helps to ensure correctness of postprocessing and to present the researchers' results. It is also used to interpret high-dimensional statistical results. Brainconductor provides appropriate functions for both built ontop of existing R packages such as ‘brainR’ and ‘fmri’.
+
 Open source. The Brainconductor project has a commitment to full open source discipline, with distribution via a public subversion (version control) server. All contributions exist under an open source license such as Artistic 2.0, GPL2, or BSD.
+
 Open development. Users are encouraged to become developers, either by contributing Brainconductor compliant packages or documentation. Additionally Brainconductor provides a mechanism for linking together different groups with common goals to foster collaboration on software, often at the level of shared development.

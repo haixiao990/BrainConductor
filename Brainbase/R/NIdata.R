@@ -135,6 +135,7 @@ setClass("TissuePriors", representation(tissue = "character"),
 .Template <- setClass("Template", representation(scanner_info = "scanner_info",
   exra = "list"), contains = "BCoBase")
 
+<<<<<<< HEAD
 setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
 
 setMethod("get.matrix", signature("NIdata"), function(obj){
@@ -212,3 +213,5 @@ setMethod("show", "NIdata", function(object){
 
   cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
 })
+=======
+>>>>>>> kevin

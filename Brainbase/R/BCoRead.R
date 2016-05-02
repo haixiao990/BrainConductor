@@ -5,7 +5,7 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
 
   assert_that(is.null(template) || class(template) == "Template")
 
-  con = .convert.list2Readcontrol(controls)
+  con = .convert.list2control(controls, "Readcontrol")
 
   ####### check the type of 'input' file. ###########
   NIfileType = .NIfile.type(input)
