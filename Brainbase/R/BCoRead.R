@@ -65,6 +65,15 @@ BCoRead <- function(input, template = NULL, mask = NULL, subject.ID = "",
   res
 }
 
+
+BCoRead.Template <- function(inputfile){
+  obj <- BCoRead(inputfile)
+  if(length(dim(obj@data@mat))!=3)
+    .stop(paste0(inputfile," is Not a template (mask) file"))
+  Template <- .Template(data = obj@data, notes = 'mask template')
+}
+
+
 BCoReadandAssign <- function(input, variable.header, 
  template = NULL, mask = NULL,
  controls = list(convert2D = F, method = "mean", verbose = F), subject.ID = ""){

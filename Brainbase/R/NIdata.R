@@ -120,7 +120,7 @@ setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
  ID = "character"), contains = "BCoBase")
 
 
-.Template <- setClass("Template", contains = "BCoBase")
+.Template <- setClass("Template", contains = "BCoBase")         ##what is the difference with line 135?
 
 #WARNING: Now that I think about it, these three might be just
 # effectively all be the same...
@@ -135,32 +135,25 @@ setClass("TissuePriors", representation(tissue = "character"),
 .Template <- setClass("Template", representation(scanner_info = "scanner_info",
   exra = "list"), contains = "BCoBase")
 
-<<<<<<< HEAD
 setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
 
-setMethod("get.matrix", signature("NIdata"), function(obj){
-  get.matrix(obj@data)
+setMethod("get.matrix", signature("NIdata"), function(obj, ...){
+  get.matrix(obj@data, ...)
 })
 
-setMethod("get.matrix", signature("Template"), function(obj){
-  get.matrix(obj@data)
+setMethod("get.matrix", signature("Template"), function(obj, ...){
+  get.matrix(obj@data, ...)
 })
 
-setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
+setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T, ...){
   if(output2D & class(obj) == "BCoData4D"){
-    convert.4Dto2D(obj, verbose = F)
-  } else {
-    obj@mat
-  }
+    obj <- convert.4Dto2D(obj, verbose = F, ...)        ##Mostly '...' are used for template argument
+  } 
+  obj@mat ## finally return the 2D matrix
 })
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-setMethod("is.functional", function(obj) standardGeneric("is.functional"))
-=======
+
 setGeneric("is.functional", function(obj) standardGeneric("is.functional"))
->>>>>>> kevin
 
 setMethod("is.functional", signature("BCoData"), function(obj){
   if(class(obj) == "BCoData4D"){
@@ -173,7 +166,7 @@ setMethod("is.functional", signature("BCoData"), function(obj){
 setMethod("is.functional", signature("NIdata"), function(obj){
   is.functional(obj@data)
 })
->>>>>>> refs/remotes/origin/kevin
+
 
 setGeneric("get.phenotype", function(obj) standardGeneric("get.phenotype"))
 
@@ -213,5 +206,4 @@ setMethod("show", "NIdata", function(object){
 
   cat(paste0("  Object has slots: ", paste0(names(getSlots(class(object))), collapse = ", "), ".\n"))
 })
-=======
->>>>>>> kevin
+
