@@ -24,3 +24,13 @@ AAL_2mm = .Template(.BCoBase(data = .BCoData4D(mat = dat),
   paste0("From AAL_MNI_2mm.nii file, made on ", Sys.Date())))
 
 save(AAL_2mm, file = "~/Brainconductor.git/Templates/data/AAL_2mm.rda")
+
+
+dat = readNIfTI("50002_ABIDE_segment.nii.gz")
+example_brain1 = .NIdata(data = .BCoData4D(mat = dat), notes = 
+  paste0("From ABIDE 50002 preprocessed using CPAC on ", Sys.Date()))
+
+#WARNING: maybe include the phenotype?? and Scan info??
+save(example_brain1, file = "~/Brainconductor.git/Templates/data/example_brain1.rda")
+
+#INCLUDE ANOTHER EXAMPLE, MAYBE A NON-AUTISM ONE
