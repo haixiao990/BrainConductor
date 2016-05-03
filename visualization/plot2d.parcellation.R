@@ -4,14 +4,16 @@
 
 #WARNING: make sure this uses the same view finder as in the 3d parcellation
 
-setGeneric("plot2d.parcellation", function(obj, ...) 
- standardGeneric("plot2d.parcellation"))
+setGeneric("plot2D.parcellation", function(obj, ...) 
+ standardGeneric("plot2D.parcellation"))
 
 #parcellation when the parcellation is a vector
 #WARNING: FILL THIS IN
 
 #parcellation when the parcellation is a NIdata object
-setMethod("plot2D.parcellation", signature("NIdata"), function(obj, 
+
+#WARNING: what to do when it's not Template??
+setMethod("plot2D.parcellation", signature("Template"), function(obj, 
   controls = list(colors = NULL,
   num.slices = 12, view = "sagittal")){
 
@@ -19,12 +21,12 @@ setMethod("plot2D.parcellation", signature("NIdata"), function(obj,
   con = .convert.list2control(controls, "plot2dparcelcontrol")
   #WARNING: MAKE IT HANDLE BCODATA2D ALSO
 
-  mat = get.matrix(obj)
+  mat = get.matrix(obj, output2D = F)
   mask = which(mat != 0)
-  partition = mat[mask]
+  partition = as.factor(mat[mask])
 
   .plot2d.parcellation(partition, mat, mask, filename, con)
-}
+})
 
 .plot2d.parcellation <- function(partition, templateMRI, mask, filename,
   con){
@@ -84,6 +86,10 @@ setMethod("plot2D.parcellation", signature("NIdata"), function(obj,
 #given an image, find out the dimensional to slice along and the
 # slices along that dimension
 .compute.slices <- function(img, view, num.slices = 12, offset = 5) {  
+
+  #WARNING: ugly coding, fix this
+  VIEWS = list.views()
+
   assert_that(view %in% VIEWS & length(view) == 1)
   
   dim.idx = which(VIEWS %in% view)  
@@ -101,4 +107,8 @@ setMethod("plot2D.parcellation", signature("NIdata"), function(obj,
   slice.idx = round(seq(min.slice, max.slice, length.out = num.slices))
   
   list(slice.idx = slice.idx, dim.idx = dim.idx)
+}
+
+list.views <- function(){
+  c("sagittal", "coronal", "axial")
 }
