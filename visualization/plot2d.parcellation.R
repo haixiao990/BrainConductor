@@ -1,7 +1,7 @@
 .plot2dparcelcontrol <- setClass("plot2dparcelcontrol", representation(
  num.slices = "numeric", view = "character"),
  prototype(num.slices = 12, view = "sagittal"))
-
+ 
 #WARNING: make sure this uses the same view finder as in the 3d parcellation
 
 setGeneric("plot2D.parcellation", function(obj, ...) 
