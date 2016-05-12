@@ -4,17 +4,19 @@
 
 setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
 
-setMethod("get.matrix", signature("NIdata"), function(obj){
-  get.matrix(obj@data)
+
+#WARNING: make sure all these have reasonable inputs
+setMethod("get.matrix", signature("NIdata"), function(obj, output2D = T){
+  get.matrix(obj@data, output2D)
 })
 
-setMethod("get.matrix", signature("Template"), function(obj){
-  get.matrix(obj@data)
+setMethod("get.matrix", signature("Template"), function(obj, output2D = T){
+  get.matrix(obj@data, output2D)
 })
 
 setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
   if(output2D & class(obj) == "BCoData4D"){
-    convert.4Dto2D(obj, verbose = F)
+    .convert.4Dto2Dmat(obj, verbose = F)
   } else {
     obj@mat
   }

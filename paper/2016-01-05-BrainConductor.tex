@@ -151,16 +151,22 @@ in practice.
 First, domain-specific expertise and computational power is needed to handle
 the various data file types and to manage the storage
 <<<<<<< HEAD
+<<<<<<< HEAD
 of these large-scale datasets. Second, specialized softwares and
 many in-house analysis pipelines have been developed that
 prevent new researchers from entering the field {\color{red}(why? the logic is not clear here)}.
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 of these large-scale datasets. Second, the pipeline of a typical
 neuroimaging analysis can span multiple software platforms such as FSL, AFNI,
 Python, Matlab and R. This decentralized workflow hinders a reproducible 
 analysis and discourages new researchers from learning all the
 necessary tools across different platforms.
+<<<<<<< HEAD
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
 The Brainconductor project is an open-neuroscience
 initiative to address
 these obstacles.
@@ -198,16 +204,22 @@ designed to address the high-dimensional, large-scale and complex
 data. Such techniques can be divided broadly into
 two categories:
 <<<<<<< HEAD
+<<<<<<< HEAD
 feature extraction (i.e., estimating the connectome, representing
 a parcellation of voxels' time series with a single time series,
 identifying relevant biomakers associated with a connectome signature)
 {\color{red}(again too much focus on the connectome, and what is connectome signature)}
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 feature extraction (i.e., estimating the connectome or structural 
 properties of the brain, summarizing
 a parcellation of voxels into a single statistic,
 identifying relevant biomakers associated with changes in the connectome architecture)
+<<<<<<< HEAD
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
 and uncertainty assessment (i.e., testing for significant difference
 between the connectomes of two populations, determining if 
 an extracted feature is due to chance).
@@ -287,9 +299,12 @@ most statistical methods. These concerns are summarized in \Fref{fig:nitrc}.
 \caption{Drawbacks of NITRC framework, description of the drawbacks and proposed
 solution in Brainconductor. {\color{red}Need to fix alignment}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
 }
 \label{fig:nitrc}
 \end{figure}
@@ -407,16 +422,22 @@ statistical analysis as well as to optionally store only portions of the
 data that the user is interested in.
 At its core, the NIdata class is a generic file type split into
 <<<<<<< HEAD
+<<<<<<< HEAD
 four slots to store the following information: 1) phenotype
 information, 2) specifics of scan sessions, 3) the neuroimaging data,
 4) a ``wildcard" extra slot for any other information that user
 wants to store such as statistical results, 5) an optional subject ID,
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 six slots to store the following information: 1) the neuroimaging data,
 2) phenotype
 information, 3) specifics of scan sessions,  4) an optional subject ID,
 5) a ``wildcard" extra slot for any other information that user
 wants to store such as statistical results,
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 and 6) text-based comments or notes associated with the data that
 investigators might document. While the
@@ -442,9 +463,12 @@ columns.
 These templates are associated with brain masks and the corresponding tissue
 priors. 
 <<<<<<< HEAD
+<<<<<<< HEAD
 The NIdata class facilitates the processing
 and storage of neuroimaging data based on customizable
 templates.
+=======
+>>>>>>> refs/remotes/origin/kevin
 =======
 >>>>>>> refs/remotes/origin/kevin
 For instance, one of the templates we provide is the MNI 152 brain masks and
@@ -455,11 +479,14 @@ Moreover, if users want to perform a
 region-of-interest or parcellation-based analysis, we provide
 additional functions to change the template and perform the data extraction.
 <<<<<<< HEAD
+<<<<<<< HEAD
 However, users are able to define their own templates via the reslicing functions
 we provide based on the fslr package. %{\color{red}Not implemented}
 
 To ensure that our 2D representation of neuroimaging data retains the
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 For example, using the Automated Anatomic Labeling (AAL) parcellation\cite{tzourio2002automated},
 users can reduce the voxel-level data into a parcel-level data where the fMRI
 signal of each parcel is determined the mean or the first principal component, the two most
@@ -479,6 +506,9 @@ take advantage of the NIdata class.
 We lastly mention that users have a wealth of flexibility on how to manipulate the NIdata
 objects with aid of our other functions. 
 First, to ensure that our 2D representation of neuroimaging data retains the
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 spatial information of each voxel, the Brainbase package provides
 an R S4 object containing the mapping of voxel location to column index and
@@ -488,10 +518,13 @@ location. Hence, we can convert our 2D representation back to its original
 Thanks to this flexibility, software developers can
 implement algorithms operating directly on the 2D representation in
 <<<<<<< HEAD
+<<<<<<< HEAD
 NIdata without worrying about representation-conversion.  The
 schematic displaying the input of data to the end NIdata representation
 is shown in \Fref{fig:fileformat}.
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 NIdata without worrying about representation-conversion. This also allows users 
 to convert between NIdata and NIfTI classes easily. Second, users can use any
 templates to process and store NIdata objects. While we have mentioned several templates
@@ -499,6 +532,7 @@ provided by the Brainconductor package, users can create customizeable templates
 This can be done via the reslicing
 functions
 we provide based on the fslr package. 
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/kevin
 
 \begin{figure}[tb]
@@ -518,6 +552,11 @@ NIfTI data. In the right are the different components of the NIdata file format.
 >>>>>>> refs/remotes/origin/kevin
 }
 =======
+=======
+
+\begin{figure}[tb]
+\centering
+>>>>>>> refs/remotes/origin/kevin
 \includegraphics[width=250pt]{fig/brainconductor/NIdata.png}
 \caption{Schematic of the hierarchical data format. The top-most bullet represents
 the slot for the Subject ID. The next bullet represents the slots for the user-defined
@@ -528,6 +567,7 @@ the mask (BCoData2D) or as a 2-dimensional matrix where each column represents a
 summary of each region of interest (BCoData2DReduc). The next slot represents a wildcard
 where users can store anything of relevance such as analytical results. The last
 slot is for users to write any notes for future reference.}
+<<<<<<< HEAD
 >>>>>>> kevin
 \label{fig:fileformat}
 \end{figure}
@@ -547,6 +587,11 @@ data structure to reduce the memory requirements for storing each NIdata object.
 %{\color{red}Some concrete numbers of how much memory is saved}
 %{\color{red}TODO: This code is half-way complete.}
 =======
+=======
+\label{fig:fileformat}
+\end{figure}
+
+>>>>>>> refs/remotes/origin/kevin
 
 When designing our NIdata file format in R, we kept the tradition of using S4's
 pass-by-value system rather than using an pointer-based system to
@@ -560,6 +605,9 @@ Instead, we chose to keep the simplistic S4 system and design the hierarchical
 data structure to reduce the memory requirements for storing each NIdata object.
 
 {\color{red}Some concrete numbers of how much memory is saved}
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 
 \subsection{File Conversion.}
@@ -581,7 +629,12 @@ file. ANALYZE and NIfTI-1 formats are more widely employed in the neuroimaging
 community. An ANALYZE format document is composed of one ``hdr" file and one
 ``img" file. The former contains information about the acquisition settings,
 <<<<<<< HEAD
+<<<<<<< HEAD
 while the ``img" file contains the image data. NIfTI was released as an extension
+=======
+while the ``img" file contains the image data. NIfTI was released as an
+extension
+>>>>>>> refs/remotes/origin/kevin
 =======
 while the ``img" file contains the image data. NIfTI was released as an
 extension
@@ -748,7 +801,10 @@ new statistical ideas. A flowchart illustrating this process is shown in
 \includegraphics[width=400pt]{fig/brainconductor/brainconductor_alg_flowchart.png}
 
 \caption{ {\color{red}typo in population}
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/kevin
 The workflow using Brainconductor's interface. Our illustration
 is about estimating the connectome from fMRI data, but functions within can be
 adapted to estimate any desired quantity. BCoRead (A1) reads the
@@ -848,10 +904,13 @@ directly support reproducible research.
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Brainconductor provides statistical analysis tools dedicated to neuroimaging,
 but thanks to the 2D representation and the explicit storage of
 =======
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 
 >>>>>>> kevin
 \subsection{Integration with Statistical Analysis Software.}
@@ -864,6 +923,9 @@ FSL commands from the R console. We link this package to Brainconductor by provi
 an additional wrapper to save and load NIdata objects into the working directory for
 FSL to access.
 Second, thanks to the 2D representation and the explicit storage of
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 phenotypes of NIdata, most classification, graphical model, or regression
 techniques
@@ -878,11 +940,17 @@ in different voxels or eliminates voxels that are not relevant to the analysis.
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Undirected graphs provide a powerful tool for understanding the interrelationships among
 =======
 =======
 
 >>>>>>> kevin
+Undirected graphs provide a powerful tool for understanding the
+interrelationships among
+>>>>>>> refs/remotes/origin/kevin
+=======
+
 Undirected graphs provide a powerful tool for understanding the
 interrelationships among
 >>>>>>> refs/remotes/origin/kevin
@@ -892,6 +960,7 @@ statistical dependency between the two covariates. High-dimensional graphical
 models is a large area of statistical literature, and we have converted 
 a multitude of graphical model estimators to accommodate our NIdata format.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 %{\color{red}TODO: The wrapper functions need to be written.}
@@ -911,6 +980,8 @@ University of Pittsburgh, School of Medicine\cite{di2014autism}.
 The subjects are 7 to 35 years of age, where the autistic subjects were
 diagnosed with the Autism Diagnostic Interview-Revised and the Autism Diagnostic 
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 {\color{red}Might want to expand on the graphical model stuff? Maybe to Lindquist's
 paper for other analysis with generalized linear regresssion?}
 
@@ -934,10 +1005,13 @@ University of Pittsburgh, School of Medicine\cite{di2014autism}.
 The subjects are 7 to 35 years of age, where the autistic subjects were
 diagnosed with the Autism Diagnostic Interview-Revised and the Autism Diagnostic
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 >>>>>>> refs/remotes/origin/kevin
 =======
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
 Observation Schedule-General. The controls are selected to be healthy
 individuals to match the autistic subjects in age (within 3.5 years), IQ (within
 12 points on the full-scale) and gender.
@@ -946,7 +1020,12 @@ The 57 scans were preprocessed with the Configurable Pipeline for the Analysis
 of Connectomes (C-PAC) alpha version 0.3.9. This preprocessing 
 happened outside of R. The image preprocessing steps
 <<<<<<< HEAD
+<<<<<<< HEAD
 included slice-timing and motion correction based on the Friston Model, nuisance signal
+=======
+included slice-timing and motion correction based on the Friston Model, nuisance
+signal
+>>>>>>> refs/remotes/origin/kevin
 =======
 included slice-timing and motion correction based on the Friston Model, nuisance
 signal
@@ -958,6 +1037,7 @@ were normalized to Montreal Neurological Institute (MNI152) stereostatic
 space (2mm$^3$ isotropic) with linear regressions and spatially smoothed
 (applied FWHM = 6mm). 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 %{\color{red}mention the memory size savings}
@@ -979,6 +1059,8 @@ in C-PAC.
 \label{fig:features}
 =======
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 
 >>>>>>> kevin
 {\color{red}mention the memory size savings}
@@ -1039,18 +1121,24 @@ different parcel in AAL.}
 >>>>>>> refs/remotes/origin/kevin
 =======
 
+<<<<<<< HEAD
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
 \end{figure}
 
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/comparison.png}
 <<<<<<< HEAD
+<<<<<<< HEAD
 \caption{A comparison between our plotter in BCoViewer to visually determine how well
 a fMRI scan has been registered to the standard MNI template. Our BCoViewer method in R
 is shown on the left, while the method used in C-PAC is shown on the right. In 
 both plots, the subject's functional data is shown in grayscale while the red points/lines
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 \caption{A comparison between our plotter in BCoViewer to visually determine how
 well
 a fMRI scan has been registered to the standard MNI template. Our BCoViewer
@@ -1058,12 +1146,16 @@ method in R
 is shown on the left, while the method used in C-PAC is shown on the right. In 
 both plots, the subject's functional data is shown in grayscale while the red
 points/lines
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 trace the outline of the MNI 2mm template.}
 \label{fig:overlap}
 \end{figure}
 
 In order to find the presence of abnormal functional connectivity, we 
+<<<<<<< HEAD
 <<<<<<< HEAD
 carried out the whole-brain analysis using the Automated Anatomical Labeling\cite{tzourio2002automated} parcellation. This divides the brain into
 116 anatomical connected regions. We extracted the mean time series from each
@@ -1076,6 +1168,8 @@ Based on case-control pairings matching the age, gender and IQ as closely as pos
 we then took the graph-difference between each pair of case and control. Here,
 the graph difference is represented as signed edges in one connectome but not the other. 
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 carried out the whole-brain analysis using the Automated Anatomical
 Labeling\cite{tzourio2002automated} parcellation. This divides the brain into
 116 anatomical connected regions. We extracted the mean time series from each
@@ -1091,12 +1185,16 @@ possible,
 we then took the graph-difference between each pair of case and control. Here,
 the graph difference is represented as signed edges in one connectome but not
 the other. 
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 We then computed the median graph\cite{han2013sparse} with 
 50 edges 
 to generate a population-level graph difference between the cases and controls.
 The entire analysis was done using our BCoPopulation.analysis framework.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 Our analysis determined that several connections within the cerebellum were present
 in controls while severed in cases. In particular, over half the case-control
@@ -1111,6 +1209,8 @@ as well as affective regulation\cite{goines2011autoantibodies,braunschweig2012ma
 There is supporting evidence from current autism research that the cerebellum plays
 a substantial role in the development of autism\cite{d2015cerebellar,becker2013autism,wang2014cerebellum}.
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 Our analysis determined that several connections within the cerebellum were
 present
 in controls while severed in cases. In particular, over half the case-control
@@ -1129,11 +1229,15 @@ There is supporting evidence from current autism research that the cerebellum
 plays
 a substantial role in the development of
 autism\cite{d2015cerebellar,becker2013autism,wang2014cerebellum}.
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 
 \begin{figure}[tb]
 \centering
 \includegraphics[width=400pt]{fig/brainconductor/aal_view_expand.png}
+<<<<<<< HEAD
 <<<<<<< HEAD
 \caption{(Left): Perspective plot showing right lobule IV, V of cerebellar hemisphere
 (red) and Lobule VII of vermis (blue). %\color{red}include pictures of entire graph}
@@ -1144,6 +1248,8 @@ the line denotes how many subject-pairs displayed this connectome difference.
 (Right): A plot of all 116 parcels represented by a circle where the size
 of the circle denotes the degree of that parcel in the population connectome difference.
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 \caption{(Left): Perspective plot showing right lobule IV, V of cerebellar
 hemisphere
 (red) and Lobule VII of vermis (blue). {\color{red}include pictures of entire
@@ -1156,6 +1262,9 @@ the line denotes how many subject-pairs displayed this connectome difference.
 (Right): A plot of all 116 parcels represented by a circle where the size
 of the circle denotes the degree of that parcel in the population connectome
 difference.
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 }
 \label{fig:aalconnectome}
@@ -1177,6 +1286,7 @@ difference.
 %    \hline
 %	Main Feature & \textbf{Bioconductor} & \textbf{Brainconductor} \\ \hline
 <<<<<<< HEAD
+<<<<<<< HEAD
 %	Data Structure Standards & ExpressionSet and SummarizedExperiment S4 classes based on gene data, and annotation (meta) data associated based on some common databases 
 %	& NIdata S4 class based on imaging data and annotation (meta) data \\\hline 
 %	Annotation and Resources & Provides software (BioMart) for associating microarray and other genomic data in real time with biological metadata from web databases such as GenBank, Entrez genes and PubMed (annotate package) & 
@@ -1190,6 +1300,8 @@ difference.
 %	Short Courses & Developed a program of short courses on software and statistical methods for the analysis of genomic data. & Have no courses, but can make if the project is successfully popularized. \\\hline
 %	Maintainers & Dedicated maintainers from all over the word & Only two maintainers \\\hline
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 %	Data Structure Standards & ExpressionSet and SummarizedExperiment S4 classes
 %based on gene data, and annotation (meta) data associated based on some common
 %databases 
@@ -1213,6 +1325,9 @@ difference.
 %can make if the project is successfully popularized. \\\hline
 %	Maintainers & Dedicated maintainers from all over the word & Only two
 %maintainers \\\hline
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 %    \end{tabular}
 %    \caption{Contrasts between Bioconductor and Brainconductor}
@@ -1225,7 +1340,12 @@ difference.
 %base installation. Currently, we have focused on estimate the connectome for
 %fMRI data. In \Fref{tab:neuro}, we list various packages that interact with
 <<<<<<< HEAD
+<<<<<<< HEAD
 %fMRI data. In \Fref{tab:stat}, we list various packages that estimate the connectome
+=======
+%fMRI data. In \Fref{tab:stat}, we list various packages that estimate the
+%connectome
+>>>>>>> refs/remotes/origin/kevin
 =======
 %fMRI data. In \Fref{tab:stat}, we list various packages that estimate the
 %connectome
@@ -1264,7 +1384,12 @@ difference.
 %	nat.templatebrains & NeuroAnatomy Toolbox Extension for Handling Template
 %Brains &
 <<<<<<< HEAD
+<<<<<<< HEAD
 %	Extends package 'nat'  by providing objects and functions for handling template
+=======
+%	Extends package 'nat'  by providing objects and functions for handling
+%template
+>>>>>>> refs/remotes/origin/kevin
 =======
 %	Extends package 'nat'  by providing objects and functions for handling
 %template
@@ -1290,6 +1415,7 @@ difference.
 %selection.
 %	for large-scale data analysis \\\hline
 <<<<<<< HEAD
+<<<<<<< HEAD
 %	camel & Calibrated Machine Learning & Provides a family of high-dimensional calibrated machine learning tools \\\hline
 %	fastclime & A Solver for Parameterized Linear Programming to Precision Matrix
 %Estimation &
@@ -1299,6 +1425,8 @@ difference.
 %	Provides the implementation of a family of Lasso variants including Dantzig
 %Selector, LAD Lasso, SQRT Lasso, Lq Lasso for estimating high dimensional sparse
 =======
+=======
+>>>>>>> refs/remotes/origin/kevin
 %	camel & Calibrated Machine Learning & Provides a family of high-dimensional
 %calibrated machine learning tools \\\hline
 %	fastclime & A Solver for Parameterized Linear Programming to Precision Matrix
@@ -1310,6 +1438,9 @@ difference.
 %	Provides the implementation of a family of Lasso variants including Dantzig
 %Selector, LAD Lasso, SQRT Lasso, Lq Lasso for estimating high dimensional
 %sparse
+<<<<<<< HEAD
+>>>>>>> refs/remotes/origin/kevin
+=======
 >>>>>>> refs/remotes/origin/kevin
 %linear model. \\\hline
 %	huge & High-Dimensional Undirected Graph Estimation &
@@ -1412,6 +1543,7 @@ NJ 08544 USA (email: \texttt{hanliu@princeton.edu}), and Yu Wang, Ph.D., Room
 \end{document}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -1420,3 +1552,5 @@ NJ 08544 USA (email: \texttt{hanliu@princeton.edu}), and Yu Wang, Ph.D., Room
 >>>>>>> refs/remotes/origin/kevin
 =======
 >>>>>>> kevin
+=======
+>>>>>>> refs/remotes/origin/kevin
