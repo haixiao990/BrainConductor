@@ -63,7 +63,7 @@ setMethod("BCoReduce", signature("NIdata", "numeric"), function(obj, template,
     if(length(idx.inter) > 0){
       newmat[,i] = func(obj@data@mat, idx.inter)
  
-      if(verbose && i %% floor(length(uniq)/10) == 0) cat('*')
+      if(verbose && i %% max(floor(length(uniq)/10),1) == 0) cat('*')
     }
   }
   

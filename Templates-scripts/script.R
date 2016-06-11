@@ -27,6 +27,8 @@ save(AAL_2mm, file = "~/Brainconductor.git/Templates/data/AAL_2mm.rda")
 
 
 dat = readNIfTI("50002_ABIDE_segment.nii.gz")
+dat = dat@.Data
+
 example_brain1 = .NIdata(data = .BCoData4D(mat = dat), notes = 
   paste0("From ABIDE 50002 preprocessed using CPAC on ", Sys.Date()))
 

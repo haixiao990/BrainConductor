@@ -16,7 +16,7 @@ BCoSubjectFinder.default <- function(){
   method = "function", verbose = "logical"),
   prototype(convert2D = F, method = .reduction.mean, verbose = F))
 
-convert.nifti2nidata <- function(dat){
+convert.nifti2nidata <- function(dat, subject.ID = ""){
   res = .NIdata(.BCoBase(data = .BCoData4D(mat = dat@.Data)),
    scanner_info = .create.scaninfo(dat), ID = subject.ID)
 }

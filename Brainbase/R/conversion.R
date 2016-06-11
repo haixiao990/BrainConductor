@@ -48,7 +48,7 @@ setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
   for(j in 1:dimen[4]){
     mat[j,] = as.numeric(dat[,,,j])[mask]
 
-    if(j%%floor(dimen[4]/10)==0 & verbose) cat('*')
+    if(j%% max(floor(dimen[4]/10),1) ==0 & verbose) cat('*')
   }
 
   list(mat = mat, mask = mask)
