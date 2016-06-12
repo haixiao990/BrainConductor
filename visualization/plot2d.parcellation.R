@@ -1,32 +1,82 @@
 .plot2dparcelcontrol <- setClass("plot2dparcelcontrol", representation(
- num.slices = "numeric", view = "character"),
- prototype(num.slices = 12, view = "sagittal"))
+ num.slices = "numeric", view = "character", fill.holes = "logical"),
+ prototype(num.slices = 12, view = "sagittal", fill.holes = TRUE))
  
 #WARNING: make sure this uses the same view finder as in the 3d parcellation
 
 setGeneric("plot2D.parcellation", function(obj, ...) 
  standardGeneric("plot2D.parcellation"))
 
-#parcellation when the parcellation is a vector
-#WARNING: FILL THIS IN
-
-#WARNING: parcellation when the parcellation is a NIdata object
-
-#WARNING: what to do when it's not Template??
-#WARNING: need a way to fill in the holes
-setMethod("plot2D.parcellation", signature("Template"), function(obj, 
+setMethod("plot2D.parcellation", signature("factor"), function(obj,
   template = NULL,  controls = list(colors = NULL,
-  num.slices = 12, view = "sagittal")){
+  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
 
-  assert_that(class(obj@data) == "BCoData4D")
+  assert_that(class(template@data) == "BCoData")
   con = .convert.list2control(controls, "plot2dparcelcontrol")
-  #WARNING: MAKE IT HANDLE BCODATA2D ALSO
 
-  mat = get.matrix(obj, output2D = F)
-  mask = which(mat != 0)
-  partition = as.factor(mat[mask])
+  #WARNING: replace /ALL/ "@" in the code with a function to grab
+  if(class(template@data) == "BCoData4D"){
+    mat = get.matrix(template, output2D = F)
+    dim.mat = dim(mat)
+    mask = which(mat != 0)
+ } else {
+    mask = template@data@mask
+    dim.mat = template@data@base.dim
+  }
 
-  .plot2d.parcellation(partition, mask, dim(mat), con)
+ assert_that(length(obj) = length(mask))
+ 
+ .plot2d.parcellation(obj, mask, dim.mat, controls)
+})
+
+setMethod("plot2D.parcellation", signature("integer"), function(obj,
+  template = NULL,  controls = list(colors = NULL,
+  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
+
+  plot2D.parcellation(as.factor(obj), template, controls)
+}
+
+
+
+setMethod("plot2D.parcellation", signature("BCoBase"), function(obj, 
+  template = NULL,  controls = list(colors = NULL,
+  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
+
+  con = .convert.list2control(controls, "plot2dparcelcontrol")
+ 
+  assert_that(class(obj@data) == "BCoData")
+  if(class(obj@data) == "BCoData4D"){
+    mat = get.matrix(obj, output2D = F)
+    mask = which(mat != 0)
+    partition = as.factor(mat[mask])
+  } else {
+    #WARNING: Does this work?
+    mask = obj@data@mask
+    partition = get.matrix(obj)[1,]
+  }
+
+  #WARNING: need a way to fill in the holes
+  if(!is.null(template)){
+    if(class(template@data) == "BCoData4D"){
+      t.mat = get.matrix(template, output2D = F)
+      t.mask = which(t.mat != 0)
+    } else {
+      t.mask = template@data@mask
+    }
+    #determine if further action is needed
+    if(length(mask) != length(t.mask) || all(sort(mask) != sort(t.mask))){
+      
+      #remove the voxels in mask and not in t.mask
+
+      #fill in the missing voxels
+      if(con@fill.holes){
+      } else {
+   
+      }
+    }
+  }
+ 
+  plot2d.parcellation(partition, obj, controls)
 })
 
 #partition must be a factor
@@ -90,8 +140,6 @@ setMethod("plot2D.parcellation", signature("Template"), function(obj,
 #given an image, find out the dimensional to slice along and the
 # slices along that dimension
 .compute.slices <- function(img, view, num.slices = 12, offset = 5) {  
-
-  #WARNING: ugly coding, fix this
   assert_that(dim(img) == 3)
   VIEWS = list.views()
 

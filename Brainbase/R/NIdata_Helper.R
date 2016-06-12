@@ -4,13 +4,8 @@
 
 setGeneric("get.matrix", function(obj, ...) standardGeneric("get.matrix"))
 
-
 #WARNING: make sure all these have reasonable inputs
-setMethod("get.matrix", signature("NIdata"), function(obj, output2D = T){
-  get.matrix(obj@data, output2D)
-})
-
-setMethod("get.matrix", signature("Template"), function(obj, output2D = T){
+setMethod("get.matrix", signature("BCoBase"), function(obj, output2D = T){
   get.matrix(obj@data, output2D)
 })
 
@@ -22,10 +17,30 @@ setMethod("get.matrix", signature("BCoData"), function(obj, output2D = T){
   }
 })
 
+#WARNING: Check this
+setGeneric("dim", function(obj, ...) standardGeneric("dim"))
+
+setMethod("dim", signature("BCoData"), function(obj){
+  if(class(obj) == "BCoData4D"){
+    res = dim(obj@mat)
+    if(length(res) == 3) res = c(res, 1)
+  } else {
+    res = c(obj@base.dim, nrow(obj@mat))
+  }
+
+  res
+})
+
+setMethod("dim", signature("BCoBase"), function(obj){
+  dim(obj@data)
+})
+
+
 setGeneric("is.functional", function(obj) standardGeneric("is.functional"))
 
 setMethod("is.functional", signature("BCoData"), function(obj){
   if(class(obj) == "BCoData4D"){
+    #WARNING: are you sure arrays always have 4 dim? is it sometimes 3?
     if(dim(obj@mat)[4] > 1) return(TRUE) else return(FALSE)
   } else if(class(obj) == "BCoData2D" | class(obj) == "BCoData2DReduc"){
     if(nrow(obj@mat) > 1) return(TRUE) else return(FALSE)

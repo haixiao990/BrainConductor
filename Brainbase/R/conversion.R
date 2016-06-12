@@ -19,7 +19,9 @@ setMethod("convert.4Dto2D", signature("NIdata"), function(obj, template = NULL, 
 
 setGeneric("convert.2Dto4D", function(obj) standardGeneric("convert.2Dto4D"))
 
-setMethod("convert.2Dto4D", signature("NIdata"), function(obj){
+#WARNING: Make sure all functions that don't need to be specifically
+# NIData are BCoBase
+setMethod("convert.2Dto4D", signature("BCoBase"), function(obj){
   assert_that(class(obj@data) == "BCoData2D")
 
   new.obj = obj
