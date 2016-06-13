@@ -1,2 +1,0 @@
-./main_executable_plotOutline.R --anat "/home/smile/klsix/fmri_script_test/20160307_CPACtest/ABIDE_0051493/anat2mni.nii.gz" --func "/home/smile/klsix/fmri_script_test/20160307_CPACtest/ABIDE_0051493/func2mni.nii.gz" --mni "/home/smile/klsix/fmri_script_test/20160307_CPACtest/ABIDE_0051493/MNI152_T1_2mm_brain.nii.gz" --filename "/home/smile/klsix/fmri_script_test/20160307_CPACtest/ABIDE_0051493/overlapplot"
-

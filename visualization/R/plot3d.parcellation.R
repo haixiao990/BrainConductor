@@ -1,10 +1,3 @@
-#WARNING: Put all this into the package requirements
-library(ks)
-library(oro.nifti)
-library(rgl)
-library(misc3d)
-library(assertthat)
-
 .plot3dparcelcontrol <- setClass("plot3dparcelcontrol", representation(view = "character", 
  bot.col = "character", top.col = "character", window.size = "numeric", 
  return.shape = "logical", return.scene = "logical"), 
