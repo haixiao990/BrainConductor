@@ -10,7 +10,7 @@ BCoSubjectFinder.default <- function(){
   variables[idx.NIdata]
 }
 
-#DOES THIS NEED TO BE AN S4 FUNCTION?
+#WARNING: DOES THIS NEED TO BE AN S4 FUNCTION?
 
 .Readcontrol <- setClass("Readcontrol", representation(convert2D = "logical",
   method = "function", verbose = "logical"),

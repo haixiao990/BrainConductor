@@ -1,4 +1,7 @@
+#WARNING: Need a function to grab all the phenotypes and tabulate a table
 BCoClassifier.default <- function(subj.vec, custom.arg){
+  #WARNING: How do we know this is the first...? Prob better to pass an
+  # label name?
   pheno.vec = sapply(subj.vec, function(x){
     get.phenotype(eval(as.name(subj.vec[[i]])))[1]
   })
@@ -55,6 +58,7 @@ BCoPopulation.aggregate.default <- function(res.list, category.list, custom.arg)
 .Pipelinecontrol <- setClass("Pipelinecontrol", representation(pairDiff.first =
   "logical", verbose = "logical"), prototype(pairDiff.first = F, verbose = T))
 
+#WARNING: this control is outdated
 .convert.list2Pipelinecontrol <- function(lis){
   con = .Pipelinecontrol()
 

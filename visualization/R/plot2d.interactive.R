@@ -81,18 +81,22 @@
   keyPressed <<- key
 }
 
-BCview <- function(dat, window.size = NA, pos = NA){
-  assert_that(length(dim(dat))==3 | length(dim(dat))==4)
-  assert_that(is.numeric(dat))
+BCoview <- function(obj, window.size = NA, pos = NA){
   assert_that(is.numeric(window.size) | is.na(window.size))
   assert_that(is.na(pos[1]) | ((length(pos)==3 | length(pos)==4) 
    & all(is.numeric(pos))))  
 
+  assert_that(class(obj@data) == "BCoDataFull")
+  if(class(obj@data) == "BCoData4D") {
+    dat = .convert.2Dto4Dmat(obj@data)
+  } else dat = obj@data@mat
+
   dimen = dim(dat)
   if(length(window.size)==1 & !is.na(window.size)) 
-   window.size = rep(window.size,3)
+   window.size = rep(window.size, 3)
   
   #temporary
+  #WARNING: need a way to move through time as well
   if(length(dim(dat))==4) dat = dat[,,,1]
 
   #temporary change: for UNIX system

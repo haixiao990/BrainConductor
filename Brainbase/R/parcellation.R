@@ -88,6 +88,7 @@ fit.parcellation2template <- function(parcellation, template,
   cbind(v1, v2)
 }
 
+#WARNING: This could be coded in C?
 # given the MNI standard template, find out all the neighbors
 # return two things: the mask and list of neighbors
 # the pattern dictates how neighbors are defined.
