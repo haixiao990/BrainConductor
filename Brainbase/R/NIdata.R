@@ -10,7 +10,8 @@
 .BCoData2DReduc <- setClass("BCoData2DReduc", representation(mat = "matrix", col.mapping = "numeric", 
   type = "character"))
 
-setClassUnion("BCoData", c("BCoData2D", "BCoData4D", "BCoData2DReduc"))
+setClassUnion("BCoDataFull", c("BCoData2D", "BCoData4D"))
+setClassUnion("BCoData", c("BCoDataFull", "BCoData2DReduc"))
 
 #set the base class
 .BCoBase <- setClass("BCoBase", representation(data = "BCoData", notes = "character"))

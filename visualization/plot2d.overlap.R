@@ -1,3 +1,73 @@
+.plot2doutlinecontrol <- setClass("plot2doutlinecontrol", representation(
+ lambda = "numeric", num.changepoint = "numeric", num.slices = "numeric",
+ view = "character", transparency = "numeric", cex = "numeric"),
+ prototype(lambda = NULL, num.changepoint = 22, num.slices = 12,
+ view = "sagittal", transparency = 0.5, cex = 0.15))
+
+#WARNING: Should we make this an SetMethod function?
+plot.overlap <- function(img.base, img.outline, controls = list(lambda = NA, 
+ num.changepoint = 22, num.slices = 12, view = "sagittal", filename = NA,
+ transparency = 0.5, cex = 0.15)) {
+ 
+  assert_that(all(dim(img.base)==dim(img.outline)))
+  assert_that(class(img.base) == "BCoBase" & class(img.outline) == "BCoBase")
+
+  #WARNING: What if BCoBase2DReduc
+  if(class(img.base@data) == "BCoBase2D") img.base = convert.2Dto4D(img.base)
+  if(class(img.outline@data) == "BCoBase2D") img.outline = 
+   convert.2Dto4D(img.outline)
+
+  con = .convert.list2control(controls, "plot2doutlinecontrol")
+  assert_that(con@transparency >= 0 & con@transparency <= 1)  
+
+  #compute slices
+  res = .compute.slices(img.outline, con@view)
+  slice.idx = res$slice.idx
+  dim.idx = res$dim.idx
+  
+  #set the graphic layout
+  res = .compute.plotLayout(con@num.slices)
+  par(mfrow = c(res$num.row, res$num.col), mar = rep(0.2,4), bg = "black")
+  if(con@transparency != 0) red = rgb(1,0,0,con@transparency) 
+   else red = rgb(1,0,0)
+  
+  #compute outline of img.outline
+  outline = .compute.outline(img.outline, lambda = con@lambda,
+   num.changepoint = con@num.changepoint, num.slices = con@num.slices,
+   view = con@view, slice.idx = slice.idx, dim.idx = dim.idx)
+
+  #extract the slices from img.base
+  img.slices = .extract.slices(img.base, slice.idx, dim.idx)
+ 
+  zlim = c(min(img.base), max(img.base))
+  asp = ncol(img.slices[[1]])/nrow(img.slices[[1]])
+  
+  #plot
+  for(i in 1:length(slice.idx)){
+    
+    image(img.slices[[i]], col = grey(seq(0, 1, length = 256)), asp = asp,
+      zlim = zlim, bty = "n", xaxt = "n", yaxt = "n")
+    
+    #plot hor.change
+    changepoints = outline[[i]]$hor.idx
+    for(j in 1:nrow(changepoints)){
+      points(x = (changepoints[j,1]-.5)/nrow(img.slices[[i]]), 
+        y = (changepoints[j,2]-.5)/ncol(img.slices[[i]]), 
+        col = red, pch = 16, cex = con@cex)
+    }
+    
+    #plot ver.change
+    changepoints = outline[[i]]$ver.idx
+    for(j in 1:nrow(changepoints)){
+      points(x = (changepoints[j,2]-.5)/nrow(img.slices[[i]]), 
+        y = (changepoints[j,1]-.5)/ncol(img.slices[[i]]), 
+        col = red, pch = 16, cex = con@cex*2)
+    }
+  }
+  
+  invisible() 
+}
+
 .determine.lambda <- function(img, num.changepoint = 22){
   assert_that((is.matrix(img) | class(img)=="array") & is.numeric(img))
   assert_that(length(dim(img))>=3)
@@ -56,15 +126,16 @@
   
 }
 
-.compute.outline <- function(img, lambda = NA, num.changepoint = 22,
+#WARNING: replace all NA arguments with NULL
+.compute.outline <- function(img, lambda = NULL, num.changepoint = 22,
  num.slices = 12, view = "sagittal", slice.idx = NA, dim.idx = NA){
   
   assert_that((is.matrix(img) | class(img)=="array")  & is.numeric(img))
   assert_that(length(dim(img))==3 | length(dim(img))==4)
-  assert_that(is.na(lambda) | is.numeric(lambda))
+  assert_that(is.null(lambda) | is.numeric(lambda))
   assert_that(is.na(slice.idx[1]) == is.na(dim.idx))
   
-  if(is.na(lambda)) lambda = .determine.lambda(img, num.changepoint)
+  if(is.null(lambda)) lambda = .determine.lambda(img, num.changepoint)
   
   if(is.na(slice.idx[1])) {
     res = .compute.slices(img, view, num.slices = num.slices)
@@ -77,56 +148,3 @@
   llply(img.slices, compute.outlineSlice, lambda = lambda)
 }
 
-plot.overlap <- function(img.base, img.outline, lambda = NA, 
- num.changepoint = 22, num.slices = 12, view = "sagittal", filename = NA,
- transparency = 0.5, cex = 0.15) {
-#WARNING: Make it read NIData and also set the controls
-  
-  assert_that(all(dim(img.base)==dim(img.outline)))
-  assert_that(transparency >= 0 & transparency <= 1)  
-
-  #compute slices
-  res = .compute.slices(img.outline, view)
-  slice.idx = res$slice.idx
-  dim.idx = res$dim.idx
-  
-  #set the graphic layout
-  res = .compute.plotLayout(num.slices)
-  par(mfrow = c(res$num.row, res$num.col), mar = rep(0.2,4), bg="black")
-  if(transparency != 0) red = rgb(1,0,0,transparency) else red = rgb(1,0,0)
-  
-  #compute outline of img.outline
-  outline = .compute.outline(img.outline, slice.idx = slice.idx, 
-    dim.idx = dim.idx)
-
-  #extract the slices from img.base
-  img.slices = .extract.slices(img.base, slice.idx, dim.idx)
- 
-  zlim = c(min(img.base), max(img.base))
-  asp = ncol(img.slices[[1]])/nrow(img.slices[[1]])
-  
-  #plot
-  for(i in 1:length(slice.idx)){
-    
-    image(img.slices[[i]], col = grey(seq(0, 1, length = 256)), asp = asp,
-      zlim = zlim, bty = "n", xaxt = "n", yaxt = "n")
-    
-    #plot hor.change
-    changepoints = outline[[i]]$hor.idx
-    for(j in 1:nrow(changepoints)){
-      points(x = (changepoints[j,1]-.5)/nrow(img.slices[[i]]), 
-        y = (changepoints[j,2]-.5)/ncol(img.slices[[i]]), 
-        col = red, pch = 16, cex = cex)
-    }
-    
-    #plot ver.change
-    changepoints = outline[[i]]$ver.idx
-    for(j in 1:nrow(changepoints)){
-      points(x = (changepoints[j,2]-.5)/nrow(img.slices[[i]]), 
-        y = (changepoints[j,1]-.5)/ncol(img.slices[[i]]), 
-        col = red, pch = 16, cex = cex*2)
-    }
-  }
-  
-  invisible() 
-}
