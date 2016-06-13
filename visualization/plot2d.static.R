@@ -2,7 +2,7 @@
   "numeric", transparency = "numeric", direction.panel = "logical"),
   prototype(window.size = NULL, transparency = 1, direction.panel = TRUE))
 
-BCoView <- function(obj1, obj2 = NULL, location, controls = 
+BCoView.static <- function(obj1, obj2 = NULL, location, controls = 
  list(window.size = NULL, transparency = 1, direction.panel = TRUE)){
 
   assert_that(length(location)==3)  
@@ -65,59 +65,58 @@ BCoView <- function(obj1, obj2 = NULL, location, controls =
 
   ##################
   #WARNING: ... there's gotta be a better way to do this...
+  view.order = c("coronal", "sagittal", "axial")
 
-  image(dat[xrange, location[2], zrange], zlim = zlim, 
-   col = grey(seq(0, 1, length = 256)), asp = asp.vec[2],
-   bty="n", xaxt="n", yaxt="n")
-  
-  lines(x = rep((location[1]-xrange[1]) / diff(range(xrange)), 2), y = c(0,1), 
-        col = red, lwd = 2)
-  lines(x = c(0,1), y = rep((location[3]-zrange[1]) / diff(range(zrange)), 2), 
-        col = red, lwd = 2)
+  for(i in view.order){  
+    if(i == "coronal") {
+      dat.slice = dat[xrange, location[2], zrange]
+      line.loc = c((location[1]-xrange[1]) / diff(range(xrange)),
+       (location[3]-zrange[1]) / diff(range(zrange)))
+    } else if(i == "sagittal") {
+      dat.slice = dat[location[1], yrange, zrange]
+      line.loc = c((location[2]-yrange[1]) / diff(range(yrange)),
+       (location[3]-zrange[1]) / diff(range(zrange)))
+    } else {
+      dat.slice = dat[xrange, yrange, location[3]]
+      line.loc = c((location[1]-xrange[1]) / diff(range(xrange)),
+       (location[2]-yrange[1]) / diff(range(yrange)))
+    }
 
-  text(0.5, 0, "I", col = "white", pos = 3)
-  text(0.5, 1, "S", col = "white", pos = 1)
-  text(0, 0.5, "R", col = "white", pos = 4)
-  text(1, 0.5, "L", col = "white", pos = 2)
+    image(dat.slice, zlim = zlim,
+     col = grey(seq(0, 1, length = 256)), asp = asp.vec[3], bty = "n",
+     xaxt = "n", yaxt = "n")
+
   
-  ####################
+    lines(x = rep(line.loc[1], 2), y = c(0,1), col = red, lwd = 2)
+    lines(x = c(0,1), y = rep(line.loc[2], 2), col = red, lwd = 2)
   
-  image(dat[location[1], yrange, zrange], zlim = zlim, col = grey(seq(0, 1, length = 256)), 
-        asp = asp.vec[3],
-        bty="n", xaxt="n", yaxt="n")
-  
-  lines(x=rep((location[2]-yrange[1]) / diff(range(yrange)), 2), y=c(0,1), 
-        col=red, lwd=2)
-  lines(x=c(0,1), y=rep((location[3]-zrange[1]) / diff(range(zrange)), 2),, 
-        col=red, lwd=2)
-  
-  text(0.5, 0, "I", col = "white", pos = 3)
-  text(0.5, 1, "S", col = "white", pos = 1)
-  text(0, 0.5, "P", col = "white", pos = 4)
-  text(1, 0.5, "A", col = "white", pos = 2)
-  
-  ####################  
-  
-  image(dat[xrange, yrange, location[3]], zlim = zlim, col = grey(seq(0, 1, length = 256)), 
-        asp = asp.vec[1],
-        bty="n", xaxt="n", yaxt="n")
-  lines(x=rep((location[1]-xrange[1]) / diff(range(xrange)), 2), y=c(0,1), 
-        col=red, lwd=2)
-  lines(x=c(0,1), y=rep((location[2]-yrange[1]) / diff(range(yrange)), 2), 
-        col=red, lwd=2)
-  
-  text(0.5, 0, "P", col = "white", pos = 3)
-  text(0.5, 1, "A", col = "white", pos = 1)
-  text(0, 0.5, "R", col = "white", pos = 4)
-  text(1, 0.5, "L", col = "white", pos = 2)
-  
-  ####################  
-  
+    if(i == "coronal") {
+      text(0.5, 0, "I", col = "white", pos = 3)
+      text(0.5, 1, "S", col = "white", pos = 1)
+      text(0, 0.5, "R", col = "white", pos = 4)
+      text(1, 0.5, "L", col = "white", pos = 2)
+    } else if(i == "sagittal") {
+      text(0.5, 0, "I", col = "white", pos = 3)
+      text(0.5, 1, "S", col = "white", pos = 1)
+      text(0, 0.5, "P", col = "white", pos = 4)
+      text(1, 0.5, "A", col = "white", pos = 2)
+    } else {
+      text(0.5, 0, "P", col = "white", pos = 3)
+      text(0.5, 1, "A", col = "white", pos = 1)
+      text(0, 0.5, "R", col = "white", pos = 4)
+      text(1, 0.5, "L", col = "white", pos = 2)
+      
+    }
+  }
+ 
   #list basic directions
-  if(direction.panel){
+  if(con@direction.panel){
     plot(NA, xlim = c(0,1), ylim = c(0,1), xaxt="n", yaxt="n")
-    text(x = 0.5, y = 0.5, labels = "'Left' Key: Towards 'L'\n 'Right' Key: Towards 'R'\n
+    text(x = 0.5, y = 0.5, labels = "'Left' Key: Towards 'L'\n 
+       'Right' Key: Towards 'R'\n
        'Up' Key: Towards 'A'\n 'Down' Key: Towards 'P'\n
        '.' Key: Towards 'I'\n '/' Key: Towards 'S'", col = "white")
   }
+
+  invisible()
 }
