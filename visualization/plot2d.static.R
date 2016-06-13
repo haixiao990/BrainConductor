@@ -117,6 +117,9 @@ BCoView.static <- function(obj1, obj2 = NULL, location, controls =
        'Up' Key: Towards 'A'\n 'Down' Key: Towards 'P'\n
        '.' Key: Towards 'I'\n '/' Key: Towards 'S'", col = "white")
   }
+  #WARNING: Also put the current location/magnification here.
+  #WARNING: Have a way to switch to plot the time series (normalized?)
+  # here as well. Put the normalization in the options
 
   invisible()
 }
