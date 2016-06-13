@@ -1,3 +1,4 @@
+#WARNING: Put all this into the package requirements
 library(ks)
 library(oro.nifti)
 library(rgl)
@@ -6,7 +7,8 @@ library(assertthat)
 
 .plot3dparcelcontrol <- setClass("plot3dparcelcontrol", representation(view = "character", 
  bot.col = "character", top.col = "character", window.size = "numeric", 
- return.shape = "logical", return.scene = "logical"), prototype(view = "sagittal", 
+ return.shape = "logical", return.scene = "logical"), 
+ prototype(view = "sagittal", 
  bot.col = rgb(252, 245, 192, max = 255), top.col = rgb(186, 109, 26, max = 255),
  window.size = c(0, 23, 1366, 728), return.shape = F, return.scene = F))
 
@@ -18,14 +20,19 @@ plot3D.parcellation <- function(obj, parcel.list, file.name, val = NULL, shape.l
   con = .list2control(controls, "plot3dparcelcontrol")
 
   if(!is.null(val)) assert_that(all(val >= 0) & all(val <= 1))
-  #WARNING: do a conversion if not
-  assert_that(class(parcellation@data) == "BCoData4D")
+  #WARNING: all functions need to make sure it's not BCoData2DReduc
+  assert_that(class(parcellation@data) == "BCoData")
+  if(class(parcellation@data) == "BCoData2D"){
+   dat = .convert.2Dto4Dmat 
+  } else if(class(parcellation@data) == "BCoData4D"){
+   dat = parcellation@data@mat
+  }
 
   #WARNING: maybe this should also be adjustable
   H.pi = matrix(1, ncol = 3, nrow = 3)
   diag(H.pi) = 3
   quant = 30
-  dimen = dim(parcellation@data@mat)
+  dimen = dim(dat)
 
   #generate color spectrum
   colfunc = colorRampPalette(c(con@bot.col, con@top.col))
@@ -54,6 +61,7 @@ plot3D.parcellation <- function(obj, parcel.list, file.name, val = NULL, shape.l
     names(shape.list) = parcel.list
 
    #WARNING: NEED TO OUTPUT THE SHAPES SOMEHOW
+   #WARNING: In general, output the computed shapes from plotting functions
   }
 
   for(i in 1:length(parcel.list)){
