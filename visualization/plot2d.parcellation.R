@@ -1,6 +1,6 @@
 .plot2dparcelcontrol <- setClass("plot2dparcelcontrol", representation(
- num.slices = "numeric", view = "character", fill.holes = "logical"),
- prototype(num.slices = 12, view = "sagittal", fill.holes = TRUE))
+ num.slices = "numeric", view = "character", verbose = "logical"),
+ prototype(num.slices = 12, view = "sagittal", verbose = TRUE))
  
 #WARNING: make sure this uses the same view finder as in the 3d parcellation
 
@@ -9,7 +9,7 @@ setGeneric("plot2D.parcellation", function(obj, ...)
 
 setMethod("plot2D.parcellation", signature("factor"), function(obj,
   template = NULL,  controls = list(colors = NULL,
-  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
+  num.slices = 12, view = "sagittal", verbose = TRUE)){
 
   assert_that(class(template@data) == "BCoData")
   con = .convert.list2control(controls, "plot2dparcelcontrol")
@@ -31,7 +31,7 @@ setMethod("plot2D.parcellation", signature("factor"), function(obj,
 
 setMethod("plot2D.parcellation", signature("integer"), function(obj,
   template = NULL,  controls = list(colors = NULL,
-  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
+  num.slices = 12, view = "sagittal", verbose = TRUE)){
 
   plot2D.parcellation(as.factor(obj), template, controls)
 }
@@ -40,39 +40,25 @@ setMethod("plot2D.parcellation", signature("integer"), function(obj,
 
 setMethod("plot2D.parcellation", signature("BCoBase"), function(obj, 
   template = NULL,  controls = list(colors = NULL,
-  num.slices = 12, view = "sagittal", fill.holes = TRUE)){
+  num.slices = 12, view = "sagittal", verbose = TRUE)){
 
   con = .convert.list2control(controls, "plot2dparcelcontrol")
  
   assert_that(class(obj@data) == "BCoData")
-  if(class(obj@data) == "BCoData4D"){
-    mat = get.matrix(obj, output2D = F)
-    mask = which(mat != 0)
-    partition = as.factor(mat[mask])
-  } else {
-    #WARNING: Does this work?
-    mask = obj@data@mask
-    partition = get.matrix(obj)[1,]
-  }
 
-  #WARNING: need a way to fill in the holes
   if(!is.null(template)){
-    if(class(template@data) == "BCoData4D"){
-      t.mat = get.matrix(template, output2D = F)
-      t.mask = which(t.mat != 0)
+    #if a template is supplied, fit obj to template
+    partition = fit.parcellation2template(obj, template, verbose)
+    obj = template
+  } else {
+    if(class(obj@data) == "BCoData4D"){
+      mat = get.matrix(obj, output2D = F)
+      mask = which(mat != 0)
+      partition = as.factor(mat[mask])
     } else {
-      t.mask = template@data@mask
-    }
-    #determine if further action is needed
-    if(length(mask) != length(t.mask) || all(sort(mask) != sort(t.mask))){
-      
-      #remove the voxels in mask and not in t.mask
-
-      #fill in the missing voxels
-      if(con@fill.holes){
-      } else {
-   
-      }
+      #WARNING: Does this work?
+      mask = obj@data@mask
+      partition = get.matrix(obj)[1,]
     }
   }
  

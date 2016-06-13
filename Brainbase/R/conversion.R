@@ -81,7 +81,7 @@ setMethod("convert.2Dto4D", signature("BCoBase"), function(obj){
 }
 
 #onvert a location (single matrix index from 1 to prod(dimen)) into 3D coordinates
-.convert.2Dto3Dloc <- function(idx, dimen){
+.convert.2Dto3Dloc <- function(idx, dimen) {
   assert_that(is.numeric(idx))
   assert_that(length(dimen)==3 & is.numeric(dimen))
   assert_that(idx <= prod(dimen))
@@ -99,8 +99,7 @@ setMethod("convert.2Dto4D", signature("BCoBase"), function(obj){
 }
 
 # convert a location (3D by coordinates) into an index for a matrix
-.convert.3Dto2Dloc = function(loc, dimen)
-{
+.convert.3Dto2Dloc = function(loc, dimen) {
   assert_that(length(loc)==3 & is.numeric(loc))
   assert_that(length(dimen)==3 & is.numeric(dimen))
   assert_that(all(loc<=dimen))
